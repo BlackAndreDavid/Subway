@@ -4,6 +4,7 @@ const StoragePresenter=preload("res://scripts/ui/components/storage_presenter.gd
 const PAGE_SCENES={"menu": "res://scenes/frontend/main_menu.tscn", "slots": "res://scenes/frontend/save_slots.tscn", "base": "res://scenes/base/base.tscn", "map": "res://scenes/base/metro/metro_map.tscn", "prepare": "res://scenes/exploration/preparation.tscn", "combat": "res://scenes/exploration/combat.tscn", "shop": "res://scenes/shop/shop.tscn"}
 var current_screen: Control
 var storage_panel: Control
+var dialogue_data: Dictionary={}
 var page="menu"
 var root: VBoxContainer
 var body: HBoxContainer
@@ -248,8 +249,20 @@ func show_settings() -> void:
 func show_pause() -> void:
 	mount_dialog("res://scenes/exploration/pause_dialog.tscn","作业暂停")
 func confirm_extract() -> void:
-	if Game.run.fighting:return
-	mount_dialog("res://scenes/exploration/extract_dialog.tscn","检查站 / 安全返程")
+	if not Game.can_extract():return
+	mount_dialog("res://scenes/exploration/extract_dialog.tscn","本层结束 / 下一步")
+func show_reward() -> void:
+	if Game.run.is_empty() or Game.run.fighting or not is_instance_valid(battle):return
+	var room: Dictionary=Game.run.floor_data.rooms[int(Game.run.room)]
+	if room.kind!="reward" or room.claimed or battle.player.distance_to(Vector2(450,280))>battle.INTERACT_DISTANCE:return
+	mount_dialog("res://scenes/exploration/reward_dialog.tscn","打开遗留宝箱")
+func show_base_dialogue(info: Dictionary) -> void:
+	if not page in ["base","furniture"] or not Game.run.is_empty():return
+	dialogue_data=info
+	mount_dialog("res://scenes/base/dialogue.tscn",str(info.name))
+func show_crafting() -> void:
+	if not page in ["base","furniture"] or not Game.run.is_empty():return
+	mount_dialog("res://scenes/base/crafting.tscn","材料合成 / 家具")
 func create_storage_grid(mode: String) -> Control:
 	return StoragePresenter.create(mode)
 func storage_layout(parent: VBoxContainer,mode: String) -> void:

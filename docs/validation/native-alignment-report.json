@@ -1,0 +1,13 @@
+{
+	"checks": 160,
+	"failures": 0,
+	"frames_per_type": 4,
+	"headings_per_frame": 4,
+	"renderer": "native X11 OpenGL, transparent SubViewport readback",
+	"scales": [
+		1.0,
+		1.5
+	],
+	"tolerance_pixels": 1.5,
+	"types": 5
+}

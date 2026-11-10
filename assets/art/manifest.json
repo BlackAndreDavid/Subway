@@ -91,7 +91,7 @@
       ]
     },
     "enemies/0": {
-      "description": "变异鼠爬行",
+      "description": "变异鼠持续追击",
       "row": 2,
       "column": 0,
       "frames": 4,
@@ -151,7 +151,7 @@
       ]
     },
     "enemies/3": {
-      "description": "装甲爬行者冲锋",
+      "description": "甲壳兽待机蓄力与长距离冲刺",
       "row": 3,
       "column": 4,
       "frames": 4,
@@ -968,6 +968,156 @@
       "grid": [
         4,
         2
+      ]
+    },
+    "base/heroine/0": {
+      "description": "红发少女向左步行",
+      "row": 0,
+      "column": 0,
+      "frames": 4,
+      "anchor": "feet",
+      "cell_size": 64,
+      "fps": 9,
+      "source": "base_heroine_v1.png",
+      "candidate_sources": [
+        "heroine_a.png",
+        "heroine_b.png"
+      ],
+      "files": [
+        "res://assets/art/runtime/base/heroine/0_0.png",
+        "res://assets/art/runtime/base/heroine/0_1.png",
+        "res://assets/art/runtime/base/heroine/0_2.png",
+        "res://assets/art/runtime/base/heroine/0_3.png"
+      ],
+      "grid": [
+        4,
+        6
+      ],
+      "scale_group": "base_heroine"
+    },
+    "base/heroine/1": {
+      "description": "红发少女向右步行",
+      "row": 1,
+      "column": 0,
+      "frames": 4,
+      "anchor": "feet",
+      "cell_size": 64,
+      "fps": 9,
+      "source": "base_heroine_v1.png",
+      "candidate_sources": [
+        "heroine_a.png",
+        "heroine_b.png"
+      ],
+      "files": [
+        "res://assets/art/runtime/base/heroine/1_0.png",
+        "res://assets/art/runtime/base/heroine/1_1.png",
+        "res://assets/art/runtime/base/heroine/1_2.png",
+        "res://assets/art/runtime/base/heroine/1_3.png"
+      ],
+      "grid": [
+        4,
+        6
+      ],
+      "scale_group": "base_heroine"
+    },
+    "base/heroine/2": {
+      "description": "红发少女面向镜头步行",
+      "row": 2,
+      "column": 0,
+      "frames": 4,
+      "anchor": "feet",
+      "cell_size": 64,
+      "fps": 9,
+      "source": "base_heroine_v1.png",
+      "candidate_sources": [
+        "heroine_a.png",
+        "heroine_b.png"
+      ],
+      "files": [
+        "res://assets/art/runtime/base/heroine/2_0.png",
+        "res://assets/art/runtime/base/heroine/2_1.png",
+        "res://assets/art/runtime/base/heroine/2_2.png",
+        "res://assets/art/runtime/base/heroine/2_3.png"
+      ],
+      "grid": [
+        4,
+        6
+      ],
+      "scale_group": "base_heroine"
+    },
+    "base/heroine/3": {
+      "description": "红发少女背向镜头步行",
+      "row": 3,
+      "column": 0,
+      "frames": 4,
+      "anchor": "feet",
+      "cell_size": 64,
+      "fps": 9,
+      "source": "base_heroine_v1.png",
+      "candidate_sources": [
+        "heroine_a.png",
+        "heroine_b.png"
+      ],
+      "files": [
+        "res://assets/art/runtime/base/heroine/3_0.png",
+        "res://assets/art/runtime/base/heroine/3_1.png",
+        "res://assets/art/runtime/base/heroine/3_2.png",
+        "res://assets/art/runtime/base/heroine/3_3.png"
+      ],
+      "grid": [
+        4,
+        6
+      ],
+      "scale_group": "base_heroine"
+    },
+    "base/undress": {
+      "description": "完全着装的少女脱下外层防护服",
+      "row": 4,
+      "column": 0,
+      "frames": 8,
+      "anchor": "feet",
+      "cell_size": 64,
+      "fps": 7,
+      "source": "base_heroine_v1.png",
+      "candidate_sources": [
+        "heroine_a.png",
+        "heroine_b.png"
+      ],
+      "files": [
+        "res://assets/art/runtime/base/undress_0.png",
+        "res://assets/art/runtime/base/undress_1.png",
+        "res://assets/art/runtime/base/undress_2.png",
+        "res://assets/art/runtime/base/undress_3.png",
+        "res://assets/art/runtime/base/undress_4.png",
+        "res://assets/art/runtime/base/undress_5.png",
+        "res://assets/art/runtime/base/undress_6.png",
+        "res://assets/art/runtime/base/undress_7.png"
+      ],
+      "grid": [
+        4,
+        6
+      ],
+      "scale_group": "base_heroine"
+    },
+    "base/portrait": {
+      "description": "基地对话用红发护目镜少女立绘",
+      "row": 0,
+      "column": 0,
+      "frames": 1,
+      "anchor": "feet",
+      "cell_size": 384,
+      "fps": 0,
+      "source": "base_heroine_portrait_v1.png",
+      "candidate_sources": [
+        "heroine_portrait_a.png",
+        "heroine_portrait_b.png"
+      ],
+      "files": [
+        "res://assets/art/runtime/base/portrait_0.png"
+      ],
+      "grid": [
+        1,
+        1
       ]
     }
   }

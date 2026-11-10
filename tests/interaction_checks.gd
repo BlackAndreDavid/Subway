@@ -129,12 +129,12 @@ func run(scene_tree: SceneTree,game: Node,ui: Control,check: Callable) -> void:
 	check.call(battle.player.distance_to(battle.door_position(initial_room))<64,"entry appears beside opposite door")
 	check.call(not battle.goto_room(initial_room),"entry cooldown prevents immediate bounce")
 	# Pure fog includes spatial neighbors but cannot leak the second ring or full bounds.
-	var rooms=[{"id":0,"pos":Vector2i(0,0),"visited":true},{"id":1,"pos":Vector2i(1,0),"visited":false},{"id":2,"pos":Vector2i(2,0),"visited":false},{"id":3,"pos":Vector2i(0,1),"visited":false},{"id":4,"pos":Vector2i(3,3),"visited":true}]
+	var rooms=[{"id":0,"pos":Vector2i(0,0),"visited":true,"links":[1]},{"id":1,"pos":Vector2i(1,0),"visited":false,"links":[0,2]},{"id":2,"pos":Vector2i(2,0),"visited":false,"links":[1]},{"id":3,"pos":Vector2i(0,1),"visited":false,"links":[]},{"id":4,"pos":Vector2i(3,3),"visited":true,"links":[]}]
 	var visible=Fog.visibility(rooms,0)
-	check.call(visible=={0:"current",1:"frontier",3:"frontier",4:"explored"},"fog shows only current, visited and spatially adjacent existing rooms")
+	check.call(visible=={0:"current",1:"frontier",4:"explored"},"fog shows only current, visited and passage-connected neighbors only")
 	rooms[1].visited=true
 	visible=Fog.visibility(rooms,1)
-	check.call(visible[0]=="explored" and visible[1]=="current" and visible[2]=="frontier","entering a room reveals one new ring and updates highlight")
+	check.call(visible[0]=="explored" and visible[1]=="current" and visible[2]=="frontier","entering a room reveals connected neighbors and updates highlight")
 	var mini=ui.minimap
 	mini.set_process(false)
 	var before_visible=mini.visible_rooms().duplicate()
@@ -201,7 +201,7 @@ func run(scene_tree: SceneTree,game: Node,ui: Control,check: Callable) -> void:
 	var persisted=battle.room().ground.duplicate(true)
 	battle.enter_room(battle.player)
 	check.call(battle.room().ground==persisted,"revisiting cleared room preserves uncollected floor positions")
-	game.end_run(true)
+	game.end_run(false)
 	ui.show_base()
 	await tree.process_frame
 	check.call(not ui.drawer.visible,"base data drawer also defaults hidden")

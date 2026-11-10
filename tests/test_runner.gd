@@ -24,7 +24,19 @@ func run_tests() -> void:
 	for seed_value in range(1000):
 		var data=Generator.generate(seed_value)
 		var rooms: Array=data.rooms
-		check(rooms.size()>=20 and rooms.size()<=30,"room count seed %d" % seed_value)
+		check(rooms.size()>=36 and rooms.size()<=45,"room count seed %d" % seed_value)
+		check(rooms.size()==ceili(data.base_room_count*1.5) and data.budget==2*data.base_room_count+13,"one-and-a-half rooms with unchanged electrical budget")
+		check(rooms[data.reward].links.size()==4 and rooms[data.boss].links.size()==3,"reward and boss have more connected doors")
+		check(rooms.all(func(room):return room.pos.x>=-5 and room.pos.x<=6 and absi(room.pos.y)<=2),"expanded floor preserves horizontal and vertical bounds")
+		var distances={0:0}
+		var path_queue: Array=[0]
+		while not path_queue.is_empty():
+			var current: int=path_queue.pop_front()
+			for neighbor in rooms[current].links:
+				if not distances.has(neighbor):
+					distances[neighbor]=int(distances[current])+1
+					path_queue.append(neighbor)
+		check(int(distances[data.boss])==11,"start-to-boss depth remains eleven passages")
 		check(data.route.front()==0 and data.route.back()==data.boss,"route endpoints")
 		var visited={}
 		var previous=-1
@@ -106,6 +118,9 @@ func run_tests() -> void:
 		check(game.run.energy==energy-1 and game.state.power==balance-1,"room energy cost")
 		while game.pick_up("1_0"):pass
 		check(not game.pick_up("1_0"),"physical capacity bound")
+		if c!=2:
+			game.run.room=game.run.floor_data.boss
+			game.run.floor_data.rooms[game.run.room].cleared=true
 		var output=game.end_run(c!=2)
 		check(game.run.is_empty(),"run settled")
 		check(output!="","settlement message")
@@ -115,6 +130,7 @@ func run_tests() -> void:
 	root.add_child(ui)
 	await process_frame
 	ui.show_slots()
+	check(game.craft_furniture(0),"craft owned furniture before placement")
 	ui.show_base(true)
 	await process_frame
 	var world=ui.stage.get_child(0)
@@ -218,12 +234,14 @@ func run_tests() -> void:
 	check(battle.room().cleared,"boss cleared")
 	check(game.next_floor(),"boss allows next floor")
 	check(game.run.floor==2 and game.run.room==0,"next floor generated")
-	game.end_run(true)
+	game.end_run(false)
 	ui.show_base()
 	await process_frame
 	check(game.load_game(0),"settlement persisted")
 	await preload("res://tests/interaction_checks.gd").new().run(self,game,ui,check)
 	await preload("res://tests/inventory_checks.gd").new().run(self,game,ui,check)
+	await preload("res://tests/base_combat_revision_checks.gd").new().run(self,game,ui,check)
+	await preload("res://tests/armored_beast_checks.gd").new().run(self,game,ui,check)
 	ui.queue_free()
 	await process_frame
 	await process_frame

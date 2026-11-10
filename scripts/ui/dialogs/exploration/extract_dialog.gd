@@ -2,9 +2,19 @@ extends VBoxContainer
 var app: Control
 func build(context: Control) -> void:
 	app=context
-	var v=self
-	v.add_child(app.wrapped("将随身物资带回基地并保存，结束本次探索。返程不额外消耗电量。"))
-	app.button("确认返程",func():
-		app.say(Game.end_run(true))
-		app.show_base(),v)
-	app.button("继续探索",app.close_modal,v)
+	add_child(app.wrapped("站区守卫已被击败。可以继续深入，或携带本次物资安全返回基地。"))
+	var choices=HBoxContainer.new()
+	choices.add_theme_constant_override("separation",20)
+	add_child(choices)
+	app.button("进入下一层",func():
+		if Game.next_floor():
+			app.close_modal()
+			app.battle.enter_room()
+			app.refresh_combat()
+		else:app.say(Game.last_error),choices)
+	app.button("安全返程并保存",func():
+		if not Game.can_extract():return
+		var message=Game.end_run(true)
+		app.show_base()
+		app.say(message),choices)
+	app.button("返回房间 / 继续拾取",app.close_modal,self)

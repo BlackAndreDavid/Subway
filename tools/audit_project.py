@@ -32,7 +32,7 @@ def audit():
   for candidate in entry['candidate_sources']:assert (ROOT/'assets/art/candidates'/candidate).is_file()
   for path in entry['files']:
    relative=path.removeprefix('res://');assert relative.endswith('.png') and (ROOT/relative).is_file();files.append(relative)
- assert len(files)==80 and len(set(files))==80
+ assert len(files)==105 and len(set(files))==105
  assert (ROOT/'assets/art/prompts/style.txt').is_file() and (ROOT/'assets/art/prompts/color_lock.txt').is_file()
  for path in ['docs/art_simplification_comparison.png','docs/base.png','docs/combat.png','docs/map.png','docs/regional_materials.png','docs/task-checklist.md']:
   assert (ROOT/path).is_file(),path

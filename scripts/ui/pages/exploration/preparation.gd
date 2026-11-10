@@ -40,7 +40,7 @@ func build(context: Control) -> void:
 	app.warehouse_grid.reserved=func(index):return app.loadout.equipped_slot(index)!=""
 	scroll.add_child(app.warehouse_grid)
 	layout.add_child(app.wrapped("目标：%s · 房间清空后靠近门按 F 通行；B 背包，长按 Tab 2 秒看清地图。
-整备不会消耗仓库物品；出发时扣除选中的实物。失败遗失随身装备与物资。" % C.STATIONS[int(Game.state.station)].name,15))
+整备不会消耗仓库物品；出发时扣除选中的实物。击败Boss后可选择下一层或安全返程；失败遗失随身物资。" % C.STATIONS[int(Game.state.station)].name,15))
 	app.refresh_loadout()
 func refresh_loadout() -> void:
 	app.empty(app.loadout_slots)

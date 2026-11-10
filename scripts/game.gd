@@ -10,6 +10,8 @@ var state: Dictionary = {}
 var run: Dictionary = {}
 var settings = {"volume":0.5,"fullscreen":false}
 var last_error = ""
+var base_arrival=true
+var base_position=Vector2(5,3)
 
 func _ready() -> void:
 	var saved = read_json("user://settings.json")
@@ -20,6 +22,9 @@ func new_game(index: int, base_name: String) -> bool:
 	slot=index
 	state={"version":SAVE_VERSION,"name":base_name.strip_edges() if not base_name.strip_edges().is_empty() else "上海堡垒", "day":1,"station":0,"water":24,"food":24,"power":240,"stash":["3_0","3_1","3_2","3_3","4_0","4_1","4_2","4_3","5_0","5_1","5_2","5_3"],"furniture":[],"news":0,"market_stock":{},"customer":0}
 	run={}
+	state.stash.append_array(["scrap","scrap","scrap","scrap","scrap","scrap","scrap","scrap","scrap","scrap","scrap","scrap","1_0","1_0","0_0","0_0"])
+	base_arrival=true
+	base_position=Vector2(5,3)
 	return save_game()
 
 func read_json(path: String) -> Dictionary:
@@ -45,6 +50,8 @@ func load_game(index: int) -> bool:
 		for field in ["x","y","rot"]:placement[field]=int(placement[field])
 	state.version=SAVE_VERSION
 	run={}
+	base_arrival=true
+	base_position=Vector2(5,3)
 	return true
 
 func validate_save(data: Dictionary) -> bool:
@@ -214,7 +221,7 @@ func begin_run(class_index: int,module: String,weapon: String,drug: String,seed_
 	selected_indices.sort()
 	selected_indices.reverse()
 	for index in selected_indices:remove_stash(int(index))
-	run={"class":class_index,"stats":stats,"hp":stats.hp,"module":module,"weapon":weapon,"drug":drug,"bag":bag,"floor_data":floor_data,"room":0,"floor":1,"energy":floor_data.budget,"timer":360.0-float(Catalog.STATIONS[int(state.station)].radiation)*20.0,"buff":0.0,"shield":0.0,"weapon_cd":0.0,"rewards":[],"damage":1.0,"fighting":false,"seed":floor_data.seed}
+	run={"class":class_index,"stats":stats,"hp":stats.hp,"module":module,"weapon":weapon,"drug":drug,"bag":bag,"floor_data":floor_data,"room":0,"floor":1,"energy":floor_data.budget,"buff":0.0,"shield":0.0,"weapon_cd":0.0,"rewards":[],"damage":1.0,"fighting":false,"seed":floor_data.seed}
 	run.equipped_uid={"module":-1,"weapon":-1,"drug":-1}
 	run.next_uid=0
 	for entry in bag:
@@ -279,6 +286,7 @@ func equip_entry(index: int) -> bool:
 	return true
 
 func claim_reward(index: int) -> String:
+	if run.is_empty() or run.fighting or not index in [0,1]:return "当前无法领取奖励。"
 	var room=run.floor_data.rooms[int(run.room)]
 	if room.kind!="reward" or room.claimed: return "奖励已领取。"
 	if index==0:
@@ -300,11 +308,13 @@ func next_floor() -> bool:
 	run.floor_data=next
 	run.room=0
 	run.energy=next.budget
-	run.timer=360.0-float(Catalog.STATIONS[int(state.station)].radiation)*20.0
 	return true
 
+func can_extract() -> bool:
+	return not run.is_empty() and not run.fighting and run.floor_data.rooms[int(run.room)].kind=="boss" and run.floor_data.rooms[int(run.room)].cleared
 func end_run(success: bool) -> String:
 	if run.is_empty(): return ""
+	if success and not can_extract():return "请先击败本层 Boss，在中央通道选择安全返程。"
 	var count=run.bag.size()
 	if success:
 		for entry in run.bag:
@@ -313,8 +323,41 @@ func end_run(success: bool) -> String:
 		# Equipped items and cargo are lost. Combat already spent electricity.
 		count=0
 	run={}
+	base_arrival=true
 	save_game()
 	return "安全返程，回收 %d 件物资。已存入基地仓库。" % count if success else "救援队将你送回基地，本次携带物资遗失。"
+func craft_furniture(type: int) -> bool:
+	if not run.is_empty() or type<0 or type>=Catalog.FURNITURE_RECIPES.size():return false
+	var recipe: Dictionary=Catalog.FURNITURE_RECIPES[type]
+	for id in recipe:
+		if state.stash.count(id)<int(recipe[id]):
+			last_error="材料不足：%s 需要 %d 件。" % [Catalog.item(id).name,recipe[id]]
+			return false
+	for id in recipe:
+		for count in range(int(recipe[id])):remove_stash(state.stash.find(id))
+	add_stash("furn_%d" % type)
+	return save_game()
+func place_furniture(type: int,tile: Vector2i) -> bool:
+	if not run.is_empty() or type<0 or type>3 or tile.x<0 or tile.x>=10 or tile.y<0 or tile.y>=6:return false
+	if tile in [Vector2i(0,4),Vector2i(9,0)]:
+		last_error="请保留终端和气闸门的位置。"
+		return false
+	for entry in state.furniture:
+		if Vector2i(int(entry.x),int(entry.y))==tile:
+			last_error="这个位置已经放置了家具。"
+			return false
+	var index=state.stash.find("furn_%d" % type)
+	if index<0:
+		last_error="请先用材料合成"+Catalog.FURNITURE_NAMES[type]+"，再进行摆放。"
+		return false
+	remove_stash(index)
+	state.furniture.append({"x":tile.x,"y":tile.y,"type":type})
+	return save_game()
+func reclaim_furniture(index: int) -> bool:
+	if not run.is_empty() or index<0 or index>=state.furniture.size():return false
+	add_stash("furn_%d" % int(state.furniture[index].type))
+	state.furniture.remove_at(index)
+	return save_game()
 
 func stash_entries_for(data: Dictionary) -> Array:
 	var result: Array=[]

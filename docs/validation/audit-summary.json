@@ -1,34 +1,59 @@
 {
   "review_date": "2026-11-11",
-  "scope": "prototype plus spatial inventories, combat HUD, enemy facing and scene encapsulation",
-  "acceptance_items": 45,
+  "scope": "full prototype plus interactive base, unified heroine art, crafting, centered upright sprites, armored charge behavior, boss-only exits and 1.5x floors",
+  "acceptance_items": 57,
   "open_acceptance_items": 0,
-  "checks": 225270,
+  "checks": 331145,
   "failures": 0,
   "map_seeds": 1000,
   "playthrough_cases": 9,
-  "playthrough_boss_wins": 8,
+  "playthrough_boss_wins": 3,
   "economic_areas": 15,
   "stations": 110,
   "refined_exploration_areas": 38,
-  "runtime_pngs": 80,
+  "runtime_pngs": 105,
   "shared_palette_colors": 32,
   "validation_commands": [
     "python3 tools/audit_project.py",
     "bash tools/test.sh",
-    "godot --audio-driver Dummy --path . --script tests/capture.gd"
+    "godot --audio-driver Dummy --path . --script tests/capture.gd",
+    "xvfb-run -a godot --audio-driver Dummy --path . --script tests/native_sprite_alignment.gd"
   ],
   "limitations": [
-    "Fixed-input controller is not human feedback: 8/9 boss wins; high-radiation tank timed out after physically walking 26/27 rooms.",
+    "Fixed-input controller is not human-player feedback or final balance; after the shell-beast change, 3 tank cases cleared all 41 rooms and 6 shooter/assassin cases ended on health depletion. No stat/drop overrides.",
     "Huangpu numeric reference is an explicitly labeled report transcription, not a claimed downloaded official original.",
     "Missing statistical axes remain null; available axes are reweighted.",
     "Original draft multiplayer/licences/black-market etc. remain outside this prototype milestone.",
     "Water, food and battery trade goods use their concrete geometric footprints; only direct power/currency floor pickups are automatic and slot-free."
   ],
-  "introductory_boss_wins": 3,
-  "physical_door_interactions": 546,
+  "introductory_boss_wins": 1,
+  "physical_door_interactions": 390,
   "interaction_checks": "tests/interaction_checks.gd",
-  "scene_count": 23,
-  "item_footprints": 33,
-  "inventory_checks": "tests/inventory_checks.gd"
+  "scene_count": 28,
+  "item_footprints": 37,
+  "inventory_checks": "tests/inventory_checks.gd",
+  "native_alignment_checks": 160,
+  "native_alignment_failures": 0,
+  "protection_timer_removed": true,
+  "floor_example": {
+    "seed": 2026,
+    "old_rooms": 27,
+    "rooms": 41,
+    "unchanged_budget": 67,
+    "route_steps": 53,
+    "coverage": 1.0
+  },
+  "armored_beast_checks": "tests/armored_beast_checks.gd",
+  "armored_beast": {
+    "base_hp": 110,
+    "damage_reduction": 0.4,
+    "idle_seconds": 1.4,
+    "windup_seconds": 0.7,
+    "charge_seconds": 1.8,
+    "recovery_seconds": 1.0,
+    "speed": 360,
+    "turn_rate_radians_per_second": 0.22,
+    "stops_on_wall": true,
+    "sprite_rotation": false
+  }
 }

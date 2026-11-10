@@ -39,6 +39,7 @@ static func run(check: Callable) -> void:
 	var review=JSON.parse_string(FileAccess.get_file_as_string("res://assets/art/review.json"))
 	var sources: Array=review.sources.duplicate()
 	sources.append_array(review.regional_materials.sources)
+	sources.append_array(review.base_heroine.sources)
 	for source in sources:
 		var bytes=FileAccess.get_file_as_bytes("res://assets/art/"+source.path)
 		var context=HashingContext.new()

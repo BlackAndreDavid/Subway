@@ -19,6 +19,8 @@ func build(context: Control) -> void:
 	app.combat_hud.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	app.battle.changed.connect(app.refresh_combat)
 	app.battle.notice.connect(app.say)
+	app.battle.reward_requested.connect(app.show_reward)
+	app.battle.descent_requested.connect(app.confirm_extract)
 	app.battle.ended.connect(func(success):
 		var result=Game.end_run(success)
 		app.show_base()
@@ -43,15 +45,13 @@ func refresh_combat() -> void:
 	if Game.run.fighting:app.side.add_child(app.wrapped("战斗中：通道与背包已锁定。",16))
 	else:
 		if r.kind=="reward" and not r.claimed:
-			app.button("奖励：聚焦晶体 / 伤害 +25%",func():app.say(Game.claim_reward(0));app.refresh_combat(),app.side)
-			app.button("奖励：散射电容 / 主动道具",func():app.say(Game.claim_reward(1));app.refresh_combat(),app.side)
+			app.side.add_child(app.wrapped("靠近房间中央宝箱，按 F 选择奖励。",15))
 		if r.kind=="shop":
 			app.button("补给商：凝胶绷带 / 22 电量",func():app.buy_run_item("3_0",22),app.side)
 			app.button("补给商：轻量背架 / 40 电量",func():app.buy_run_item("5_1",40),app.side)
 		if not r.loot.is_empty():app.side.add_child(app.wrapped("地面有 %d 件物资：靠近按 F；电量/电卡自动吸附。" % r.loot.size(),14))
-		if r.kind=="boss" and r.cleared:app.side.add_child(app.wrapped("靠近中央通道，按 F 前往下一层。"))
+		if r.kind=="boss" and r.cleared:app.side.add_child(app.wrapped("靠近中央通道，按 F 选择下一层或安全返程。"))
 	app.button("背包 / B",app.show_bag,app.side,bool(Game.run.fighting))
-	app.button("安全撤离",app.confirm_extract,app.side,bool(Game.run.fighting))
 	app.button("暂停 / Esc",app.show_pause,app.side)
 func buy_run_item(id: String,cost: int) -> void:
 	if Game.run.fighting:return
@@ -65,4 +65,4 @@ func _process(_delta: float) -> void:
 	if not is_instance_valid(app):return
 	if app.page=="combat" and not Game.run.is_empty():
 		app.battle.pointer_blocked=is_instance_valid(app.drawer) and app.drawer.visible and app.drawer.get_global_rect().has_point(get_global_mouse_position())
-		app.hud.text="生命 %d/%d   电量 %d / 账户 %d   防护 %d 秒" % [maxi(0,int(Game.run.hp)),Game.run.stats.hp,Game.run.energy,Game.state.power,maxi(0,int(Game.run.timer))]
+		app.hud.text="第 %d 层 · 账户电量 %d" % [Game.run.floor,Game.state.power]

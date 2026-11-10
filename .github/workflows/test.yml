@@ -53,3 +53,10 @@ jobs:
           set -o pipefail
           timeout 90 work/bin/godot --headless --path . --script tests/playthrough_audit.gd 2>&1 | tee work/play.log
           if grep -E 'SCRIPT ERROR|ERROR:' work/play.log; then exit 1; fi
+      - name: Native sprite alignment under X11
+        env:
+          LIBGL_ALWAYS_SOFTWARE: "1"
+        run: |
+          set -o pipefail
+          timeout 90 xvfb-run -a -s "-screen 0 1440x900x24" work/bin/godot --display-driver x11 --audio-driver Dummy --path . --script tests/native_sprite_alignment.gd 2>&1 | tee work/render.log
+          if grep -E 'SCRIPT ERROR|ERROR:' work/render.log; then exit 1; fi

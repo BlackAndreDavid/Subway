@@ -53,9 +53,10 @@ func run(tree: SceneTree,game: Node,ui: Control,check: Callable) -> void:
 	game.new_game(0,"实际副本")
 	game.add_stash("5_0")
 	var first_armor=game.state.stash_layout[8].duplicate()
-	check.call(game.begin_run(0,"5_0","","",2026,{"module":12}),"departure accepts a selected duplicate's real index")
-	check.call(game.state.stash.size()==12 and game.state.stash[8]=="5_0" and game.state.stash_layout[8]==first_armor,"departure removes the selected duplicate rather than the first matching ID")
-	game.end_run(true)
+	var duplicate_index=game.state.stash.size()-1
+	check.call(game.begin_run(0,"5_0","","",2026,{"module":duplicate_index}),"departure accepts a selected duplicate's real index")
+	check.call(game.state.stash.size()==duplicate_index and game.state.stash[8]=="5_0" and game.state.stash_layout[8]==first_armor,"departure removes the selected duplicate rather than the first matching ID")
+	game.end_run(false)
 	# Backpack expansion is geometric. Removing a module cannot delete occupied rows.
 	game.new_game(0,"网格背包")
 	check.call(game.begin_run(2,"5_1","4_1","3_0",2026),"small class can pack its starting equipment")
@@ -71,7 +72,7 @@ func run(tree: SceneTree,game: Node,ui: Control,check: Callable) -> void:
 	game.run.fighting=true
 	check.call(not game.move_bag(1,Vector2i(4,1),0) and not game.pick_up("1_0"),"combat blocks all storage mutation and manual pickup")
 	game.run.fighting=false
-	game.end_run(true)
+	game.end_run(false)
 	# Scene files are real resources used by the router, with independent page controllers.
 	var unstarted_room=load("res://scenes/exploration/room.tscn").instantiate()
 	tree.root.add_child(unstarted_room)
@@ -82,6 +83,8 @@ func run(tree: SceneTree,game: Node,ui: Control,check: Callable) -> void:
 		var page=load(path).instantiate()
 		check.call(page.has_method("build") and page.scene_file_path==path and page.get_script().resource_path.begins_with("res://scripts/ui/pages/"),"page has its own scene and controller: "+id)
 		page.free()
+	game.state.stash=["3_1","1_0","4_0"]
+	game.ensure_stash()
 	ui.show_base(true)
 	await tree.process_frame
 	check.call(ui.current_screen.scene_file_path=="res://scenes/base/furniture_editor.tscn" and ui.current_screen.get_parent()==ui.body,"furniture editor uses its own mounted scene")
@@ -153,7 +156,7 @@ func run(tree: SceneTree,game: Node,ui: Control,check: Callable) -> void:
 		battle.update_enemy_facing(enemy,Vector2.LEFT*20,0.1)
 		check.call(not battle.enemy_flipped(enemy) and is_zero_approx(battle.enemy_rotation(enemy)),"leftward quadruped follows source heading")
 		battle.update_enemy_facing(enemy,Vector2.UP*20,0.1)
-		check.call(is_equal_approx(absf(battle.enemy_rotation(enemy)),PI/2),"vertical quadruped heading follows movement")
+		check.call(is_zero_approx(battle.enemy_rotation(enemy)) and enemy.facing==Vector2.LEFT,"vertical quadruped travel keeps upright left/right orientation")
 		var facing=enemy.facing
 		battle.update_enemy_facing(enemy,Vector2.ZERO,0.1)
 		check.call(enemy.facing==facing and enemy.walk_time==0,"idle or wall collision stops walking animation")
@@ -164,12 +167,14 @@ func run(tree: SceneTree,game: Node,ui: Control,check: Callable) -> void:
 	check.call(bandit.pos.x<400 and battle.enemy_flipped(bandit),"retreating bandit faces actual leftward displacement")
 	var charger=battle.make_enemy(3,Vector2(400,300))
 	charger.timer=1.7
+	charger.state="charge"
+	charger.charge_dir=Vector2.LEFT
 	charger.velocity=Vector2.LEFT*320
 	battle.enemies=[charger]
 	battle.update_enemies(0.05)
-	check.call(charger.travel.x<0 and charger.facing.x<0,"charger faces its locked charge rather than current player position")
+	check.call(charger.travel.x<0 and charger.facing.x<0,"charge keeps its primary heading while tracking only slightly")
 	battle.enemies=[]
 	game.run.fighting=false
-	game.end_run(true)
+	game.end_run(false)
 	ui.show_base()
 	await tree.process_frame

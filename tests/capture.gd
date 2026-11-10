@@ -16,13 +16,30 @@ func capture() -> void:
 	var game=root.get_node("Game")
 	ui=load("res://scenes/app/main.tscn").instantiate()
 	root.add_child(ui)
+	var gestures=load("res://tests/interaction_checks.gd").new()
+	gestures.tree=self
 	await shot("menu")
 	game.new_game(0,"上海堡垒")
-	game.state.furniture=[{"x":1,"y":1,"type":0},{"x":3,"y":1,"type":1},{"x":7,"y":1,"type":2},{"x":1,"y":4,"type":3}]
-	ui.show_base(true)
+	ui.show_base()
+	await shot("base_undress")
+	ui.show_crafting()
+	await shot("crafting")
+	ui.close_modal()
+	for type in range(4):
+		game.craft_furniture(type)
+		game.place_furniture(type,[Vector2i(1,1),Vector2i(3,1),Vector2i(7,1),Vector2i(1,4)][type])
+	game.trade("3_0",true)
+	ui.stage.get_child(0).refresh_furniture()
+	await create_timer(1.3).timeout
 	await shot("base")
 	ui.toggle_drawer()
 	await shot("base_details")
+	ui.toggle_drawer()
+	ui.stage.get_child(0).heroine.grid_position=Vector2(2.4,1.5)
+	await process_frame
+	gestures.tap(KEY_F)
+	await shot("base_dialogue")
+	ui.close_modal()
 	ui.show_map()
 	await shot("map")
 	ui.toggle_drawer()
@@ -39,8 +56,6 @@ func capture() -> void:
 	ui.show_preparation()
 	await shot("prepare")
 	# Exercise real mouse drags for the visual review too.
-	var gestures=load("res://tests/interaction_checks.gd").new()
-	gestures.tree=self
 	await gestures.drag(ui.warehouse_grid.get_child(8),ui.loadout_slots.get_child(0))
 	await gestures.drag(ui.warehouse_grid.get_child(5),ui.loadout_slots.get_child(1))
 	await gestures.drag(ui.warehouse_grid.get_child(0),ui.loadout_slots.get_child(2))
@@ -96,8 +111,35 @@ func capture() -> void:
 			var enemy=ui.battle.make_enemy(type,Vector2(240+i*150,240+type*55))
 			ui.battle.update_enemy_facing(enemy,headings[i]*10,0.2)
 			ui.battle.enemies.append(enemy)
+	ui.battle.show_hitboxes=true
 	ui.battle.queue_redraw()
+	ui.say("碰撞检查：可见轮廓中心与碰撞圆心一致。")
 	await shot("enemy_facing")
+	ui.battle.show_hitboxes=false
+	ui.battle.player=Vector2(730,330)
+	ui.battle.bullets=[]
+	ui.battle.enemies=[ui.battle.make_enemy(0,Vector2(280,300)),ui.battle.make_enemy(3,Vector2(450,300))]
+	game.run.fighting=true
+	ui.refresh_combat()
+	ui.battle._process(1.41)
+	await shot("shell_windup")
+	ui.battle._process(0.71)
+	gestures.key(KEY_S,true)
+	for tick in range(12):ui.battle._process(0.05)
+	gestures.key(KEY_S,false)
+	ui.say("变异鼠持续追击；甲壳兽蓄力后长距离冲刺，并轻微追踪。")
+	await shot("shell_charge")
+	game.run.room=game.run.floor_data.reward
+	ui.battle.enter_room(Vector2(450,280))
+	gestures.tap(KEY_F)
+	await shot("reward_chest")
+	ui.modal.get_node("Frame/Scroll/Content").get_child(1).choose(0)
+	game.run.room=game.run.floor_data.boss
+	game.run.floor_data.rooms[game.run.room].cleared=true
+	ui.battle.enter_room(Vector2(450,300))
+	gestures.tap(KEY_F)
+	await shot("boss_exit")
+	ui.close_modal()
 	ui.clear_page("art_gallery")
 	var gallery=GridContainer.new()
 	gallery.columns=4

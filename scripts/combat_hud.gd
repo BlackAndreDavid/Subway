@@ -3,6 +3,8 @@ const C=preload("res://scripts/catalog.gd")
 const Art=preload("res://scripts/art_library.gd")
 var weapon_rect=Rect2(12,12,222,106)
 var medicine_rect=Rect2()
+var health_rect=Rect2(250,12,230,46)
+var energy_rect=Rect2(250,64,230,46)
 func _ready() -> void:mouse_filter=Control.MOUSE_FILTER_IGNORE
 func _process(_delta: float) -> void:
 	medicine_rect=Rect2(size-Vector2(234,102),Vector2(222,90))
@@ -29,6 +31,8 @@ func _draw() -> void:
 	draw_rect(Rect2(bar.position,Vector2(bar.size.x*charge_ratio(),bar.size.y)),Color("8cc9be"))
 	var status="未装备" if weapon=="" else "充能完成" if charge_ratio()>=1.0 else "充能 %d%% · %.1fs" % [charge_ratio()*100,Game.run.weapon_cd]
 	draw_string(font,weapon_rect.position+Vector2(12,99),status,HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color("9fb7bc"))
+	draw_stat_bar(health_rect,"生命",float(Game.run.hp),float(Game.run.stats.hp),Color("ce806d"))
+	draw_stat_bar(energy_rect,"电量",float(Game.run.energy),float(Game.run.floor_data.budget),Color("8bc9bf"))
 	var drug: String=Game.run.drug
 	if drug!="":draw_texture_rect(Art.texture("items/"+drug),Rect2(medicine_rect.position+Vector2(10,13),Vector2(54,54)),false)
 	draw_string(font,medicine_rect.position+Vector2(72,25),"药物 / Q",HORIZONTAL_ALIGNMENT_LEFT,-1,16,Color("f0ce86"))
@@ -41,3 +45,9 @@ func draw_panel(rect: Rect2) -> void:
 	style.set_border_width_all(1)
 	style.set_corner_radius_all(8)
 	draw_style_box(style,rect)
+func draw_stat_bar(rect: Rect2,label: String,value: float,maximum: float,color: Color) -> void:
+	draw_panel(rect)
+	draw_string(ThemeDB.fallback_font,rect.position+Vector2(10,18),"%s %d / %d" % [label,maxi(0,int(value)),int(maximum)],HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("d1d9d0"))
+	var bar=Rect2(rect.position+Vector2(10,28),Vector2(rect.size.x-20,9))
+	draw_rect(bar,Color("304651"))
+	draw_rect(Rect2(bar.position,Vector2(bar.size.x*clampf(value/maxf(1,maximum),0,1),bar.size.y)),color)

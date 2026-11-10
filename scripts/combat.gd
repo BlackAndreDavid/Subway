@@ -2,9 +2,12 @@ extends Control
 signal changed
 signal notice(text: String)
 signal ended(success: bool)
+signal reward_requested
+signal descent_requested
 const Loot=preload("res://scripts/loot_rules.gd")
 const Art=preload("res://scripts/art_library.gd")
 const C=preload("res://scripts/catalog.gd")
+const EnemyVisual=preload("res://scripts/enemy_visual.gd")
 var player=Vector2(450,300)
 var enemies: Array=[]
 var bullets: Array=[]
@@ -21,9 +24,16 @@ var sounds: Dictionary={}
 var flash=0.0
 var pending_end=false
 var pointer_blocked=false
+var show_hitboxes=false
 const VIEW_SIZE=Vector2(900,600)
 const INTERACT_DISTANCE=64.0
 const AREA=Rect2(45,65,810,475)
+const SHELL_IDLE_TIME=1.4
+const SHELL_WINDUP_TIME=0.7
+const SHELL_CHARGE_TIME=1.8
+const SHELL_RECOVERY_TIME=1.0
+const SHELL_SPEED=360.0
+const SHELL_TURN_RATE=0.22
 func camera_scale() -> float:
 	return minf(size.x/VIEW_SIZE.x,size.y/VIEW_SIZE.y) if size.x>0 and size.y>0 else 1.0
 func camera_offset() -> Vector2:
@@ -77,8 +87,9 @@ func enter_room(spawn: Vector2=Vector2(450,300)) -> void:
 	changed.emit()
 	queue_redraw()
 func make_enemy(type: int,pos: Vector2) -> Dictionary:
-	var hp=([32,45,28,38,400][type])*(1+0.23*(int(Game.run.floor)-1))
-	return {"type":type,"pos":pos,"hp":float(hp),"max":float(hp),"timer":rng.randf_range(0.3,1.6),"phase":0.0,"velocity":Vector2.ZERO,"travel":Vector2.ZERO,"facing":Vector2.LEFT if type in [0,3] else Vector2.RIGHT,"walk_time":0.0}
+	var hp=([32,45,28,110,400][type])*(1+0.23*(int(Game.run.floor)-1))
+	var timer=rng.randf_range(0.3,1.6)
+	return {"type":type,"pos":pos,"hp":float(hp),"max":float(hp),"armor":0.4 if type==3 else 0.0,"timer":SHELL_IDLE_TIME if type==3 else timer,"state":"idle","charge_dir":Vector2.LEFT,"phase":0.0,"velocity":Vector2.ZERO,"travel":Vector2.ZERO,"facing":Vector2.LEFT if type in [0,3] else Vector2.RIGHT,"walk_time":0.0}
 func _process(delta: float) -> void:
 	if Game.run.is_empty() or paused or pending_end: return
 	age+=delta
@@ -89,10 +100,6 @@ func _process(delta: float) -> void:
 	Game.run.buff=maxf(0,Game.run.buff-delta)
 	Game.run.shield=maxf(0,Game.run.shield-delta)
 	Game.run.weapon_cd=maxf(0,Game.run.weapon_cd-delta)
-	Game.run.timer-=delta
-	if Game.run.timer<=0:
-		finish(false)
-		return
 	var movement=Vector2(float(Input.is_physical_key_pressed(KEY_D))-float(Input.is_physical_key_pressed(KEY_A)),float(Input.is_physical_key_pressed(KEY_S))-float(Input.is_physical_key_pressed(KEY_W))).normalized()
 	player+=movement*float(Game.run.stats.speed)*(1.35 if Game.run.buff>0 else 1.0)*delta
 	if movement.length()>0:
@@ -153,33 +160,89 @@ func update_enemies(delta: float) -> void:
 				if e.timer<=0:
 					for i in range(8): shoot(e.pos,Vector2.RIGHT.rotated(i*TAU/8+e.phase*0.3),true,9)
 					e.timer=2.7
-			3: # crawler: telegraphed charge, direction is locked during wind-up
-				if e.timer<=0:
-					e.velocity=to.normalized()*320
-					e.timer=2.3
-				if e.timer<1.85 and e.timer>1.2: e.pos+=e.velocity*delta
-				elif e.timer<1.2: e.pos+=to.normalized()*35*delta
+			3:update_shell_beast(e,to,delta)
 			4: # station custodian boss: aimed fans and rotating ring
 				e.pos+=to.normalized()*42*delta
 				if e.timer<=0:
 					for i in range(12): shoot(e.pos,Vector2.RIGHT.rotated(i*TAU/12+e.phase*0.25),true,13)
 					for i in range(-1,2): shoot(e.pos,to.normalized().rotated(i*0.15),true,15)
 					e.timer=1.6 if e.hp<e.max*0.5 else 2.2
+		var proposed: Vector2=e.pos
 		e.pos=e.pos.clamp(AREA.position+Vector2(25,25),AREA.end-Vector2(25,25))
+		if e.type==3 and e.state=="charge" and e.pos.distance_squared_to(proposed)>0.001:
+			e.state="recovery"
+			e.timer=SHELL_RECOVERY_TIME
+			e.velocity=Vector2.ZERO
 		update_enemy_facing(e,e.pos-before,delta)
-		if to.length()<(42 if e.type==4 else 27): take_damage(18)
+		if player.distance_to(e.pos)<enemy_radius(e)+14: take_damage(18)
 func update_enemy_facing(enemy: Dictionary,displacement: Vector2,delta: float) -> void:
 	enemy.travel=displacement
 	if displacement.length_squared()>0.0001:
-		enemy.facing=displacement.normalized()
+		if int(enemy.type) in [0,3]:
+			if absf(displacement.x)>0.005:enemy.facing=Vector2.LEFT if displacement.x<0 else Vector2.RIGHT
+		else:enemy.facing=displacement.normalized()
 		enemy.walk_time+=delta
 	else:enemy.walk_time=0.0
 func enemy_rotation(enemy: Dictionary) -> float:
-	# Quadrupeds have a left-facing source atlas; turn it toward actual travel.
-	return wrapf(Vector2(enemy.facing).angle()-(0.0 if enemy_flipped(enemy) else PI),-PI,PI) if int(enemy.type) in [0,3] else 0.0
+	# Billboard-like sprites stay upright in the room; only left/right flips.
+	return 0.0
+func update_shell_beast(enemy: Dictionary,to_player: Vector2,delta: float) -> void:
+	match str(enemy.state):
+		"idle":
+			if enemy.timer<=0:
+				enemy.state="windup"
+				enemy.timer=SHELL_WINDUP_TIME
+				enemy.charge_dir=to_player.normalized() if to_player.length_squared()>0.01 else Vector2.LEFT
+		"windup":
+			if to_player.length_squared()>0.01:enemy.charge_dir=to_player.normalized()
+			if absf(enemy.charge_dir.x)>0.01:enemy.facing=Vector2.LEFT if enemy.charge_dir.x<0 else Vector2.RIGHT
+			if enemy.timer<=0:
+				enemy.state="charge"
+				enemy.timer=SHELL_CHARGE_TIME
+				enemy.velocity=enemy.charge_dir*SHELL_SPEED
+		"charge":
+			if to_player.length_squared()>0.01:
+				var difference=wrapf(to_player.angle()-Vector2(enemy.charge_dir).angle(),-PI,PI)
+				enemy.charge_dir=Vector2(enemy.charge_dir).rotated(clampf(difference,-SHELL_TURN_RATE*delta,SHELL_TURN_RATE*delta)).normalized()
+			enemy.velocity=enemy.charge_dir*SHELL_SPEED
+			enemy.pos+=enemy.velocity*delta
+			if enemy.timer<=0:
+				enemy.state="recovery"
+				enemy.timer=SHELL_RECOVERY_TIME
+				enemy.velocity=Vector2.ZERO
+		"recovery":
+			if enemy.timer<=0:
+				enemy.state="idle"
+				enemy.timer=SHELL_IDLE_TIME
+func damage_enemy(enemy: Dictionary,amount: float) -> float:
+	var actual=maxf(0,amount)*(1.0-clampf(float(enemy.get("armor",0)),0,0.8))
+	enemy.hp-=actual
+	if enemy.hp<=0:enemies.erase(enemy)
+	return actual
 func enemy_flipped(enemy: Dictionary) -> bool:
 	# The bandit atlas faces right; never use player direction while retreating.
 	return float(enemy.facing.x)>0.01 if int(enemy.type) in [0,3] else int(enemy.type) in [1,4] and float(enemy.facing.x)<-0.01
+func enemy_frame(enemy: Dictionary) -> int:
+	return Art.frames_at_time("enemies/%d" % int(enemy.type),float(enemy.walk_time) if int(enemy.type)!=2 else age)
+func enemy_sprite_rect(enemy: Dictionary,frame_index: int=-1) -> Rect2:
+	var id="enemies/%d" % int(enemy.type)
+	var index=enemy_frame(enemy) if frame_index<0 else frame_index
+	var texture=Art.texture(id,index)
+	var dimension=86.0 if int(enemy.type)==4 else 53.0
+	var factor=dimension/texture.get_width()
+	var center=Rect2(Art.bounds(id,index)).get_center()*factor
+	return Rect2(-center,Vector2.ONE*dimension)
+func enemy_visual_center(enemy: Dictionary,frame_index: int=-1) -> Vector2:
+	var id="enemies/%d" % int(enemy.type)
+	var index=enemy_frame(enemy) if frame_index<0 else frame_index
+	var rect=enemy_sprite_rect(enemy,index)
+	var fraction=Rect2(Art.bounds(id,index)).get_center()/Vector2(Art.texture(id,index).get_size())
+	var local=rect.position+fraction*rect.size
+	if enemy_flipped(enemy):local.x=-local.x
+	return Vector2(enemy.pos)+local.rotated(enemy_rotation(enemy))
+func enemy_radius(enemy: Dictionary) -> float:
+	var bound=Art.bounds("enemies/%d" % int(enemy.type),enemy_frame(enemy))
+	return maxf(12,maxi(bound.size.x,bound.size.y)*(86.0 if int(enemy.type)==4 else 53.0)/Art.texture("enemies/%d" % int(enemy.type)).get_width()*0.45)
 func update_bullets(delta: float) -> void:
 	for b in bullets.duplicate():
 		b.pos+=b.vel*delta
@@ -193,10 +256,9 @@ func update_bullets(delta: float) -> void:
 				bullets.erase(b)
 		else:
 			for e in enemies.duplicate():
-				if not b.hit.has(e) and b.pos.distance_to(e.pos)<(35 if e.type==4 else 23):
-					e.hp-=b.damage
+				if not b.hit.has(e) and b.pos.distance_to(e.pos)<enemy_radius(e)+3:
+					damage_enemy(e,float(b.damage))
 					b.hit.append(e)
-					if e.hp<=0: enemies.erase(e)
 					if not b.penetrating:
 						bullets.erase(b)
 						break
@@ -227,8 +289,9 @@ func interact() -> void:
 	if id>=0:
 		goto_room(id)
 	elif room().kind=="boss" and room().cleared and player.distance_to(Vector2(450,300))<=40:
-		if Game.next_floor():enter_room()
-		else:notice.emit(Game.last_error)
+		descent_requested.emit()
+	elif room().kind=="reward" and not room().claimed and player.distance_to(Vector2(450,280))<=INTERACT_DISTANCE:
+		reward_requested.emit()
 	elif nearest_loot()>=0:collect(nearest_loot())
 	else:notice.emit("靠近掉落物或通道后按 F 互动。")
 func goto_room(id: int) -> bool:
@@ -255,7 +318,7 @@ func use_weapon() -> void:
 		"4_0":
 			for e in enemies.duplicate():
 				if e.pos.distance_to(player)<250:
-					e.hp-=45*float(Game.run.damage)
+					damage_enemy(e,45*float(Game.run.damage))
 					e.pos+=(e.pos-player).normalized()*90
 					if e.hp<=0: enemies.erase(e)
 			flash=0.3
@@ -279,7 +342,9 @@ func use_drug() -> void:
 	match id:
 		"3_0": Game.run.hp=minf(Game.run.stats.hp,Game.run.hp+35)
 		"3_1": Game.run.buff=12.0
-		"3_2": Game.run.timer+=90.0
+		"3_2":
+			Game.run.hp=minf(Game.run.stats.hp,Game.run.hp+20)
+			Game.run.shield=8.0
 		"3_3": Game.run.hp=minf(Game.run.stats.hp,Game.run.hp+70)
 	entry.uses-=1
 	if entry.uses<=0:
@@ -379,7 +444,7 @@ func _draw() -> void:
 		if r.kind=="reward" and not r.claimed: draw_texture_rect(Art.texture("chest"),Rect2(420,250,60,60),false)
 		if r.kind=="boss" and r.cleared:
 			draw_circle(Vector2(450,300),52,Color("3f7479"))
-			draw_string(font,Vector2(405,307),"F 下一层",HORIZONTAL_ALIGNMENT_LEFT,-1,21,Color("c5e4db"))
+			draw_string(font,Vector2(375,307),"F 下一层 / 撤离",HORIZONTAL_ALIGNMENT_LEFT,-1,18,Color("c5e4db"))
 		if r.kind=="shop": draw_texture_rect(Art.texture("station"),Rect2(420,240,65,65),false)
 	ensure_ground_loot()
 	for index in range(r.loot.size()):
@@ -395,18 +460,17 @@ func _draw() -> void:
 	if not Game.run.fighting and nearby_door()>=0:
 		var door=door_position(nearby_door())
 		draw_string(font,door+Vector2(-30,-30),"F 进入",HORIZONTAL_ALIGNMENT_LEFT,-1,18,Color("f1d398"))
+	if r.kind=="reward" and not r.claimed and player.distance_to(Vector2(450,280))<=INTERACT_DISTANCE:
+		draw_string(font,Vector2(365,340),"F 打开奖励宝箱",HORIZONTAL_ALIGNMENT_LEFT,-1,18,Color("f1d398"))
 	for e in enemies:
-		var dim=Vector2(86,86) if e.type==4 else Vector2(53,53)
-		if e.type==3 and e.timer>1.85: draw_line(e.pos,e.pos+e.velocity*0.5,Color(0.9,0.45,0.35,0.5),3)
-		var animation_time=float(e.walk_time) if e.type!=2 else age
-		var sprite=Art.texture("enemies/%d" % e.type,Art.frames_at_time("enemies/%d" % e.type,animation_time))
-		draw_set_transform(camera_offset()+Vector2(e.pos)*camera_scale(),enemy_rotation(e),Vector2.ONE*camera_scale())
-		var sprite_rect=Rect2(-dim*0.5,dim)
-		if enemy_flipped(e):sprite_rect=Rect2(Vector2(dim.x*0.5,-dim.y*0.5),Vector2(-dim.x,dim.y))
-		draw_texture_rect(sprite,sprite_rect,false)
+		if e.type==3 and e.state=="windup":draw_line(e.pos,e.pos+e.charge_dir*240,Color(0.9,0.65,0.35,0.65),4)
+		EnemyVisual.draw(self,self,e,camera_offset()+Vector2(e.pos)*camera_scale(),camera_scale())
 		draw_set_transform(camera_offset(),0,Vector2.ONE*camera_scale())
-		draw_rect(Rect2(e.pos-Vector2(22,35),Vector2(44,4)),Color("21323a"))
-		draw_rect(Rect2(e.pos-Vector2(22,35),Vector2(44*maxf(0,e.hp/e.max),4)),Color("d5927e"))
+		if show_hitboxes:draw_arc(e.pos,enemy_radius(e),0,TAU,32,Color("8bc9bf"),1)
+		var health_origin=Vector2(e.pos)-Vector2(22,enemy_radius(e)+12)
+		draw_rect(Rect2(health_origin,Vector2(44,4)),Color("21323a"))
+		draw_rect(Rect2(health_origin,Vector2(44*maxf(0,e.hp/e.max),4)),Color("d5927e"))
+		if float(e.get("armor",0))>0:draw_string(font,health_origin+Vector2(-3,-5),"重甲 %d%%" % roundi(float(e.armor)*100),HORIZONTAL_ALIGNMENT_LEFT,-1,11,Color("8bc9bf"))
 	if hurt_cd<=0 or int(age*14)%2==0:
 		draw_texture_rect(Art.texture("player/%d" % direction,frame),Rect2(player-Vector2(27,30),Vector2(54,54)),false)
 	if Game.run.shield>0: draw_arc(player,35,0,TAU,40,Color("8bd9e3"),3,true)

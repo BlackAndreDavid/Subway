@@ -59,15 +59,47 @@
     "report": "simplification_report.json",
     "before_colors_per_sprite": [
       428,
-      4150
+      8352
     ],
     "after_colors_per_sprite": [
-      11,
+      9,
       26
     ],
     "palette_size": 32,
     "source_files_unchanged": true,
     "silhouettes_unchanged": true,
-    "native_review": "passed: combat, base, shop and all eight regional material icons inspected in native Godot captures"
+    "native_review": "passed: base heroine walk/suit removal/portrait, furniture, combat, shop and native centered enemy silhouettes"
+  },
+  "base_heroine": {
+    "prompt": "prompts/base_heroine.txt",
+    "selected_sprite": "heroine_b.png",
+    "selected_portrait": "heroine_portrait_a.png",
+    "note": "Inspected both sprite and portrait candidates. Edited B sprites to match old chunky navy outlines and enlarge orange gloves; edited A portrait toward the same flat pixel style. Four walk directions, eight fully-clothed outer-suit removal frames, base-only portrait. Shared frame scale and existing median/palette processing are applied on import.",
+    "sources": [
+      {
+        "path": "candidates/heroine_a.png",
+        "sha256": "c74e4fa0d85f822e6ffb8f3dc7adffe4779486a5a379d1e0a37fd40031bff5ec"
+      },
+      {
+        "path": "candidates/heroine_b.png",
+        "sha256": "b3391a2543dff31850b2e55af885d44df1f4e7c01e291edc62a65181c84a98a9"
+      },
+      {
+        "path": "candidates/heroine_portrait_a.png",
+        "sha256": "39298e5f90b4cf1e5c116246fa4ee7a2d09d60041fd596ac9f917d76f5d67929"
+      },
+      {
+        "path": "candidates/heroine_portrait_b.png",
+        "sha256": "63ff2a8c8fb6b27bdfa8f7ed5ec3be88b61c5da503b17c26e2a4ad1b47a4f3a3"
+      },
+      {
+        "path": "sources/base_heroine_v1.png",
+        "sha256": "f97072144ad2d6ab2d397521156405f18049f45028e6c8e98b9313623dafd16d"
+      },
+      {
+        "path": "sources/base_heroine_portrait_v1.png",
+        "sha256": "e3c227314ea04c981185a89c0e6566b9dd22c265403bae7ad0c9520d77d2ca6d"
+      }
+    ]
   }
 }

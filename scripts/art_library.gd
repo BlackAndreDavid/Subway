@@ -2,6 +2,11 @@ extends RefCounted
 # Stable asset identifiers separate gameplay from filenames, atlas layout and format.
 const Manifest=preload("res://scripts/art_manifest.gd")
 static var cache: Dictionary={}
+static var bounds_cache: Dictionary={}
+static func bounds(id: String,frame: int=0) -> Rect2i:
+	var key=id+":"+str(posmod(frame,frame_count(id)))
+	if not bounds_cache.has(key):bounds_cache[key]=texture(id,frame).get_image().get_used_rect()
+	return bounds_cache[key]
 static func texture(id: String,frame: int=0) -> Texture2D:
 	if not Manifest.ENTRIES.has(id):
 		push_error("Unknown art ID: "+id)

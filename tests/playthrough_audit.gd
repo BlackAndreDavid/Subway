@@ -58,7 +58,7 @@ func audit() -> void:
 			root.add_child(battle)
 			battle.set_process(false)
 			await process_frame
-			var initial_time=float(game.run.timer)
+			var initial_time=battle.age
 			var route: Array=game.run.floor_data.route.duplicate()
 			var step=1
 			var ticks=0
@@ -163,7 +163,7 @@ func audit() -> void:
 			for room in game.run.floor_data.rooms:
 				if room.visited:visited+=1
 				if room.kind in ["normal","boss"] and room.cleared:cleared+=1
-			rows.append({"station":C.STATIONS[station].name,"radiation":C.STATIONS[station].radiation,"class":C.CLASSES[class_index].name,"seed":2026,"boss_defeated":won,"time_used":snappedf(initial_time-float(game.run.timer),0.01),"hp_remaining":snappedf(maxf(0,game.run.hp),0.01),"visited":visited,"rooms":game.run.floor_data.rooms.size(),"rooms_cleared":cleared,"items_picked":recovered,"doors_entered_with_f":doors_entered,"account_change":snappedf(float(game.state.power)-start_power,0.01)})
+			rows.append({"station":C.STATIONS[station].name,"radiation":C.STATIONS[station].radiation,"class":C.CLASSES[class_index].name,"seed":2026,"boss_defeated":won,"time_used":snappedf(battle.age-initial_time,0.01),"hp_remaining":snappedf(maxf(0,game.run.hp),0.01),"visited":visited,"rooms":game.run.floor_data.rooms.size(),"rooms_cleared":cleared,"items_picked":recovered,"doors_entered_with_f":doors_entered,"account_change":snappedf(float(game.state.power)-start_power,0.01)})
 			release_inputs()
 			game.end_run(won)
 			if not game.load_game(0):failed=true
