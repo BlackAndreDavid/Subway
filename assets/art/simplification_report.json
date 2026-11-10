@@ -1,0 +1,1191 @@
+{
+  "version": 1,
+  "algorithm": "connected bounded-Lab regions; per-region RGB median; shared weighted RGB-median palette",
+  "config": {
+    "version": 1,
+    "palette_size": 32,
+    "neighbor_delta_e": 11.5,
+    "component_lab_span": [
+      22.0,
+      18.0,
+      18.0
+    ],
+    "iterations": 8,
+    "alpha_mode": "binary_preserve_nonzero_mask_after_import",
+    "dither": false,
+    "representative": "channel_weighted_median",
+    "note": "First merge connected similar-color regions with bounded Lab range, fill with regional RGB medians, then group similar region colors into a shared median palette. No interpolation or dithering. Original generated atlases are untouched."
+  },
+  "palette": [
+    {
+      "index": 0,
+      "rgb": [
+        18,
+        24,
+        31
+      ],
+      "hex": "#12181f"
+    },
+    {
+      "index": 1,
+      "rgb": [
+        50,
+        52,
+        57
+      ],
+      "hex": "#323439"
+    },
+    {
+      "index": 2,
+      "rgb": [
+        66,
+        68,
+        76
+      ],
+      "hex": "#42444c"
+    },
+    {
+      "index": 3,
+      "rgb": [
+        84,
+        69,
+        62
+      ],
+      "hex": "#54453e"
+    },
+    {
+      "index": 4,
+      "rgb": [
+        80,
+        81,
+        89
+      ],
+      "hex": "#505159"
+    },
+    {
+      "index": 5,
+      "rgb": [
+        111,
+        86,
+        73
+      ],
+      "hex": "#6f5649"
+    },
+    {
+      "index": 6,
+      "rgb": [
+        131,
+        86,
+        69
+      ],
+      "hex": "#835645"
+    },
+    {
+      "index": 7,
+      "rgb": [
+        104,
+        101,
+        105
+      ],
+      "hex": "#686569"
+    },
+    {
+      "index": 8,
+      "rgb": [
+        126,
+        97,
+        111
+      ],
+      "hex": "#7e616f"
+    },
+    {
+      "index": 9,
+      "rgb": [
+        88,
+        114,
+        72
+      ],
+      "hex": "#587248"
+    },
+    {
+      "index": 10,
+      "rgb": [
+        83,
+        119,
+        115
+      ],
+      "hex": "#537773"
+    },
+    {
+      "index": 11,
+      "rgb": [
+        166,
+        97,
+        75
+      ],
+      "hex": "#a6614b"
+    },
+    {
+      "index": 12,
+      "rgb": [
+        145,
+        110,
+        90
+      ],
+      "hex": "#916e5a"
+    },
+    {
+      "index": 13,
+      "rgb": [
+        158,
+        113,
+        62
+      ],
+      "hex": "#9e713e"
+    },
+    {
+      "index": 14,
+      "rgb": [
+        175,
+        112,
+        86
+      ],
+      "hex": "#af7056"
+    },
+    {
+      "index": 15,
+      "rgb": [
+        146,
+        123,
+        142
+      ],
+      "hex": "#927b8e"
+    },
+    {
+      "index": 16,
+      "rgb": [
+        119,
+        135,
+        157
+      ],
+      "hex": "#77879d"
+    },
+    {
+      "index": 17,
+      "rgb": [
+        103,
+        147,
+        132
+      ],
+      "hex": "#679384"
+    },
+    {
+      "index": 18,
+      "rgb": [
+        136,
+        139,
+        139
+      ],
+      "hex": "#888b8b"
+    },
+    {
+      "index": 19,
+      "rgb": [
+        134,
+        150,
+        83
+      ],
+      "hex": "#869653"
+    },
+    {
+      "index": 20,
+      "rgb": [
+        182,
+        132,
+        140
+      ],
+      "hex": "#b6848c"
+    },
+    {
+      "index": 21,
+      "rgb": [
+        191,
+        136,
+        70
+      ],
+      "hex": "#bf8846"
+    },
+    {
+      "index": 22,
+      "rgb": [
+        202,
+        146,
+        110
+      ],
+      "hex": "#ca926e"
+    },
+    {
+      "index": 23,
+      "rgb": [
+        174,
+        162,
+        152
+      ],
+      "hex": "#aea298"
+    },
+    {
+      "index": 24,
+      "rgb": [
+        216,
+        158,
+        77
+      ],
+      "hex": "#d89e4d"
+    },
+    {
+      "index": 25,
+      "rgb": [
+        173,
+        181,
+        86
+      ],
+      "hex": "#adb556"
+    },
+    {
+      "index": 26,
+      "rgb": [
+        204,
+        182,
+        158
+      ],
+      "hex": "#ccb69e"
+    },
+    {
+      "index": 27,
+      "rgb": [
+        156,
+        195,
+        177
+      ],
+      "hex": "#9cc3b1"
+    },
+    {
+      "index": 28,
+      "rgb": [
+        236,
+        188,
+        121
+      ],
+      "hex": "#ecbc79"
+    },
+    {
+      "index": 29,
+      "rgb": [
+        202,
+        208,
+        202
+      ],
+      "hex": "#cad0ca"
+    },
+    {
+      "index": 30,
+      "rgb": [
+        235,
+        220,
+        203
+      ],
+      "hex": "#ebdccb"
+    },
+    {
+      "index": 31,
+      "rgb": [
+        247,
+        250,
+        244
+      ],
+      "hex": "#f7faf4"
+    }
+  ],
+  "assets": [
+    {
+      "path": "assets/art/runtime/bullet_0.png",
+      "foreground_pixels": 1183,
+      "regions": 76,
+      "before_colors": 1080,
+      "after_colors": 21,
+      "before_sha256": "886e5999681be963e6aeafa2df1bddea40b1e26a79c6f641398b3456199465e0",
+      "after_sha256": "2c0de1b0de8f1a3fac309fab92583ffebd9dbac530bcfb5e40da3ffe162572b0",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/chest_0.png",
+      "foreground_pixels": 1972,
+      "regions": 180,
+      "before_colors": 1811,
+      "after_colors": 21,
+      "before_sha256": "750e77bb19f7d09e8349cad6021351f83d5da9b4b8a2133bdf81d0dc127610a5",
+      "after_sha256": "8b471fba40c6bde8a94208d9734741bfdf6d2106f86ea10e2da09f10fe26a500",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/credits_0.png",
+      "foreground_pixels": 1801,
+      "regions": 77,
+      "before_colors": 1383,
+      "after_colors": 16,
+      "before_sha256": "c03cc712dc2e43fd306107c26604b51555e67515201a956ad2e28fcc7523dd64",
+      "after_sha256": "1c681fcc8841af800d5bfd0d878b08f47b23028c113dd26efb34a4bdb3c9d1be",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/enemies/0_0.png",
+      "foreground_pixels": 954,
+      "regions": 89,
+      "before_colors": 873,
+      "after_colors": 13,
+      "before_sha256": "cfd9a17dc1d0cb496979da459e3d038fd56fffaba9166cc1fc8850f86e989366",
+      "after_sha256": "c3c5886c4352689e66ece356e07b6f8180c6c02436991076872a4919f6d0260e",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/enemies/0_1.png",
+      "foreground_pixels": 949,
+      "regions": 78,
+      "before_colors": 875,
+      "after_colors": 11,
+      "before_sha256": "f1e6b7942b177507361f0e94b6860606eb8269aa0596de2274a20b0818c9ed6b",
+      "after_sha256": "c71b3c7abe70b6dfd6b31544831780dbf1570e517661f8ac0ec8f9c6ce5c85fd",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/enemies/0_2.png",
+      "foreground_pixels": 989,
+      "regions": 85,
+      "before_colors": 916,
+      "after_colors": 13,
+      "before_sha256": "b72081c8cae458909dc9f653e2993ec0638892f8381cb0d5ea53aec918eb937d",
+      "after_sha256": "6dc8caa9440b685639d46da70a5f3c218a754d9c3a47a7f1282c30842aea99be",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/enemies/0_3.png",
+      "foreground_pixels": 933,
+      "regions": 83,
+      "before_colors": 874,
+      "after_colors": 14,
+      "before_sha256": "3cb9e13984453a1157ece6b1a23225c1a4db44779e9ac945a2d1ad5b39191d5e",
+      "after_sha256": "28b030dbb3bfab6f4f1e0319ac87d2c4c2d532d51bdb4d3f17c9a741149d987a",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/enemies/1_0.png",
+      "foreground_pixels": 1600,
+      "regions": 77,
+      "before_colors": 1338,
+      "after_colors": 15,
+      "before_sha256": "984b7738c3a417f3f7ec3453b56460e0312801f5fd8c2bff2f513bfa1ea1e5c1",
+      "after_sha256": "5b70e1ccf4b0fc3cd349788c415f5b0fd8cb72d5c6cd29926cdc3f2c739f2086",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/enemies/1_1.png",
+      "foreground_pixels": 1599,
+      "regions": 97,
+      "before_colors": 1300,
+      "after_colors": 19,
+      "before_sha256": "04ee0df9165548a39597defda39ad6612c957de49c699548f49671b823fc1a87",
+      "after_sha256": "c5f3f98e9db2e88e3975f948b7483b7432ce4c23165aa79237ebc66f5ed629dd",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/enemies/1_2.png",
+      "foreground_pixels": 1572,
+      "regions": 75,
+      "before_colors": 1238,
+      "after_colors": 14,
+      "before_sha256": "ad1d7cfea3dfc2b824c830353337cf7f62e17d13c80108581a09e66fce1fa98d",
+      "after_sha256": "6e5fb71a784b13cccae51739fc6f319b126f90a8e4b5317d78fe40cb410c401e",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/enemies/1_3.png",
+      "foreground_pixels": 1595,
+      "regions": 81,
+      "before_colors": 1314,
+      "after_colors": 17,
+      "before_sha256": "1fc3f400169566d42b7efd828e909e6e8af623466e33da191c01e54921ad2a6a",
+      "after_sha256": "3ca4ba1e1bc16ead39c9b16a34c6e5ae72ff0cc08564ceba28530a5bc52d174e",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/enemies/2_0.png",
+      "foreground_pixels": 1596,
+      "regions": 164,
+      "before_colors": 1516,
+      "after_colors": 19,
+      "before_sha256": "1618c121945c8efeafc2e902e40a3be4bc9cd34293eeba98b598f70e07c4e72e",
+      "after_sha256": "f69f556feb1c9b129f29a84385d886d44c22c7f6e5bb9f45e0f5405407c0569e",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/enemies/2_1.png",
+      "foreground_pixels": 1704,
+      "regions": 184,
+      "before_colors": 1603,
+      "after_colors": 20,
+      "before_sha256": "2461f6765272dd5369ae756e34e88fc828e658d7f4ad9d520bc2acd48553bdaa",
+      "after_sha256": "8733884b2f67ee9185d573fa0ee462c279c28160ac85c3f332ffb83cba834a4f",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/enemies/2_2.png",
+      "foreground_pixels": 1869,
+      "regions": 202,
+      "before_colors": 1761,
+      "after_colors": 21,
+      "before_sha256": "e8665045d7a499b116a8b1e78c3b8a3081bf08ecf89ee5f0e582f497695c6eaf",
+      "after_sha256": "7a1bdd93b8a5f998a4372010c9efd3532f5a44f78e548d35109ba82a16d340fd",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/enemies/2_3.png",
+      "foreground_pixels": 1650,
+      "regions": 168,
+      "before_colors": 1559,
+      "after_colors": 22,
+      "before_sha256": "a56c466adc1edfa531bbb204bc1766ff88964019c5308d997c3ffcd633ecfc6c",
+      "after_sha256": "4a195ed1e28923f084e67756886c6472ea56d12a0675fab466cb11cdae12e617",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/enemies/3_0.png",
+      "foreground_pixels": 1000,
+      "regions": 90,
+      "before_colors": 924,
+      "after_colors": 15,
+      "before_sha256": "b986b900d7bbc45c50fa4b3672f98473b6614aa988469e353bbac27a5995974b",
+      "after_sha256": "0c5aa4cd4400da6e8735b7365adfdfa9ca2acdd6d7104a38589778d748c6ae71",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/enemies/3_1.png",
+      "foreground_pixels": 995,
+      "regions": 80,
+      "before_colors": 913,
+      "after_colors": 14,
+      "before_sha256": "731897b66f9430dc254812e4a1cb92e4ab3e5ed38407074827d6c17d4c4f83e1",
+      "after_sha256": "f8084d4943cb36144239cb4c336566842fdd1671885fd1d1ccdf2487f1fa3a40",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/enemies/3_2.png",
+      "foreground_pixels": 1114,
+      "regions": 94,
+      "before_colors": 1013,
+      "after_colors": 14,
+      "before_sha256": "f1994f130d9ff5cd8aa361606fab792db4abe402d7894202e1dd6be6d7be9de9",
+      "after_sha256": "c89c87c5d640716841bcd5728a87b8c45c3eb48ad2eb58d64d884f9a15b93ef1",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/enemies/3_3.png",
+      "foreground_pixels": 1040,
+      "regions": 93,
+      "before_colors": 935,
+      "after_colors": 13,
+      "before_sha256": "ae85ab09468124fbd5f203cd58b785635c38ba96263476bbca5d98fe22d69224",
+      "after_sha256": "7f1fa64cdca0744898b8db49615bd9592dcedb73dd255549a1360790a393a271",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/enemies/4_0.png",
+      "foreground_pixels": 4724,
+      "regions": 270,
+      "before_colors": 4150,
+      "after_colors": 21,
+      "before_sha256": "a93f5a8e1565a4b7257e5e5ec6c6a134498a1accef090682458ea52f2be35cf8",
+      "after_sha256": "580345d619edfde611ed1f219d8928217d2fec467a6844f858e5d09dd35d0e51",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/enemies/4_1.png",
+      "foreground_pixels": 4432,
+      "regions": 229,
+      "before_colors": 3864,
+      "after_colors": 20,
+      "before_sha256": "3a9f335ba2fd22fe3d7bc172894eed407047d6930ee26f6c5671f42ffa017d9e",
+      "after_sha256": "e5fe277c65dd8d80436ac7514082e134cda10befef39a0312c6f2f4c1a128623",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/enemies/4_2.png",
+      "foreground_pixels": 4580,
+      "regions": 245,
+      "before_colors": 4036,
+      "after_colors": 23,
+      "before_sha256": "e00fc2bb10f04aeabf993deb46b8ed36ae94e90b1b8f0f3eee7259596383370b",
+      "after_sha256": "1246e5f70b5ee43e8245a1f766317b5466e5ae27e8b3624107dbcd886efe66e0",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/enemies/4_3.png",
+      "foreground_pixels": 4500,
+      "regions": 265,
+      "before_colors": 4018,
+      "after_colors": 26,
+      "before_sha256": "9a28297efb9c3e15106e277486e38e1c5ce7baa3f3226f4908e9d3906a4134ec",
+      "after_sha256": "5fc8180abe3a4a9a7906ab329be2ed313fb59ce202e189c29f91f2df450d4312",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/enemy_bullet_0.png",
+      "foreground_pixels": 439,
+      "regions": 48,
+      "before_colors": 428,
+      "after_colors": 20,
+      "before_sha256": "d96e1f3df1babd6581edaceb7b4b3bc9aaaf62f508442c62942a52a9c67dd8ca",
+      "after_sha256": "df373954b30e80ecbc6d5c3a53d7340b8ebd94a603b6ae921867e2b1b614d90c",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/floor_0.png",
+      "foreground_pixels": 2575,
+      "regions": 88,
+      "before_colors": 1517,
+      "after_colors": 15,
+      "before_sha256": "f1a6a5de3e083612a80d940110f283ceef8aa6180c7782de1f8ec993a24108a7",
+      "after_sha256": "b033961722c73235663f9d6a4a888a6749d8098f186f127dff4c65452d674879",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/furniture/0_0.png",
+      "foreground_pixels": 2040,
+      "regions": 245,
+      "before_colors": 1966,
+      "after_colors": 13,
+      "before_sha256": "a418356286d35ae7588231c5e3f4d90b798d3f1bd565c270b532926f41dc39bb",
+      "after_sha256": "7e89faada813b0cfbd480775d35f8715d1721e7cb16a3f31207362edc9b801d2",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/furniture/1_0.png",
+      "foreground_pixels": 1981,
+      "regions": 363,
+      "before_colors": 1904,
+      "after_colors": 21,
+      "before_sha256": "d323a63ee3ecd35f18afa4c47c1b109eb6f9b711e777043b365f699c6ba33890",
+      "after_sha256": "d0e1d45d50b70461e89a0fed86d3afda83e9904d36a54e1fc26d5e7be59cff05",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/furniture/2_0.png",
+      "foreground_pixels": 2040,
+      "regions": 267,
+      "before_colors": 1897,
+      "after_colors": 23,
+      "before_sha256": "58a4e1b59085b74ba534a4b904e763934a3b0ad17028ec52f3ba2079501744e1",
+      "after_sha256": "9d16924a2df6229bcf31e2979bf484e110cdaa430f1c7b78217f5c84b42049ac",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/furniture/3_0.png",
+      "foreground_pixels": 2050,
+      "regions": 448,
+      "before_colors": 1982,
+      "after_colors": 25,
+      "before_sha256": "75b9a88d51eb3fe2152f5c98872c0ee5bb030e764db5f2fef39a5b2069ad31bb",
+      "after_sha256": "d8b98b10e1b62bb82c6e193e920bf825b25a6e39ffd59cfdabe0f6b9d2c3716b",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/icon_0.png",
+      "foreground_pixels": 2115,
+      "regions": 202,
+      "before_colors": 1863,
+      "after_colors": 23,
+      "before_sha256": "7c83b7a99c34b812e5c711d1a66931d34665d0e9aa8b557d133ee21361c75a37",
+      "after_sha256": "6a27d282c18c880b39eff5b69ca310a1a08ea64434001b5866bccdb4967e7146",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/items/0_0_0.png",
+      "foreground_pixels": 1683,
+      "regions": 100,
+      "before_colors": 1325,
+      "after_colors": 20,
+      "before_sha256": "ccd128d72a5de0dac653b2e2f9446e87607cf5760b83e4696e13d42edd56225f",
+      "after_sha256": "bb6be07e5dec7d75b91b66ff875f3877fb4d4c0147e572c024c9dfd9d66e014c",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/items/0_1_0.png",
+      "foreground_pixels": 1295,
+      "regions": 78,
+      "before_colors": 1204,
+      "after_colors": 18,
+      "before_sha256": "b0aa0c2d636a0db8157c88cb88f4f9582b80ca7326bb2e2f9f7837fab7beb0f2",
+      "after_sha256": "28580d055a511e0fc94f0b022d16825ac9286385a9ee9dfc2361ff3d427d558a",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/items/0_2_0.png",
+      "foreground_pixels": 1456,
+      "regions": 120,
+      "before_colors": 1328,
+      "after_colors": 13,
+      "before_sha256": "f835adc066d0e9b3ad0243ed799127de08358d31911ee40a807613dd3b64fb9d",
+      "after_sha256": "1281599f40aa58ef9bb684b374c4f62e496d1790ea379bb3e37a7821de4db01e",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/items/0_3_0.png",
+      "foreground_pixels": 1804,
+      "regions": 111,
+      "before_colors": 1625,
+      "after_colors": 20,
+      "before_sha256": "0cdb8045de94038c12aef7846b1dbd6cf8bfecf15356992417ae5f594d4e0bf9",
+      "after_sha256": "b7e49f0279178905580b04a75fdcf84dc396bdac2a984513c95f8eb04c08a839",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/items/1_0_0.png",
+      "foreground_pixels": 2076,
+      "regions": 202,
+      "before_colors": 1918,
+      "after_colors": 19,
+      "before_sha256": "552728dfb5efc3cf02b24ad8b1c63a9b93343524c5ec8cf8974809388db7bf87",
+      "after_sha256": "193f1cc06971d8988a498404bcb73e743705d9539c8509c64f09e2815e48ff0a",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/items/1_1_0.png",
+      "foreground_pixels": 1589,
+      "regions": 116,
+      "before_colors": 1396,
+      "after_colors": 18,
+      "before_sha256": "8c134700632655e1ecb483793740dd5937e2d4186486a9c5b183ebef60901e02",
+      "after_sha256": "acf5ff0fc4c424bc01f6a9a80748b3d617cfd95d6ee67d30ff51b2c203d79153",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/items/1_2_0.png",
+      "foreground_pixels": 2400,
+      "regions": 228,
+      "before_colors": 2173,
+      "after_colors": 19,
+      "before_sha256": "9bffeb9a331bcc3a2f61826195749d18cbb1ec00a5e1e05b892da1ca64193e10",
+      "after_sha256": "46e241719b6e2966efd971b39c830ef4bf7a422e497735a5fd823e57f2f3a5b6",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/items/1_3_0.png",
+      "foreground_pixels": 2087,
+      "regions": 145,
+      "before_colors": 1925,
+      "after_colors": 22,
+      "before_sha256": "4995c113d51ea3cb2d8b809de09c4c87997434c4f4eb59bafa631a363e91c551",
+      "after_sha256": "6f921e3a224123dbf3ce9a2894b395d989d23eb95681bdbaa93e58eaeba75ac3",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/items/2_0_0.png",
+      "foreground_pixels": 1803,
+      "regions": 177,
+      "before_colors": 1723,
+      "after_colors": 15,
+      "before_sha256": "535e7d50bf1531c1a8ddad490c2691ddcaba9e5575b5bc50bbeec1fee3a550da",
+      "after_sha256": "25b82ea1a8c53630f69d76d3d2440754e7ef1e434436a1974c2c21a2f9dc85c4",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/items/2_1_0.png",
+      "foreground_pixels": 2331,
+      "regions": 158,
+      "before_colors": 1934,
+      "after_colors": 18,
+      "before_sha256": "06011d6fe3f8be9c8a5ba03f31b7d664efcee7b998b492ffe8ec866e0107b9f4",
+      "after_sha256": "e47c7003a9a0ec236f3270091b7f8f219c069dacb071ab729d2771c7bcc8a27a",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/items/2_2_0.png",
+      "foreground_pixels": 1725,
+      "regions": 213,
+      "before_colors": 1591,
+      "after_colors": 13,
+      "before_sha256": "18a207359275eab5fca62ae862834662407bafef801610e14b5ee1c3a7ee00f8",
+      "after_sha256": "5852449e2933098b0a62abb0523e1b26cac32f358563e79ffaaac9d60d515696",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/items/2_3_0.png",
+      "foreground_pixels": 2390,
+      "regions": 149,
+      "before_colors": 2224,
+      "after_colors": 14,
+      "before_sha256": "6abcbdc0fe25ca482cfa622703bde5ce4da2513584de2177adf53052156f8813",
+      "after_sha256": "6f442db0d98a73b8d8db5dd89d03fb889e5d4369387f74a072aaa738c1546b17",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/items/3_0_0.png",
+      "foreground_pixels": 1508,
+      "regions": 156,
+      "before_colors": 1260,
+      "after_colors": 16,
+      "before_sha256": "a3325547602b877958fd3bfc8205af4445e6d4590b32d2e52a8c3d91a8b5fcf2",
+      "after_sha256": "bd2920622194f3204ed2bb5a5d64b12a0ccbb7d0a5ff986a2446eab3ab8f3461",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/items/3_1_0.png",
+      "foreground_pixels": 921,
+      "regions": 171,
+      "before_colors": 886,
+      "after_colors": 14,
+      "before_sha256": "6f13694ca32af08e01987ca7b4ac749b699b0f5e5647b29bc917027927187cc6",
+      "after_sha256": "bdd114648e7972d9c68fa90deaa06f78433e96636bbdec1bd877073c74dd4a5c",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/items/3_2_0.png",
+      "foreground_pixels": 1532,
+      "regions": 137,
+      "before_colors": 1427,
+      "after_colors": 15,
+      "before_sha256": "8af055bd8601e10ff57de31665572b6ae95b5b0ceaa8eaa7b2e1d1f242e650d7",
+      "after_sha256": "3343c6564c75cdb6ac92391d0e553016e627a9522b31e67c8c8d920d47de78e4",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/items/3_3_0.png",
+      "foreground_pixels": 2075,
+      "regions": 82,
+      "before_colors": 1566,
+      "after_colors": 13,
+      "before_sha256": "af17528651dcb050b55924c88b5182d61c9e2870acf1d282d1be5e645d715bc5",
+      "after_sha256": "dfbd94039a93805a9afc3f00976699afc087daeb9d47041453ef9e70afdf1243",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/items/4_0_0.png",
+      "foreground_pixels": 1235,
+      "regions": 113,
+      "before_colors": 1138,
+      "after_colors": 18,
+      "before_sha256": "2a0821d36d3cd66aa6a545145619eb9da1c097737fc187fc7b27913763151291",
+      "after_sha256": "4ca39facb7d509b8e104d92dc6d4c8f8c6126ac0536ca4251b15184eab757815",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/items/4_1_0.png",
+      "foreground_pixels": 1779,
+      "regions": 195,
+      "before_colors": 1629,
+      "after_colors": 18,
+      "before_sha256": "909604fcc0cda7af14d3e698551e7ea2ceacc4932395e1a5366b45d0ccc683c9",
+      "after_sha256": "fe65a8e74a919c4f33a8f043ba79ee3871a1c9b4a5eeca3e63add84ee540dda4",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/items/4_2_0.png",
+      "foreground_pixels": 1988,
+      "regions": 174,
+      "before_colors": 1668,
+      "after_colors": 18,
+      "before_sha256": "e70f0898e383b1f313f9533fb4e59cd0153309e5276a54020e0683a468f18363",
+      "after_sha256": "aebd239837d9919374e56a8113eedc5b2da3ecd41606e09f981cdd7b5abd9837",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/items/4_3_0.png",
+      "foreground_pixels": 2008,
+      "regions": 224,
+      "before_colors": 1884,
+      "after_colors": 22,
+      "before_sha256": "61882adbe5aa9a7c36b09fe934f3e159581d2cd572999c301a23edd902c5bbb3",
+      "after_sha256": "48dea879047f56de28dbdb69549d659e87a7c224866fc3f9a800f6a23c7e2890",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/items/5_0_0.png",
+      "foreground_pixels": 2247,
+      "regions": 306,
+      "before_colors": 2030,
+      "after_colors": 21,
+      "before_sha256": "87021cb895d7c1d9ba2b2b96d2a7cdc2371e4a1ecbca83a046bc536b58bea142",
+      "after_sha256": "464f81315e224527177b61d94afc1f559b4f46b193ece16c669adfca6a05528d",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/items/5_1_0.png",
+      "foreground_pixels": 2103,
+      "regions": 181,
+      "before_colors": 1860,
+      "after_colors": 19,
+      "before_sha256": "9df5d2c1a3f4c33e679746f067f39b0ee88233e1a22b2ad5091aa410ecd4b743",
+      "after_sha256": "0a897977a0c31614d9f8f02717e6192cafecf4834fbceca17d9273aa7e56b92d",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/items/5_2_0.png",
+      "foreground_pixels": 1650,
+      "regions": 141,
+      "before_colors": 1512,
+      "after_colors": 20,
+      "before_sha256": "2298b7ca2287a27b2c9c77cf249dc29d7aac1acccbf0b08cab699bbfb571b8ef",
+      "after_sha256": "b64eab21f4ec285a91349cf2884fb9ae79fefa4124dc593e6c63d92d1846feb6",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/items/5_3_0.png",
+      "foreground_pixels": 1350,
+      "regions": 194,
+      "before_colors": 1297,
+      "after_colors": 24,
+      "before_sha256": "29971d30f5c19e7bdcb2d48715340e24bfbdd9f73c5d830c8dae849455218e0a",
+      "after_sha256": "4373b59bc319195d4da1a57c2315f3375fc630ef4b4a58bc49bb7a175c87f894",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/materials/alloy_0.png",
+      "foreground_pixels": 1313,
+      "regions": 154,
+      "before_colors": 1215,
+      "after_colors": 13,
+      "before_sha256": "43780abef74fa8985d4e94c613b6f846ee925be8de149ef23dff5cfd194c448a",
+      "after_sha256": "b5ed397063a433ed932922f901442f58a685c576d988d553a850cd78737b7946",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/materials/archive_0.png",
+      "foreground_pixels": 1910,
+      "regions": 307,
+      "before_colors": 1700,
+      "after_colors": 18,
+      "before_sha256": "60462b49c68fdc2f55163b119aba59bc17c5e091cea3cc42f8bc95aa947fadb0",
+      "after_sha256": "912ab54688e0e3ce4b6f1f532d7fec47a13a6c58a96a1cfe6091b61fd1d29fda",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/materials/bearing_0.png",
+      "foreground_pixels": 2014,
+      "regions": 325,
+      "before_colors": 1770,
+      "after_colors": 13,
+      "before_sha256": "4475c72b1e82cc13f395bd4d3874aca53cc9e3473fe36b83ba4e1e3dbc00a7e8",
+      "after_sha256": "55ceb6c916bec26bc84f06cdb395e08106a04c15047f94453ff74301f6f40793",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/materials/culture_0.png",
+      "foreground_pixels": 1873,
+      "regions": 306,
+      "before_colors": 1657,
+      "after_colors": 20,
+      "before_sha256": "fbf9b8c258401884004dd064cb02931802c090b66024e679f1ae4fc324438a0f",
+      "after_sha256": "d5b4cfd1136a7172328537a66c51812ca43dc378bc3be91afe75c463b350ef04",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/materials/seeds_0.png",
+      "foreground_pixels": 2058,
+      "regions": 278,
+      "before_colors": 1835,
+      "after_colors": 15,
+      "before_sha256": "29c5b5691f694cd0994f085ece27a58bbaed06ce61ebe4215f5660f46a08b24c",
+      "after_sha256": "62c0a4fb0a1a75cf99d22fc9c31435353da7fe8c34cb298b4d7b43d7da78a862",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/materials/valve_0.png",
+      "foreground_pixels": 1658,
+      "regions": 348,
+      "before_colors": 1546,
+      "after_colors": 17,
+      "before_sha256": "cdd30e271657ca77c3d4d645e3850e9a4477e0d2a9cfb198cf7ae3564f7d0f75",
+      "after_sha256": "53f87c73ad744b74d12af441759bbb3ffa18c12cf78ffc722758605e0d8ae673",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/materials/wafer_0.png",
+      "foreground_pixels": 1775,
+      "regions": 305,
+      "before_colors": 1576,
+      "after_colors": 23,
+      "before_sha256": "e85ca4bcb39fab8083e201942ab20538d43ba6dd8ccb18d01f72a9c2eaa1e4ce",
+      "after_sha256": "fa8dfb6a79451889c17aa11281f5d9d6711f5508ebc2122d2e17eba9620af02b",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/materials/watch_0.png",
+      "foreground_pixels": 1418,
+      "regions": 473,
+      "before_colors": 1297,
+      "after_colors": 18,
+      "before_sha256": "ea86d93a05b644684c6cb5c76c3d2e37d44f4fd62c5037cb9aabfc1c212414fc",
+      "after_sha256": "16f084ad9c2911ec5aedc72750fbd4d231fe052ceb1d096955373c318f69dca2",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/player/0_0.png",
+      "foreground_pixels": 1354,
+      "regions": 99,
+      "before_colors": 1239,
+      "after_colors": 22,
+      "before_sha256": "6121c8e21e1c5d079098724d62a21a0828254ae1a120891881388244a588cbeb",
+      "after_sha256": "24284e3f8ed8a02e1544667fbd5598ac7fffcd36f3dbe5e4cd53922cb701da0e",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/player/0_1.png",
+      "foreground_pixels": 1395,
+      "regions": 107,
+      "before_colors": 1250,
+      "after_colors": 22,
+      "before_sha256": "a436655cf5d52a705a20c11f0243b92e1c0d14eab2b5f9a8f679cbe73432a211",
+      "after_sha256": "a26a3a6d2173b5d89d679937b21a571945d2489bf0fb886bb5275784f6afeafd",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/player/0_2.png",
+      "foreground_pixels": 1404,
+      "regions": 110,
+      "before_colors": 1274,
+      "after_colors": 22,
+      "before_sha256": "249cc549bea2c96f9403d378830158fbd026d68b23bb548a284f0f2c305fa517",
+      "after_sha256": "53cf001fc34b291043d4df4a01b4ce289c05a1b14dc024ce4d9d4bd8ecbc6d13",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/player/0_3.png",
+      "foreground_pixels": 1385,
+      "regions": 97,
+      "before_colors": 1245,
+      "after_colors": 22,
+      "before_sha256": "e8b7f545600d8cd6957de4b64d5d6793d0b354ffed8484f0335d3c3b0bd25a64",
+      "after_sha256": "689104620d1078fbd085143c8e7bca0cc598848dc519da4b38a0cc0836a799a6",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/player/1_0.png",
+      "foreground_pixels": 1320,
+      "regions": 87,
+      "before_colors": 1186,
+      "after_colors": 20,
+      "before_sha256": "5bd22beb4e8afcbba1c01ad9bbaba9324ca0a5b3ea5bb24738d5d0516c6357ea",
+      "after_sha256": "9273d0fd437a390645fdfd80b9caa0ba17876b5988e27a94511b6de8668060b5",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/player/1_1.png",
+      "foreground_pixels": 1361,
+      "regions": 101,
+      "before_colors": 1240,
+      "after_colors": 19,
+      "before_sha256": "e7082768cd867bd2159298b1abef76ffc9d7e9fe84f6b358e54dd7d58534e1a2",
+      "after_sha256": "c08dc13803eff41a942107b8526f54e0fa6a08b5c8e6cb703c4cf581f609824b",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/player/1_2.png",
+      "foreground_pixels": 1389,
+      "regions": 110,
+      "before_colors": 1258,
+      "after_colors": 22,
+      "before_sha256": "64b0cca2b6c11eaf2ed6a2feb63cc9e79f2e09f4abd321db92313727c944ad21",
+      "after_sha256": "f7a684a4092e991b7f37e9c93f07345cad66642c1afeb0163dd87c2461b9fdbd",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/player/1_3.png",
+      "foreground_pixels": 1356,
+      "regions": 109,
+      "before_colors": 1236,
+      "after_colors": 21,
+      "before_sha256": "93eb70ac376dc936386daf3f51385073922fa234332cc463526a0a958277a017",
+      "after_sha256": "cc1f9030e5c8cdb591143e8b5819dd8dd47b604372c399680f74d5771532b41f",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/player/2_0.png",
+      "foreground_pixels": 1426,
+      "regions": 113,
+      "before_colors": 1259,
+      "after_colors": 19,
+      "before_sha256": "307738a20373692c41087fa7b59f091cbeb3c745d3b8793b3fc71437b7f1f195",
+      "after_sha256": "2d6e3cfb6d977d648c7209fb192c1ac587f74eaca031597bdddbb573b1a6d093",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/player/2_1.png",
+      "foreground_pixels": 1366,
+      "regions": 122,
+      "before_colors": 1236,
+      "after_colors": 20,
+      "before_sha256": "99acdabf929075cc75585687f8931f0fed550e46a0693798e5d48b159ceb985f",
+      "after_sha256": "9cd06cd0bb30c521b1fbead2c784402bfa9dc35b40be04015c06d737729373dc",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/player/2_2.png",
+      "foreground_pixels": 1429,
+      "regions": 123,
+      "before_colors": 1277,
+      "after_colors": 21,
+      "before_sha256": "db873adbc5256837452c52e0444988d5ff6434da4a2dbe3027e545f080f34ec2",
+      "after_sha256": "1218018a4a99282b4a2066328564f62c6b238effdd33e2bdfa49af5bdf185305",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/player/2_3.png",
+      "foreground_pixels": 1364,
+      "regions": 112,
+      "before_colors": 1228,
+      "after_colors": 18,
+      "before_sha256": "5fa5370214687438797c566ef87a7af55b4daa9996a8abdfb07b6ff283157770",
+      "after_sha256": "f0ac1a5a2616921860227a56af071b573218ad4d27f9eaddf07cac5565e98e06",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/player/3_0.png",
+      "foreground_pixels": 1379,
+      "regions": 103,
+      "before_colors": 1223,
+      "after_colors": 17,
+      "before_sha256": "3ec79b963a47623bfbb9e187fa7b4bbc1821808a379ebab722741a0824772730",
+      "after_sha256": "38e86be830f058c9ed1bf429f39890d21cd551938d781ba0e877b05a8f3907c0",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/player/3_1.png",
+      "foreground_pixels": 1328,
+      "regions": 99,
+      "before_colors": 1170,
+      "after_colors": 17,
+      "before_sha256": "bd9394644bbfd03fac72a78b7e0814c1e32d0b4695ab5710ca87fd4f7cdf46bd",
+      "after_sha256": "6c5cbdded1a9d74b36108cace4c4901364839b1c35c0656f2c1f853b6fbb90ed",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/player/3_2.png",
+      "foreground_pixels": 1396,
+      "regions": 93,
+      "before_colors": 1214,
+      "after_colors": 18,
+      "before_sha256": "3cbf5e95606558855e6a49f9bf6b34aded523ba236b3cab251749f071bcfe25e",
+      "after_sha256": "0ed17c96df102e4cbfd6d229b7da927463878064dbf75f973eeef90f63ece2f0",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/player/3_3.png",
+      "foreground_pixels": 1402,
+      "regions": 114,
+      "before_colors": 1208,
+      "after_colors": 17,
+      "before_sha256": "6b33bd0637e7e7134b9095b7fb92c2ebee4072bb56316c5b092f72d10688f014",
+      "after_sha256": "12bdb07d6088ae22c6d24d188676d1f4398f1be5428e6d2c57c5073f082907f3",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/scrap_0.png",
+      "foreground_pixels": 1735,
+      "regions": 266,
+      "before_colors": 1649,
+      "after_colors": 19,
+      "before_sha256": "e1ccff73bc1bf8062da1abf31dcdc7ecfb1b1992fae92b084ba26c8f97925ad5",
+      "after_sha256": "98f74008838f01447ae17d7fc0be941d4e3fbeb2a51e08f748c906f057f49d5f",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/station_0.png",
+      "foreground_pixels": 2307,
+      "regions": 212,
+      "before_colors": 2119,
+      "after_colors": 23,
+      "before_sha256": "f24576c2934d812cc82cc5c1ae6d08b19f469522448f267a3054fda89aa6a938",
+      "after_sha256": "f12dba1ab66fe9f2074a00189106504ce71a0ba831179fb493c782815f366624",
+      "mask_preserved": true,
+      "regions_flat": true
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "palette_size": 32,
+  "neighbor_delta_e": 11.5,
+  "component_lab_span": [22.0, 18.0, 18.0],
+  "iterations": 8,
+  "alpha_mode": "binary_preserve_nonzero_mask_after_import",
+  "dither": false,
+  "representative": "channel_weighted_median",
+  "note": "First merge connected similar-color regions with bounded Lab range, fill with regional RGB medians, then group similar region colors into a shared median palette. No interpolation or dithering. Original generated atlases are untouched."
+}

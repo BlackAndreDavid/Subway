@@ -1,0 +1,3 @@
+SUBWAY runtime palette v1. Append to the shared style prompt for all future image generation.
+Use hard flat color regions, no gradients, no near-color noise, no antialiasing or dithering. Match these established colors as closely as possible; deterministic region-median postprocessing will enforce the runtime palette.
+#12181f, #323439, #42444c, #54453e, #505159, #6f5649, #835645, #686569, #7e616f, #587248, #537773, #a6614b, #916e5a, #9e713e, #af7056, #927b8e, #77879d, #679384, #888b8b, #869653, #b6848c, #bf8846, #ca926e, #aea298, #d89e4d, #adb556, #ccb69e, #9cc3b1, #ecbc79, #cad0ca, #ebdccb, #f7faf4

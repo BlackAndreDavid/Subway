@@ -8,7 +8,10 @@ export XDG_CONFIG_HOME="$subway_test_dir/config"
 export XDG_CACHE_HOME="$subway_test_dir/cache"
 export SUBWAY_TEST_MODE=1
 subway_godot_bin="${GODOT_BIN:-godot}"
+python3 -c 'import PIL'  # Install requirements-dev.txt first if missing.
 "$subway_godot_bin" --headless --path . --script tools/import_art.gd
+python3 tools/simplify_art.py --self-test
+python3 tools/simplify_art.py
 "$subway_godot_bin" --headless --editor --import --quit 2>&1 | tee "$subway_test_dir/import.log"
 if grep -E 'SCRIPT ERROR|Parse Error' "$subway_test_dir/import.log"; then exit 1; fi
 "$subway_godot_bin" --headless --path . --script tests/test_runner.gd 2>&1 | tee "$subway_test_dir/test.log"

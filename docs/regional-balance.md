@@ -53,6 +53,7 @@
 python3 tools/apply_balance.py --data-only
 python3 tools/prepare_art_manifest.py
 godot --headless --path . --script tools/import_art.gd
+python3 tools/simplify_art.py
 bash tools/test.sh
 ```
 

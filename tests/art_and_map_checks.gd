@@ -41,6 +41,11 @@ static func run(check: Callable) -> void:
 	var positions={}
 	for index in range(Data.STATIONS.size()):
 		var station=Data.STATIONS[index]
+		for line_id in station.lines:
+			var found=false
+			for line in Data.LINES:
+				if line.id==line_id and line.stations.has(index):found=true
+			check.call(found,"station membership matches actual ordered line path")
 		check.call(not positions.has(station.pos),"non-overlapping station centers")
 		positions[station.pos]=true
 		check.call(station.pos.x>=0 and station.pos.x<Data.CANVAS.x and station.pos.y<Data.CANVAS.y,"station inside map")

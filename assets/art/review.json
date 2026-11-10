@@ -51,5 +51,23 @@
         "sha256": "4fb27d753b02cb5b87e74636aaf1f04defd5bd72cdf675982f367578929f9f60"
       }
     ]
+  },
+  "simplification": {
+    "algorithm": "connected region medians plus shared weighted-median palette",
+    "palette": "palette.json",
+    "configuration": "simplification.json",
+    "report": "simplification_report.json",
+    "before_colors_per_sprite": [
+      428,
+      4150
+    ],
+    "after_colors_per_sprite": [
+      11,
+      26
+    ],
+    "palette_size": 32,
+    "source_files_unchanged": true,
+    "silhouettes_unchanged": true,
+    "native_review": "passed: combat, base, shop and all eight regional material icons inspected in native Godot captures"
   }
 }

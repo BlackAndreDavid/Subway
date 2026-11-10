@@ -9,6 +9,8 @@ d=json.loads((root/'assets/maps/shanghai_metro.json').read_text())
 # Correct ordered selected-stop topology, intentionally omit intermediate minor stops.
 for line in d['lines']:
  if line['id']=='7':line['stations']=[i for i in line['stations'] if d['stations'][i]['name']!='龙华']
+for index,station in enumerate(d['stations']):
+ station['lines']=list(dict.fromkeys(line['id'] for line in d['lines'] if index in line['stations']))
 (root/'assets/maps/shanghai_metro.json').write_text(json.dumps(d,ensure_ascii=False,indent=2)+'\n')
 def gd(value):
  if isinstance(value,dict):return '{'+','.join(json.dumps(k,ensure_ascii=False)+':'+gd(v) for k,v in value.items())+'}'

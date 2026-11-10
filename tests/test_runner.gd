@@ -18,6 +18,7 @@ func _initialize() -> void:
 func run_tests() -> void:
 	game=root.get_node("Game")
 	preload("res://tests/art_and_map_checks.gd").run(check)
+	preload("res://tests/palette_checks.gd").run(check)
 	preload("res://tests/regional_loot_checks.gd").run(check)
 	for seed_value in range(1000):
 		var data=Generator.generate(seed_value)

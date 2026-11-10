@@ -29,6 +29,7 @@
 ```sh
 python3 tools/prepare_art_manifest.py
 godot --headless --path . --script tools/import_art.gd
+python3 tools/simplify_art.py
 godot --headless --editor --import --quit
 ```
 
@@ -57,3 +58,7 @@ bash tools/test.sh
 在基础素材通过原生检查并提交后，数值阶段新增八种区域专属材料。`materials_prompt_a.txt`、`materials_prompt_b.txt` 和对应候选 PNG 保留完整记录；逐张视觉检查后选择 A（轮廓清楚、无额外文字、与基础图集金属色一致），选图保存在 `sources/region_materials_v1.png`。导入器按每条资源的 source/grid 切片，不再假定所有图集布局相同。
 
 新增图标实际显示见 `docs/regional_materials.png`。这一扩充没有改动 `Art.texture(id, frame)` 调用接口。
+
+## 最终颜色精简
+
+全部 80 张运行 PNG 另经过区域中位数平涂与共享 32 色色表处理，二值透明度、轮廓和脚底位置不变。原始候选与源图不被覆盖。未来提示词追加 `prompts/color_lock.txt`，导入后执行 `tools/simplify_art.py`。算法、参数、色卡与前后对比见 [颜色精简说明](color-simplification.md)。

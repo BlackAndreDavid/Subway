@@ -14,6 +14,11 @@ jobs:
       XDG_CACHE_HOME: ${{ github.workspace }}/work/cache
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install art preparation dependency
+        run: python3 -m pip install -r requirements-dev.txt
       - name: Download official Godot
         run: |
           mkdir -p work/bin
@@ -27,6 +32,8 @@ jobs:
           python3 tools/prepare_art_manifest.py
           python3 tools/generate_audio.py
           work/bin/godot --headless --path . --script tools/import_art.gd
+          python3 tools/simplify_art.py --self-test
+          python3 tools/simplify_art.py
       - name: Import and check scripts
         run: |
           work/bin/godot --headless --editor --import --quit 2>&1 | tee work/import.log

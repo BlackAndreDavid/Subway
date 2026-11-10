@@ -70,6 +70,8 @@ godot --path .
 
 `assets/art/` 保留提示词、两张候选、编辑后的源图、稳定素材 ID 清单与 80 张运行 PNG（基础素材 72 张、区域材料 8 张）。角色四向和五类敌人均有四帧动画。`Art.texture(id, frame)` 将美术文件与游戏逻辑分离；替换 PNG、改帧数或重排图集不必改战斗接口。音效仍为原有的四份合成 WAV。
 
+全部运行素材已做区域中值平涂：单张由 428–4150 种近似色减少至 11–26 色，共用 32 色色表，保留原图、透明轮廓和动画锚点。色号与参数可查，详见 [精简算法及前后对比](docs/color-simplification.md)。
+
 完整流程、候选选择理由、再导入命令见 [素材工作流](docs/art-workflow.md)。CI 只切片已审核源图并测试，不重新调用文生图服务。
 
 主地图依据真实上海地铁站序与官方客流资料筛选，原创重绘成 PNG；包含 1–18 号线、浦江线、磁浮线和市域机场线。来源与选站理由保存在 [来源记录](assets/maps/sources.json)，完整带站名参考图为 [上海主地图](assets/maps/shanghai_metro_reference.png)。保留原存档站点索引，旧「虹桥枢纽」「临港避难所」分别对应虹桥火车站、滴水湖。
@@ -86,6 +88,10 @@ godot --path .
 
 ```sh
 # Linux/macOS：脚本会创建隔离的临时用户数据，不触碰正式存档
+# 首次准备开发环境（游戏运行不需要 Python）
+python3 -m venv .venv
+. .venv/bin/activate
+python3 -m pip install -r requirements-dev.txt
 bash tools/test.sh
 ```
 
