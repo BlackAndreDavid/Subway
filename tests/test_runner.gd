@@ -18,6 +18,7 @@ func _initialize() -> void:
 func run_tests() -> void:
 	game=root.get_node("Game")
 	preload("res://tests/art_and_map_checks.gd").run(check)
+	preload("res://tests/regional_loot_checks.gd").run(check)
 	for seed_value in range(1000):
 		var data=Generator.generate(seed_value)
 		var rooms: Array=data.rooms
@@ -63,8 +64,8 @@ func run_tests() -> void:
 	bad.stash=["999_0"]
 	check(not game.validate_save(bad),"reject unknown items")
 	var before=int(game.state.power)
-	game.travel(2)
-	check(game.state.station==2 and game.state.power==before-12,"travel cost")
+	game.travel(1)
+	check(game.state.station==1 and game.state.power==before-6,"adjacent selected-station route energy")
 	game.state.water=0
 	before=int(game.state.day)
 	game.next_day()
@@ -74,6 +75,7 @@ func run_tests() -> void:
 	game.state.power=500
 	game.next_day()
 	check(game.state.day==before+1 and game.state.water==18 and game.state.food==18 and game.state.power==495,"daily costs")
+	game.state.station=0
 	var old_price=game.price("4_0",true)
 	game.state.station=5
 	check(game.price("4_0",true)>old_price,"station prices")

@@ -1,5 +1,6 @@
 extends Control
 const Art=preload("res://scripts/art_library.gd")
+const Loot=preload("res://scripts/loot_rules.gd")
 const Metro=preload("res://scripts/metro.gd")
 const MapData=preload("res://scripts/metro_data.gd")
 const C=preload("res://scripts/catalog.gd")
@@ -281,6 +282,10 @@ func station_detail() -> void:
 	var s=C.STATIONS[map_selection]
 	section(side,s.name,Metro.lines_for(map_selection))
 	side.add_child(wrapped("选站依据："+s.selection_reason,14))
+	var exclusive_names: Array=[]
+	for id in Loot.exclusive_ids(map_selection):exclusive_names.append(C.item(id).name)
+	side.add_child(wrapped("区域：%s\n丰富度 ×%.2f\n专属：%s" % [s.zone_name,Loot.profile(map_selection).richness,"无" if exclusive_names.is_empty() else " / ".join(exclusive_names)],15))
+	side.add_child(wrapped("经济参考：%s（2025）\n区域数据仅作游戏校准，非单站统计。" % s.economy_area,12))
 	side.add_child(wrapped("地下客流（游戏） %d 人/日\n辐射度（游戏） %d / 5\n产出物资   %s\n价格指数   × %.2f\n地表防护   %d 秒" % [s.traffic,s.radiation,s.yield,s.factor,360-int(s.radiation)*20],15))
 	side.add_child(wrapped("路线："+Metro.route_names(int(Game.state.station),map_selection),13))
 	button("前往   /   %d 电量" % Game.travel_cost(map_selection),func():say(Game.travel(map_selection));show_map(),side,map_selection==int(Game.state.station))
@@ -365,7 +370,7 @@ func refresh_combat() -> void:
 			var index=i
 			var loot_entry=r.loot[i]
 			var id: String=loot_entry.id if loot_entry is Dictionary else loot_entry
-			var title={"power":"电量补给 +5","credits":"电卡余额 +8","chest":"随机宝箱 / 点击开启"}.get(id,"")
+			var title={"power":"电量补给 +%d" % Loot.pickup_value(int(Game.state.station),"power"),"credits":"电卡余额 +%d" % Loot.pickup_value(int(Game.state.station),"credits"),"chest":"随机宝箱 / 点击开启"}.get(id,"")
 			if title=="":title=C.item(id).name
 			button("拾取   "+title,func():battle.collect(index),side)
 		if r.kind=="boss" and r.cleared:

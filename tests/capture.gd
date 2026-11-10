@@ -23,6 +23,13 @@ func capture() -> void:
 	await shot("base")
 	ui.show_map()
 	await shot("map")
+	for index in range(ui.C.STATIONS.size()):
+		if ui.C.STATIONS[index].name=="张江高科":
+			ui.map_selection=index
+			ui.map_view.center_station(index)
+			ui.station_detail()
+			break
+	await shot("map_zhangjiang")
 	ui.show_preparation()
 	await shot("prepare")
 	ui.show_shop()
@@ -32,5 +39,27 @@ func capture() -> void:
 	ui.battle.goto_room(1)
 	await create_timer(0.5).timeout
 	await shot("combat")
-	print("Captured six native Godot screens")
+	ui.clear_page("art_gallery")
+	var gallery=GridContainer.new()
+	gallery.columns=4
+	gallery.add_theme_constant_override("h_separation",35)
+	gallery.add_theme_constant_override("v_separation",25)
+	ui.body.add_child(gallery)
+	var material_data=load("res://scripts/regional_data.gd")
+	var catalog=load("res://scripts/catalog.gd")
+	for id in material_data.MATERIALS:
+		var entry=catalog.item(id)
+		var tile=VBoxContainer.new()
+		tile.custom_minimum_size.x=280
+		gallery.add_child(tile)
+		var icon=TextureRect.new()
+		icon.texture=load(entry.icon)
+		icon.custom_minimum_size=Vector2(144,144)
+		icon.expand_mode=TextureRect.EXPAND_IGNORE_SIZE
+		icon.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		tile.add_child(icon)
+		tile.add_child(ui.label(entry.name,20))
+		tile.add_child(ui.wrapped(entry.desc,15))
+	await shot("regional_materials")
+	print("Captured native Godot screens and material gallery")
 	quit()

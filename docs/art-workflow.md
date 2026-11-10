@@ -10,7 +10,7 @@
 
 `assets/art/prompts/atlas_description.txt` 描述全部物品和动画组；`assets/art/manifest.json` 保存稳定 ID、语义描述、行列、帧数、锚点、尺寸、帧率和输出路径。`tools/prepare_art_manifest.py` 维护该表并生成 Godot 的资源清单。
 
-四向角色各四帧，四种小怪与 Boss 各四帧。商品、双方子弹、宝箱、家具、车头、徽记、地板与合金各有独立槽位。总计 45 个逻辑资源、72 个运行 PNG 文件。
+四向角色各四帧，四种小怪与 Boss 各四帧。商品、双方子弹、宝箱、家具、车头、徽记、地板与合金各有独立槽位。基础图集为 45 个逻辑资源、72 个运行 PNG 文件。后续区域材料沿用同一流程增加 8 个逻辑资源，当前合计 53 个逻辑资源、80 个运行 PNG。
 
 ## 2. 文生图产生 2–3 个候选
 
@@ -36,7 +36,7 @@ godot --headless --editor --import --quit
 
 ## 4. 验证
 
-`tests/art_and_map_checks.gd` 检查 72 张 PNG 的导入、尺寸、透明边距、非空轮廓、帧独立性、脚底基线、动画计时和唯一文件映射；原流程测试验证移动、射击、主动道具、药物、背包及房间切换仍然可用。
+`tests/art_and_map_checks.gd` 检查全部 80 张 PNG 的导入、尺寸、透明边距、非空轮廓、帧独立性、脚底基线、动画计时和唯一文件映射；原流程测试验证移动、射击、主动道具、药物、背包及房间切换仍然可用。
 
 ```sh
 bash tools/test.sh
@@ -51,3 +51,9 @@ bash tools/test.sh
 `tools/build_metro.py` 生成 PNG 与 Godot 常量表（重绘 PNG 需 Pillow，仅为开发依赖）。运行时支持筛线、选站、滚轮缩放、右键拖动、路径高亮和重置视图；原始小站被折叠，坐标为示意布局，并非导航比例尺。
 
 客流、辐射、价格与产出仍是游戏值。区域经济与掉落的后续工作单独跟踪在 `docs/tasks/balance-and-regions.md`，不与素材验收混为一项。
+
+## 区域材料扩充
+
+在基础素材通过原生检查并提交后，数值阶段新增八种区域专属材料。`materials_prompt_a.txt`、`materials_prompt_b.txt` 和对应候选 PNG 保留完整记录；逐张视觉检查后选择 A（轮廓清楚、无额外文字、与基础图集金属色一致），选图保存在 `sources/region_materials_v1.png`。导入器按每条资源的 source/grid 切片，不再假定所有图集布局相同。
+
+新增图标实际显示见 `docs/regional_materials.png`。这一扩充没有改动 `Art.texture(id, frame)` 调用接口。

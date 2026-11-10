@@ -8,19 +8,28 @@ func _initialize() -> void:
 		push_error("Missing reviewed atlas")
 		quit(1)
 		return
+	var atlas_cache={"subway_atlas_v1.png":atlas}
 	var total=0
 	for key in manifest.entries:
 		var entry=manifest.entries[key]
+		var source: String=entry.source
+		if not atlas_cache.has(source):atlas_cache[source]=Image.load_from_file("res://assets/art/sources/"+source)
+		atlas=atlas_cache[source]
+		if atlas==null:
+			push_error("Missing reviewed source: "+source)
+			quit(1)
+			return
+		var grid: Array=entry.get("grid",[8,9])
 		var frames: Array[Image]=[]
 		var bounds: Array[Rect2i]=[]
 		var extent=Vector2i.ZERO
 		for index in range(int(entry.frames)):
 			var col=int(entry.column)+index
 			var row=int(entry.row)
-			var x=roundi(float(col)*atlas.get_width()/8)
-			var y=roundi(float(row)*atlas.get_height()/9)
-			var right=roundi(float(col+1)*atlas.get_width()/8)
-			var bottom=roundi(float(row+1)*atlas.get_height()/9)
+			var x=roundi(float(col)*atlas.get_width()/float(grid[0]))
+			var y=roundi(float(row)*atlas.get_height()/float(grid[1]))
+			var right=roundi(float(col+1)*atlas.get_width()/float(grid[0]))
+			var bottom=roundi(float(row+1)*atlas.get_height()/float(grid[1]))
 			var cell=atlas.get_region(Rect2i(x,y,right-x,bottom-y))
 			for cy in range(cell.get_height()):
 				for cx in range(cell.get_width()):

@@ -1,4 +1,5 @@
 extends Node
+const Metro=preload("res://scripts/metro.gd")
 const Catalog = preload("res://scripts/catalog.gd")
 const FloorGenerator = preload("res://scripts/floor_generator.gd")
 const SAVE_VERSION = 1
@@ -48,7 +49,7 @@ func validate_save(data: Dictionary) -> bool:
 	if data.day<1 or data.station<0 or data.station>=Catalog.STATIONS.size(): return false
 	if data.water<0 or data.food<0 or data.power<0: return false
 	if not data.stash is Array or not data.furniture is Array or not data.market_stock is Dictionary: return false
-	var valid = Catalog.all_ids()+["scrap"]
+	var valid = Catalog.valid_ids()
 	for id in data.stash:
 		if not id is String or not valid.has(id): return false
 	for furniture in data.furniture:
@@ -101,6 +102,7 @@ func next_day() -> String:
 	return "进入第 %d 天。基地已保存。" % state.day
 
 func travel(index: int) -> String:
+	if index<0 or index>=Catalog.STATIONS.size():return "无效站点。"
 	var cost = travel_cost(index)
 	if index==state.station: return "已经位于该站点。"
 	if state.power<cost: return "账户电量不足。"
@@ -110,7 +112,8 @@ func travel(index: int) -> String:
 	return "抵达%s，消耗 %d 电量。" % [Catalog.STATIONS[index].name,cost]
 
 func travel_cost(index: int) -> int:
-	return 6+absi(index-int(state.station))*3
+	var path=Metro.route(int(state.station),index)
+	return 0 if path.size()<=1 else 4+2*(path.size()-1)
 
 func price(id: String,buy: bool) -> int:
 	var item = Catalog.item(id)

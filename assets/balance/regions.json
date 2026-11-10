@@ -1,0 +1,760 @@
+{
+  "version": 1,
+  "zones": {
+    "residential": {
+      "name": "居民生活区",
+      "weights": [
+        4,
+        1,
+        4,
+        2,
+        0.6,
+        0.6
+      ],
+      "exclusive": [],
+      "industry_weight": 0.2,
+      "radiation_bias": -1,
+      "yield": "水 / 食物 / 日用药物"
+    },
+    "commercial": {
+      "name": "商业中心",
+      "weights": [
+        2,
+        1,
+        4,
+        3,
+        1,
+        1
+      ],
+      "exclusive": [
+        "mat_watch"
+      ],
+      "industry_weight": 0.2,
+      "radiation_bias": 0,
+      "yield": "食品 / 药物 / 古董怀表"
+    },
+    "industrial": {
+      "name": "工业制造区",
+      "weights": [
+        0.5,
+        4,
+        0.5,
+        1,
+        3,
+        4
+      ],
+      "exclusive": [
+        "mat_alloy"
+      ],
+      "industry_weight": 0.9,
+      "radiation_bias": 1,
+      "yield": "电池 / 武器 / 模块 / 特种合金"
+    },
+    "research": {
+      "name": "电子科创区",
+      "weights": [
+        0.5,
+        3,
+        0.5,
+        2,
+        2,
+        5
+      ],
+      "exclusive": [
+        "mat_wafer"
+      ],
+      "industry_weight": 0.8,
+      "radiation_bias": 1,
+      "yield": "电芯 / 模块 / 半导体晶圆"
+    },
+    "biomedical": {
+      "name": "生物医药区",
+      "weights": [
+        1,
+        1,
+        1,
+        6,
+        1,
+        3
+      ],
+      "exclusive": [
+        "mat_culture"
+      ],
+      "industry_weight": 0.7,
+      "radiation_bias": 1,
+      "yield": "药物 / 医疗模块 / 培养试剂"
+    },
+    "hub": {
+      "name": "交通物流枢纽",
+      "weights": [
+        2,
+        4,
+        2,
+        1,
+        2,
+        2
+      ],
+      "exclusive": [
+        "mat_bearing"
+      ],
+      "industry_weight": 0.5,
+      "radiation_bias": 0,
+      "yield": "电池 / 武器 / 精密轴承"
+    },
+    "port": {
+      "name": "港区装备物流",
+      "weights": [
+        0.5,
+        4,
+        1,
+        1,
+        3,
+        4
+      ],
+      "exclusive": [
+        "mat_valve"
+      ],
+      "industry_weight": 0.85,
+      "radiation_bias": 1,
+      "yield": "电池 / 模块 / 航运阀组件"
+    },
+    "agriculture": {
+      "name": "郊野农业区",
+      "weights": [
+        5,
+        1,
+        6,
+        1,
+        0.5,
+        0.5
+      ],
+      "exclusive": [
+        "mat_seeds"
+      ],
+      "industry_weight": 0.15,
+      "radiation_bias": -1,
+      "yield": "净水 / 食物 / 耐储种子"
+    },
+    "culture": {
+      "name": "文旅文教区",
+      "weights": [
+        2,
+        1,
+        3,
+        2,
+        1,
+        1
+      ],
+      "exclusive": [
+        "mat_archive"
+      ],
+      "industry_weight": 0.15,
+      "radiation_bias": -1,
+      "yield": "食品 / 医药 / 修复档案"
+    }
+  },
+  "materials": {
+    "mat_wafer": {
+      "name": "封装半导体晶圆",
+      "price": 88,
+      "zone": "research",
+      "desc": "电子科创区专属回收物，其他区域不产出。"
+    },
+    "mat_alloy": {
+      "name": "特种合金锭",
+      "price": 65,
+      "zone": "industrial",
+      "desc": "工业制造区专属回收物，其他区域不产出。"
+    },
+    "mat_culture": {
+      "name": "密封培养试剂",
+      "price": 76,
+      "zone": "biomedical",
+      "desc": "生物医药区专属回收物，其他区域不产出。"
+    },
+    "mat_watch": {
+      "name": "古董机械怀表",
+      "price": 60,
+      "zone": "commercial",
+      "desc": "商业中心专属回收物，其他区域不产出。"
+    },
+    "mat_bearing": {
+      "name": "精密涡轮轴承",
+      "price": 69,
+      "zone": "hub",
+      "desc": "交通物流枢纽专属回收物，其他区域不产出。"
+    },
+    "mat_valve": {
+      "name": "航运阀组件",
+      "price": 74,
+      "zone": "port",
+      "desc": "港区专属回收物，其他区域不产出。"
+    },
+    "mat_seeds": {
+      "name": "耐储种子包",
+      "price": 38,
+      "zone": "agriculture",
+      "desc": "郊野农业区专属回收物，其他区域不产出。"
+    },
+    "mat_archive": {
+      "name": "修复历史档案",
+      "price": 52,
+      "zone": "culture",
+      "desc": "文旅文教区专属回收物，其他区域不产出。"
+    }
+  },
+  "station_tags": {
+    "邮电新村": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85,
+      "radiation_override": 1
+    },
+    "四平路": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "世纪大道": {
+      "zone": "commercial",
+      "economy_source": "pudong",
+      "local_factor": 1.15
+    },
+    "人民广场": {
+      "zone": "commercial",
+      "economy_source": "city_reference",
+      "local_factor": 1.15
+    },
+    "虹桥火车站": {
+      "zone": "hub",
+      "economy_source": "minhang",
+      "local_factor": 1.15
+    },
+    "滴水湖": {
+      "zone": "port",
+      "economy_source": "pudong",
+      "local_factor": 1.1
+    },
+    "莘庄": {
+      "zone": "residential",
+      "economy_source": "minhang",
+      "local_factor": 1
+    },
+    "上海南站": {
+      "zone": "hub",
+      "economy_source": "city_reference",
+      "local_factor": 1.15
+    },
+    "徐家汇": {
+      "zone": "commercial",
+      "economy_source": "city_reference",
+      "local_factor": 1.15
+    },
+    "陕西南路": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "上海火车站": {
+      "zone": "hub",
+      "economy_source": "city_reference",
+      "local_factor": 1.15
+    },
+    "呼兰路": {
+      "zone": "industrial",
+      "economy_source": "city_reference",
+      "local_factor": 1.1
+    },
+    "富锦路": {
+      "zone": "industrial",
+      "economy_source": "city_reference",
+      "local_factor": 1.1
+    },
+    "蟠祥路·国家会计学院": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "国家会展中心": {
+      "zone": "commercial",
+      "economy_source": "city_reference",
+      "local_factor": 1.15
+    },
+    "虹桥2号航站楼": {
+      "zone": "hub",
+      "economy_source": "minhang",
+      "local_factor": 1.15
+    },
+    "中山公园": {
+      "zone": "commercial",
+      "economy_source": "city_reference",
+      "local_factor": 1.15
+    },
+    "静安寺": {
+      "zone": "commercial",
+      "economy_source": "city_reference",
+      "local_factor": 1.15
+    },
+    "南京西路": {
+      "zone": "commercial",
+      "economy_source": "city_reference",
+      "local_factor": 1.15
+    },
+    "南京东路": {
+      "zone": "commercial",
+      "economy_source": "city_reference",
+      "local_factor": 1.15
+    },
+    "陆家嘴": {
+      "zone": "commercial",
+      "economy_source": "pudong",
+      "local_factor": 1.15
+    },
+    "龙阳路": {
+      "zone": "hub",
+      "economy_source": "pudong",
+      "local_factor": 1.15
+    },
+    "张江高科": {
+      "zone": "research",
+      "economy_source": "pudong",
+      "local_factor": 1.1
+    },
+    "广兰路": {
+      "zone": "research",
+      "economy_source": "pudong",
+      "local_factor": 1.1
+    },
+    "浦东1号2号航站楼": {
+      "zone": "hub",
+      "economy_source": "pudong",
+      "local_factor": 1.15
+    },
+    "江杨北路": {
+      "zone": "industrial",
+      "economy_source": "city_reference",
+      "local_factor": 1.1
+    },
+    "长江南路": {
+      "zone": "industrial",
+      "economy_source": "city_reference",
+      "local_factor": 1.1
+    },
+    "虹口足球场": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "曹杨路": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "宜山路": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "海伦路": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "大连路": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "西藏南路": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "上海体育馆": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "东川路": {
+      "zone": "industrial",
+      "economy_source": "minhang",
+      "local_factor": 1.1
+    },
+    "闵行开发区": {
+      "zone": "industrial",
+      "economy_source": "minhang",
+      "local_factor": 1.1
+    },
+    "奉贤新城": {
+      "zone": "agriculture",
+      "economy_source": "city_reference",
+      "local_factor": 1
+    },
+    "东方体育中心": {
+      "zone": "residential",
+      "economy_source": "pudong",
+      "local_factor": 1
+    },
+    "金桥路": {
+      "zone": "residential",
+      "economy_source": "pudong",
+      "local_factor": 1
+    },
+    "巨峰路": {
+      "zone": "residential",
+      "economy_source": "pudong",
+      "local_factor": 1
+    },
+    "港城路": {
+      "zone": "port",
+      "economy_source": "pudong",
+      "local_factor": 1.1
+    },
+    "美兰湖": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "顾村公园": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "上海大学": {
+      "zone": "culture",
+      "economy_source": "city_reference",
+      "local_factor": 1
+    },
+    "镇坪路": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "常熟路": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "肇嘉浜路": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "耀华路": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "花木路": {
+      "zone": "residential",
+      "economy_source": "pudong",
+      "local_factor": 1
+    },
+    "市光路": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "江浦路": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "曲阜路": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "老西门": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "沈杜公路": {
+      "zone": "residential",
+      "economy_source": "minhang",
+      "local_factor": 1
+    },
+    "上海松江站": {
+      "zone": "hub",
+      "economy_source": "songjiang",
+      "local_factor": 1.15
+    },
+    "松江大学城": {
+      "zone": "culture",
+      "economy_source": "songjiang",
+      "local_factor": 1
+    },
+    "佘山": {
+      "zone": "culture",
+      "economy_source": "songjiang",
+      "local_factor": 1
+    },
+    "泗泾": {
+      "zone": "residential",
+      "economy_source": "songjiang",
+      "local_factor": 1
+    },
+    "九亭": {
+      "zone": "residential",
+      "economy_source": "songjiang",
+      "local_factor": 1
+    },
+    "七宝": {
+      "zone": "commercial",
+      "economy_source": "minhang",
+      "local_factor": 1.15
+    },
+    "中春路": {
+      "zone": "residential",
+      "economy_source": "minhang",
+      "local_factor": 1
+    },
+    "漕河泾开发区": {
+      "zone": "research",
+      "economy_source": "city_reference",
+      "local_factor": 1
+    },
+    "桂林路": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "陆家浜路": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "金海路": {
+      "zone": "residential",
+      "economy_source": "pudong",
+      "local_factor": 1
+    },
+    "曹路": {
+      "zone": "residential",
+      "economy_source": "pudong",
+      "local_factor": 1
+    },
+    "航中路": {
+      "zone": "residential",
+      "economy_source": "minhang",
+      "local_factor": 1
+    },
+    "龙溪路": {
+      "zone": "residential",
+      "economy_source": "minhang",
+      "local_factor": 1
+    },
+    "虹桥路": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "交通大学": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "豫园": {
+      "zone": "culture",
+      "economy_source": "city_reference",
+      "local_factor": 1
+    },
+    "五角场": {
+      "zone": "commercial",
+      "economy_source": "city_reference",
+      "local_factor": 1.15
+    },
+    "新江湾城": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "基隆路": {
+      "zone": "port",
+      "economy_source": "pudong",
+      "local_factor": 1.1
+    },
+    "嘉定北": {
+      "zone": "residential",
+      "economy_source": "jiading",
+      "local_factor": 1
+    },
+    "嘉定新城": {
+      "zone": "industrial",
+      "economy_source": "jiading",
+      "local_factor": 1.1
+    },
+    "南翔": {
+      "zone": "industrial",
+      "economy_source": "jiading",
+      "local_factor": 1.1
+    },
+    "上海西站": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "江苏路": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "迪士尼": {
+      "zone": "culture",
+      "economy_source": "pudong",
+      "local_factor": 1
+    },
+    "花桥": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "安亭": {
+      "zone": "industrial",
+      "economy_source": "jiading",
+      "local_factor": 1.1
+    },
+    "上海汽车城": {
+      "zone": "industrial",
+      "economy_source": "jiading",
+      "local_factor": 1.1
+    },
+    "七莘路": {
+      "zone": "residential",
+      "economy_source": "minhang",
+      "local_factor": 1
+    },
+    "龙华": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "汉中路": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "天潼路": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "金运路": {
+      "zone": "residential",
+      "economy_source": "jiading",
+      "local_factor": 1
+    },
+    "金沙江路": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "一大会址·新天地": {
+      "zone": "culture",
+      "economy_source": "city_reference",
+      "local_factor": 1
+    },
+    "成山路": {
+      "zone": "residential",
+      "economy_source": "pudong",
+      "local_factor": 1
+    },
+    "华夏中路": {
+      "zone": "residential",
+      "economy_source": "pudong",
+      "local_factor": 1
+    },
+    "张江路": {
+      "zone": "biomedical",
+      "economy_source": "pudong",
+      "local_factor": 1.1
+    },
+    "封浜": {
+      "zone": "industrial",
+      "economy_source": "jiading",
+      "local_factor": 1.1
+    },
+    "真如": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "桂桥路": {
+      "zone": "research",
+      "economy_source": "pudong",
+      "local_factor": 1.1
+    },
+    "景洪路": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "紫竹高新区": {
+      "zone": "research",
+      "economy_source": "minhang",
+      "local_factor": 1.1
+    },
+    "惠南": {
+      "zone": "agriculture",
+      "economy_source": "pudong",
+      "local_factor": 1
+    },
+    "朱家角": {
+      "zone": "culture",
+      "economy_source": "city_reference",
+      "local_factor": 1
+    },
+    "西岑": {
+      "zone": "agriculture",
+      "economy_source": "city_reference",
+      "local_factor": 1
+    },
+    "青浦新城": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "康文路": {
+      "zone": "residential",
+      "economy_source": "city_reference",
+      "local_factor": 0.85
+    },
+    "复旦大学": {
+      "zone": "culture",
+      "economy_source": "city_reference",
+      "local_factor": 1
+    },
+    "国权路": {
+      "zone": "culture",
+      "economy_source": "city_reference",
+      "local_factor": 1
+    },
+    "御桥": {
+      "zone": "industrial",
+      "economy_source": "pudong",
+      "local_factor": 1.1
+    },
+    "周浦": {
+      "zone": "biomedical",
+      "economy_source": "pudong",
+      "local_factor": 1
+    },
+    "航头": {
+      "zone": "agriculture",
+      "economy_source": "pudong",
+      "local_factor": 1
+    },
+    "汇臻路": {
+      "zone": "residential",
+      "economy_source": "minhang",
+      "local_factor": 1
+    },
+    "上海国际旅游度假区": {
+      "zone": "residential",
+      "economy_source": "pudong",
+      "local_factor": 1
+    }
+  },
+  "tag_scope": "Gameplay archetypes, not an exhaustive land-use survey. For example biomedical is an exploration theme rather than a claim every point is a drug factory."
+}

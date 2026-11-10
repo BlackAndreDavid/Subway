@@ -1,4 +1,5 @@
 extends RefCounted
+const RegionalData=preload("res://scripts/regional_data.gd")
 const Art=preload("res://scripts/art_library.gd")
 
 const CLASSES = [
@@ -23,6 +24,9 @@ const DESCRIPTIONS = [
 const STATIONS = preload("res://scripts/metro_data.gd").STATIONS
 
 static func item(id: String) -> Dictionary:
+	if RegionalData.MATERIALS.has(id):
+		var data: Dictionary=RegionalData.MATERIALS[id]
+		return {"id":id,"name":data.name,"category":6,"price":data.price,"desc":data.desc,"icon":Art.path("materials/"+id.trim_prefix("mat_")),"uses":0}
 	if id == "scrap":
 		return {"id":id, "name":"回收合金", "category":6, "price":9, "desc":"可交易的加工材料", "icon":Art.path("scrap"), "uses":0}
 	var parts = id.split("_")
@@ -35,3 +39,6 @@ static func all_ids() -> Array:
 	for c in range(6):
 		for i in range(4): ids.append("%d_%d" % [c,i])
 	return ids
+
+static func valid_ids() -> Array:
+	return all_ids()+["scrap"]+RegionalData.MATERIALS.keys()

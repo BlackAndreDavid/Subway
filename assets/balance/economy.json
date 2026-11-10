@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "reference_year": 2025,
+  "units": "亿元人民币；统计口径及年份见每条记录",
+  "note": "区级数据用于游戏资源强度校准，不是单站产出。缺失值为null，不补造数据。无已核实区级记录的站点使用明确标注的0.35设计基准。辐射是核战世界观的虚构参数，与现实污染无关。",
+  "records": {
+    "pudong": {"area":"浦东新区","industrial":13878.95,"retail":2827.99,"scope":"区级规模以上工业总产值/社会消费品零售总额","url":"https://www.pudong.gov.cn/zwgk/tjj_gkml_ywl_tjsj_gb/2026/135/355149.html"},
+    "minhang": {"area":"闵行区","industrial":3861.18,"retail":1601.31,"scope":"区级规模以上工业总产值/社会消费品零售总额","url":"https://zwgk.shmh.gov.cn/mh-xxgk-cms/website/mh_xxgk/xxgk_tjj_ywxx/content/03630524-ceb3-4541-8504-abaa2333828b.htm"},
+    "jiading": {"area":"嘉定区","industrial":4816.4,"retail":null,"scope":"全区规模以上工业产值；不使用区属3072.1亿元替代全区口径","url":"https://www.shanghai.gov.cn/jiading/index.html"},
+    "songjiang": {"area":"松江区","industrial":3705.81,"retail":null,"scope":"规模以上工业产值；不混用全部工业4040.38亿元","url":"https://www.songjiang.gov.cn/zjsj/stepin.html"},
+    "city_reference": {"area":"全市行业参照 / 区级数值待补","industrial":null,"retail":null,"scope":"缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据","city_retail_background":16600.93,"url":"https://tjj.sh.gov.cn/sjxx/20260123/7a3baff1cdde4b73aeb17885ed6e8266.html"}
+  },
+  "calibration": {"industry_denominator":13878.95,"retail_denominator":2827.99,"missing_axis_design_baseline":0.35,"richness_radiation_step":0.65,"richness_economy_weight":0.30}
+}

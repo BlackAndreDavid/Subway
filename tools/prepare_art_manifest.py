@@ -13,6 +13,12 @@ slots=[(4,4),(5,0),(5,4),(6,0),(6,4),(7,0)]
 for category,(r,c) in enumerate(slots):
  for i,name in enumerate(names[category]):add(f'items/{category}_{i}',name,r,c+i)
 for key,name,r,c in [('bullet','友方薄荷色子弹',7,4),('enemy_bullet','敌方锈色子弹',7,5),('furniture/0','等距储物箱',7,6),('chest','回收宝箱',7,7),('station','地铁车头',8,0),('icon','回收员头盔徽记',8,1),('floor','金属地板',8,2),('scrap','回收合金',8,3),('furniture/1','工作台',8,4),('furniture/2','休息舱',8,5),('furniture/3','水培箱',8,6),('credits','电卡',8,7)]:add(key,name,r,c)
+# Regional material atlas follows the same candidate/description/PNG contract.
+materials=[("wafer","封装半导体晶圆"),("alloy","特种合金锭"),("culture","密封培养试剂"),("watch","古董机械怀表"),("bearing","精密涡轮轴承"),("valve","航运阀组件"),("seeds","耐储种子包"),("archive","修复历史档案")]
+for i,(key,name) in enumerate(materials):
+ add(f'materials/{key}',name,i//4,i%4)
+ entry=entries[f'materials/{key}']
+ entry.update(source='region_materials_v1.png',grid=[4,2],candidate_sources=['materials_a.png','materials_b.png'])
 manifest={'schema_version':1,'style_prompt':'res://assets/art/prompts/style.txt','grid':[8,9],'source_size':[1182,1330],'entries':entries}
 (root/'assets/art/manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
 # A small generated GDScript table avoids export filters and runtime file parsing.

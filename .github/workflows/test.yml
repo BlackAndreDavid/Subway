@@ -23,6 +23,7 @@ jobs:
           chmod +x work/bin/godot
       - name: Rebuild reviewed raster art and synthesized audio
         run: |
+          python3 tools/apply_balance.py --data-only
           python3 tools/prepare_art_manifest.py
           python3 tools/generate_audio.py
           work/bin/godot --headless --path . --script tools/import_art.gd

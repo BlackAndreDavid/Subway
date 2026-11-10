@@ -801,6 +801,174 @@
       "files": [
         "res://assets/art/runtime/credits_0.png"
       ]
+    },
+    "materials/wafer": {
+      "description": "封装半导体晶圆",
+      "row": 0,
+      "column": 0,
+      "frames": 1,
+      "anchor": "center",
+      "cell_size": 64,
+      "fps": 0,
+      "source": "region_materials_v1.png",
+      "candidate_sources": [
+        "materials_a.png",
+        "materials_b.png"
+      ],
+      "files": [
+        "res://assets/art/runtime/materials/wafer_0.png"
+      ],
+      "grid": [
+        4,
+        2
+      ]
+    },
+    "materials/alloy": {
+      "description": "特种合金锭",
+      "row": 0,
+      "column": 1,
+      "frames": 1,
+      "anchor": "center",
+      "cell_size": 64,
+      "fps": 0,
+      "source": "region_materials_v1.png",
+      "candidate_sources": [
+        "materials_a.png",
+        "materials_b.png"
+      ],
+      "files": [
+        "res://assets/art/runtime/materials/alloy_0.png"
+      ],
+      "grid": [
+        4,
+        2
+      ]
+    },
+    "materials/culture": {
+      "description": "密封培养试剂",
+      "row": 0,
+      "column": 2,
+      "frames": 1,
+      "anchor": "center",
+      "cell_size": 64,
+      "fps": 0,
+      "source": "region_materials_v1.png",
+      "candidate_sources": [
+        "materials_a.png",
+        "materials_b.png"
+      ],
+      "files": [
+        "res://assets/art/runtime/materials/culture_0.png"
+      ],
+      "grid": [
+        4,
+        2
+      ]
+    },
+    "materials/watch": {
+      "description": "古董机械怀表",
+      "row": 0,
+      "column": 3,
+      "frames": 1,
+      "anchor": "center",
+      "cell_size": 64,
+      "fps": 0,
+      "source": "region_materials_v1.png",
+      "candidate_sources": [
+        "materials_a.png",
+        "materials_b.png"
+      ],
+      "files": [
+        "res://assets/art/runtime/materials/watch_0.png"
+      ],
+      "grid": [
+        4,
+        2
+      ]
+    },
+    "materials/bearing": {
+      "description": "精密涡轮轴承",
+      "row": 1,
+      "column": 0,
+      "frames": 1,
+      "anchor": "center",
+      "cell_size": 64,
+      "fps": 0,
+      "source": "region_materials_v1.png",
+      "candidate_sources": [
+        "materials_a.png",
+        "materials_b.png"
+      ],
+      "files": [
+        "res://assets/art/runtime/materials/bearing_0.png"
+      ],
+      "grid": [
+        4,
+        2
+      ]
+    },
+    "materials/valve": {
+      "description": "航运阀组件",
+      "row": 1,
+      "column": 1,
+      "frames": 1,
+      "anchor": "center",
+      "cell_size": 64,
+      "fps": 0,
+      "source": "region_materials_v1.png",
+      "candidate_sources": [
+        "materials_a.png",
+        "materials_b.png"
+      ],
+      "files": [
+        "res://assets/art/runtime/materials/valve_0.png"
+      ],
+      "grid": [
+        4,
+        2
+      ]
+    },
+    "materials/seeds": {
+      "description": "耐储种子包",
+      "row": 1,
+      "column": 2,
+      "frames": 1,
+      "anchor": "center",
+      "cell_size": 64,
+      "fps": 0,
+      "source": "region_materials_v1.png",
+      "candidate_sources": [
+        "materials_a.png",
+        "materials_b.png"
+      ],
+      "files": [
+        "res://assets/art/runtime/materials/seeds_0.png"
+      ],
+      "grid": [
+        4,
+        2
+      ]
+    },
+    "materials/archive": {
+      "description": "修复历史档案",
+      "row": 1,
+      "column": 3,
+      "frames": 1,
+      "anchor": "center",
+      "cell_size": 64,
+      "fps": 0,
+      "source": "region_materials_v1.png",
+      "candidate_sources": [
+        "materials_a.png",
+        "materials_b.png"
+      ],
+      "files": [
+        "res://assets/art/runtime/materials/archive_0.png"
+      ],
+      "grid": [
+        4,
+        2
+      ]
     }
   }
 }

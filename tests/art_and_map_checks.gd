@@ -8,6 +8,7 @@ static func run(check: Callable) -> void:
 	for id in Manifest.ENTRIES:
 		var entry: Dictionary=Manifest.ENTRIES[id]
 		var hashes: Dictionary={}
+		for candidate in entry.candidate_sources:check.call(FileAccess.file_exists("res://assets/art/candidates/"+candidate),"two candidate originals retained")
 		for frame in range(int(entry.frames)):
 			var path=Art.path(id,frame)
 			check.call(path.ends_with(".png"),"raster art format")
@@ -27,7 +28,7 @@ static func run(check: Callable) -> void:
 		if int(entry.frames)>1:
 			check.call(hashes.size()==int(entry.frames),"distinct animation poses: "+id)
 			check.call(Art.frames_at_time(id,0.13)!=Art.frames_at_time(id,0.0),"animation advances: "+id)
-	check.call(files.size()==72,"all 72 sprites wired")
+	check.call(files.size()==80,"all 80 sprites wired")
 	check.call(Data.STATIONS.size()==110,"110 real major stations")
 	var line_ids={}
 	for line in Data.LINES:

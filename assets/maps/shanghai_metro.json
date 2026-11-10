@@ -19,8 +19,15 @@
       "selection_reason": "线路端点/区域代表",
       "traffic": 80,
       "radiation": 1,
-      "yield": "水 / 旧电芯",
-      "factor": 1.0
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "四平路",
@@ -34,9 +41,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 110,
-      "radiation": 2,
-      "yield": "食物 / 药物",
-      "factor": 1.12
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "世纪大道",
@@ -52,9 +66,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 160,
-      "radiation": 3,
-      "yield": "模块 / 电子材料",
-      "factor": 1.3
+      "radiation": 5,
+      "yield": "食品 / 药物 / 古董怀表",
+      "factor": 1.56,
+      "zone": "commercial",
+      "zone_name": "商业中心",
+      "economy_source": "pudong",
+      "economy_area": "浦东新区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 1,
+      "richness": 3.9
     },
     {
       "name": "人民广场",
@@ -70,8 +91,15 @@
       "selection_reason": "官方客流重点/核心商务",
       "traffic": 200,
       "radiation": 2,
-      "yield": "药物 / 武器",
-      "factor": 1.18
+      "yield": "食品 / 药物 / 古董怀表",
+      "factor": 1.1522,
+      "zone": "commercial",
+      "zone_name": "商业中心",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.4025,
+      "richness": 1.77075
     },
     {
       "name": "虹桥火车站",
@@ -86,9 +114,16 @@
       ],
       "selection_reason": "官方客流重点/核心商务",
       "traffic": 65,
-      "radiation": 4,
-      "yield": "稀有模块 / 合金",
-      "factor": 1.5
+      "radiation": 3,
+      "yield": "电池 / 武器 / 精密轴承",
+      "factor": 1.298877,
+      "zone": "hub",
+      "zone_name": "交通物流枢纽",
+      "economy_source": "minhang",
+      "economy_area": "闵行区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 0.735964,
+      "richness": 2.520789
     },
     {
       "name": "滴水湖",
@@ -102,8 +137,15 @@
       "selection_reason": "旅游地标/网络知名度",
       "traffic": 40,
       "radiation": 5,
-      "yield": "电池组 / 武器",
-      "factor": 1.65
+      "yield": "电池 / 模块 / 航运阀组件",
+      "factor": 1.56,
+      "zone": "port",
+      "zone_name": "港区装备物流",
+      "economy_source": "pudong",
+      "economy_area": "浦东新区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 1,
+      "richness": 3.9
     },
     {
       "name": "莘庄",
@@ -118,8 +160,15 @@
       "selection_reason": "换乘枢纽",
       "traffic": 100,
       "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.176598,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "minhang",
+      "economy_area": "闵行区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 0.707479,
+      "richness": 1.862244
     },
     {
       "name": "上海南站",
@@ -135,8 +184,15 @@
       "selection_reason": "换乘枢纽",
       "traffic": 100,
       "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "yield": "电池 / 武器 / 精密轴承",
+      "factor": 1.1522,
+      "zone": "hub",
+      "zone_name": "交通物流枢纽",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.4025,
+      "richness": 1.77075
     },
     {
       "name": "徐家汇",
@@ -152,8 +208,15 @@
       "selection_reason": "旅游地标/网络知名度",
       "traffic": 100,
       "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "yield": "食品 / 药物 / 古董怀表",
+      "factor": 1.1522,
+      "zone": "commercial",
+      "zone_name": "商业中心",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.4025,
+      "richness": 1.77075
     },
     {
       "name": "陕西南路",
@@ -168,9 +231,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "上海火车站",
@@ -186,8 +256,15 @@
       "selection_reason": "官方客流重点/核心商务",
       "traffic": 100,
       "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "yield": "电池 / 武器 / 精密轴承",
+      "factor": 1.1522,
+      "zone": "hub",
+      "zone_name": "交通物流枢纽",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.4025,
+      "richness": 1.77075
     },
     {
       "name": "呼兰路",
@@ -201,9 +278,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 3,
+      "yield": "电池 / 武器 / 模块 / 特种合金",
+      "factor": 1.2708,
+      "zone": "industrial",
+      "zone_name": "工业制造区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.385,
+      "richness": 2.4155
     },
     {
       "name": "富锦路",
@@ -216,9 +300,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 3,
+      "yield": "电池 / 武器 / 模块 / 特种合金",
+      "factor": 1.2708,
+      "zone": "industrial",
+      "zone_name": "工业制造区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.385,
+      "richness": 2.4155
     },
     {
       "name": "蟠祥路·国家会计学院",
@@ -231,9 +322,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "国家会展中心",
@@ -248,8 +346,15 @@
       "selection_reason": "换乘枢纽",
       "traffic": 100,
       "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "yield": "食品 / 药物 / 古董怀表",
+      "factor": 1.1522,
+      "zone": "commercial",
+      "zone_name": "商业中心",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.4025,
+      "richness": 1.77075
     },
     {
       "name": "虹桥2号航站楼",
@@ -264,9 +369,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 3,
+      "yield": "电池 / 武器 / 精密轴承",
+      "factor": 1.298877,
+      "zone": "hub",
+      "zone_name": "交通物流枢纽",
+      "economy_source": "minhang",
+      "economy_area": "闵行区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 0.735964,
+      "richness": 2.520789
     },
     {
       "name": "中山公园",
@@ -282,8 +394,15 @@
       "selection_reason": "换乘枢纽",
       "traffic": 100,
       "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "yield": "食品 / 药物 / 古董怀表",
+      "factor": 1.1522,
+      "zone": "commercial",
+      "zone_name": "商业中心",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.4025,
+      "richness": 1.77075
     },
     {
       "name": "静安寺",
@@ -299,8 +418,15 @@
       "selection_reason": "官方客流重点/核心商务",
       "traffic": 100,
       "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "yield": "食品 / 药物 / 古董怀表",
+      "factor": 1.1522,
+      "zone": "commercial",
+      "zone_name": "商业中心",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.4025,
+      "richness": 1.77075
     },
     {
       "name": "南京西路",
@@ -316,8 +442,15 @@
       "selection_reason": "换乘枢纽",
       "traffic": 100,
       "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "yield": "食品 / 药物 / 古董怀表",
+      "factor": 1.1522,
+      "zone": "commercial",
+      "zone_name": "商业中心",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.4025,
+      "richness": 1.77075
     },
     {
       "name": "南京东路",
@@ -332,8 +465,15 @@
       "selection_reason": "官方客流重点/核心商务",
       "traffic": 100,
       "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "yield": "食品 / 药物 / 古董怀表",
+      "factor": 1.1522,
+      "zone": "commercial",
+      "zone_name": "商业中心",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.4025,
+      "richness": 1.77075
     },
     {
       "name": "陆家嘴",
@@ -347,9 +487,16 @@
       ],
       "selection_reason": "官方客流重点/核心商务",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 5,
+      "yield": "食品 / 药物 / 古董怀表",
+      "factor": 1.56,
+      "zone": "commercial",
+      "zone_name": "商业中心",
+      "economy_source": "pudong",
+      "economy_area": "浦东新区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 1,
+      "richness": 3.9
     },
     {
       "name": "龙阳路",
@@ -366,9 +513,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 5,
+      "yield": "电池 / 武器 / 精密轴承",
+      "factor": 1.56,
+      "zone": "hub",
+      "zone_name": "交通物流枢纽",
+      "economy_source": "pudong",
+      "economy_area": "浦东新区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 1,
+      "richness": 3.9
     },
     {
       "name": "张江高科",
@@ -381,9 +535,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 5,
+      "yield": "电芯 / 模块 / 半导体晶圆",
+      "factor": 1.56,
+      "zone": "research",
+      "zone_name": "电子科创区",
+      "economy_source": "pudong",
+      "economy_area": "浦东新区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 1,
+      "richness": 3.9
     },
     {
       "name": "广兰路",
@@ -396,9 +557,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 5,
+      "yield": "电芯 / 模块 / 半导体晶圆",
+      "factor": 1.56,
+      "zone": "research",
+      "zone_name": "电子科创区",
+      "economy_source": "pudong",
+      "economy_area": "浦东新区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 1,
+      "richness": 3.9
     },
     {
       "name": "浦东1号2号航站楼",
@@ -413,9 +581,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 5,
+      "yield": "电池 / 武器 / 精密轴承",
+      "factor": 1.56,
+      "zone": "hub",
+      "zone_name": "交通物流枢纽",
+      "economy_source": "pudong",
+      "economy_area": "浦东新区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 1,
+      "richness": 3.9
     },
     {
       "name": "江杨北路",
@@ -428,9 +603,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 3,
+      "yield": "电池 / 武器 / 模块 / 特种合金",
+      "factor": 1.2708,
+      "zone": "industrial",
+      "zone_name": "工业制造区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.385,
+      "richness": 2.4155
     },
     {
       "name": "长江南路",
@@ -444,9 +626,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 3,
+      "yield": "电池 / 武器 / 模块 / 特种合金",
+      "factor": 1.2708,
+      "zone": "industrial",
+      "zone_name": "工业制造区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.385,
+      "richness": 2.4155
     },
     {
       "name": "虹口足球场",
@@ -460,9 +649,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "曹杨路",
@@ -478,9 +674,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "宜山路",
@@ -495,9 +698,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "海伦路",
@@ -511,9 +721,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "大连路",
@@ -527,9 +744,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "西藏南路",
@@ -543,9 +767,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "上海体育馆",
@@ -559,9 +790,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "东川路",
@@ -574,9 +812,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 4,
+      "yield": "电池 / 武器 / 模块 / 特种合金",
+      "factor": 1.408396,
+      "zone": "industrial",
+      "zone_name": "工业制造区",
+      "economy_source": "minhang",
+      "economy_area": "闵行区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 0.60495,
+      "richness": 3.131485
     },
     {
       "name": "闵行开发区",
@@ -589,9 +834,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 4,
+      "yield": "电池 / 武器 / 模块 / 特种合金",
+      "factor": 1.408396,
+      "zone": "industrial",
+      "zone_name": "工业制造区",
+      "economy_source": "minhang",
+      "economy_area": "闵行区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 0.60495,
+      "richness": 3.131485
     },
     {
       "name": "奉贤新城",
@@ -604,9 +856,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "净水 / 食物 / 耐储种子",
+      "factor": 1.028,
+      "zone": "agriculture",
+      "zone_name": "郊野农业区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.35,
+      "richness": 1.105
     },
     {
       "name": "东方体育中心",
@@ -621,9 +880,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 4,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.44,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "pudong",
+      "economy_area": "浦东新区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 1,
+      "richness": 3.25
     },
     {
       "name": "金桥路",
@@ -636,9 +902,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 4,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.44,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "pudong",
+      "economy_area": "浦东新区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 1,
+      "richness": 3.25
     },
     {
       "name": "巨峰路",
@@ -652,9 +925,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 4,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.44,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "pudong",
+      "economy_area": "浦东新区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 1,
+      "richness": 3.25
     },
     {
       "name": "港城路",
@@ -668,9 +948,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 5,
+      "yield": "电池 / 模块 / 航运阀组件",
+      "factor": 1.56,
+      "zone": "port",
+      "zone_name": "港区装备物流",
+      "economy_source": "pudong",
+      "economy_area": "浦东新区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 1,
+      "richness": 3.9
     },
     {
       "name": "美兰湖",
@@ -683,9 +970,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "顾村公园",
@@ -699,9 +993,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "上海大学",
@@ -714,9 +1015,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "食品 / 医药 / 修复档案",
+      "factor": 1.028,
+      "zone": "culture",
+      "zone_name": "文旅文教区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.35,
+      "richness": 1.105
     },
     {
       "name": "镇坪路",
@@ -731,9 +1039,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "常熟路",
@@ -747,9 +1062,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "肇嘉浜路",
@@ -763,9 +1085,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "耀华路",
@@ -779,9 +1108,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "花木路",
@@ -794,9 +1130,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 4,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.44,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "pudong",
+      "economy_area": "浦东新区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 1,
+      "richness": 3.25
     },
     {
       "name": "市光路",
@@ -809,9 +1152,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "江浦路",
@@ -825,9 +1175,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "曲阜路",
@@ -841,9 +1198,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "老西门",
@@ -857,9 +1221,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "沈杜公路",
@@ -874,8 +1245,15 @@
       "selection_reason": "换乘枢纽",
       "traffic": 100,
       "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.176598,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "minhang",
+      "economy_area": "闵行区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 0.707479,
+      "richness": 1.862244
     },
     {
       "name": "上海松江站",
@@ -889,8 +1267,15 @@
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
       "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "yield": "电池 / 武器 / 精密轴承",
+      "factor": 1.15987,
+      "zone": "hub",
+      "zone_name": "交通物流枢纽",
+      "economy_source": "songjiang",
+      "economy_area": "松江区",
+      "economy_scope": "规模以上工业产值；不混用全部工业4040.38亿元",
+      "economy_index": 0.498369,
+      "richness": 1.799511
     },
     {
       "name": "松江大学城",
@@ -903,9 +1288,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "食品 / 医药 / 修复档案",
+      "factor": 1.030001,
+      "zone": "culture",
+      "zone_name": "文旅文教区",
+      "economy_source": "songjiang",
+      "economy_area": "松江区",
+      "economy_scope": "规模以上工业产值；不混用全部工业4040.38亿元",
+      "economy_index": 0.375009,
+      "richness": 1.112503
     },
     {
       "name": "佘山",
@@ -918,9 +1310,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "食品 / 医药 / 修复档案",
+      "factor": 1.030001,
+      "zone": "culture",
+      "zone_name": "文旅文教区",
+      "economy_source": "songjiang",
+      "economy_area": "松江区",
+      "economy_scope": "规模以上工业产值；不混用全部工业4040.38亿元",
+      "economy_index": 0.375009,
+      "richness": 1.112503
     },
     {
       "name": "泗泾",
@@ -933,9 +1332,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.030668,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "songjiang",
+      "economy_area": "松江区",
+      "economy_scope": "规模以上工业产值；不混用全部工业4040.38亿元",
+      "economy_index": 0.383346,
+      "richness": 1.115004
     },
     {
       "name": "九亭",
@@ -948,9 +1354,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.030668,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "songjiang",
+      "economy_area": "松江区",
+      "economy_scope": "规模以上工业产值；不混用全部工业4040.38亿元",
+      "economy_index": 0.383346,
+      "richness": 1.115004
     },
     {
       "name": "七宝",
@@ -963,9 +1376,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 4,
+      "yield": "食品 / 药物 / 古董怀表",
+      "factor": 1.425088,
+      "zone": "commercial",
+      "zone_name": "商业中心",
+      "economy_source": "minhang",
+      "economy_area": "闵行区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 0.813601,
+      "richness": 3.19408
     },
     {
       "name": "中春路",
@@ -980,8 +1400,15 @@
       "selection_reason": "换乘枢纽",
       "traffic": 100,
       "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.176598,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "minhang",
+      "economy_area": "闵行区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 0.707479,
+      "richness": 1.862244
     },
     {
       "name": "漕河泾开发区",
@@ -994,9 +1421,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 3,
+      "yield": "电芯 / 模块 / 半导体晶圆",
+      "factor": 1.268,
+      "zone": "research",
+      "zone_name": "电子科创区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.35,
+      "richness": 2.405
     },
     {
       "name": "桂林路",
@@ -1010,9 +1444,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "陆家浜路",
@@ -1026,9 +1467,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "金海路",
@@ -1042,9 +1490,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 4,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.44,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "pudong",
+      "economy_area": "浦东新区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 1,
+      "richness": 3.25
     },
     {
       "name": "曹路",
@@ -1057,9 +1512,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 4,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.44,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "pudong",
+      "economy_area": "浦东新区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 1,
+      "richness": 3.25
     },
     {
       "name": "航中路",
@@ -1073,8 +1535,15 @@
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
       "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.176598,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "minhang",
+      "economy_area": "闵行区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 0.707479,
+      "richness": 1.862244
     },
     {
       "name": "龙溪路",
@@ -1088,8 +1557,15 @@
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
       "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.176598,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "minhang",
+      "economy_area": "闵行区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 0.707479,
+      "richness": 1.862244
     },
     {
       "name": "虹桥路",
@@ -1104,9 +1580,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "交通大学",
@@ -1120,9 +1603,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "豫园",
@@ -1136,9 +1626,16 @@
       ],
       "selection_reason": "旅游地标/网络知名度",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "食品 / 医药 / 修复档案",
+      "factor": 1.028,
+      "zone": "culture",
+      "zone_name": "文旅文教区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.35,
+      "richness": 1.105
     },
     {
       "name": "五角场",
@@ -1152,8 +1649,15 @@
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
       "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "yield": "食品 / 药物 / 古董怀表",
+      "factor": 1.1522,
+      "zone": "commercial",
+      "zone_name": "商业中心",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.4025,
+      "richness": 1.77075
     },
     {
       "name": "新江湾城",
@@ -1166,9 +1670,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "基隆路",
@@ -1181,9 +1692,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 5,
+      "yield": "电池 / 模块 / 航运阀组件",
+      "factor": 1.56,
+      "zone": "port",
+      "zone_name": "港区装备物流",
+      "economy_source": "pudong",
+      "economy_area": "浦东新区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 1,
+      "richness": 3.9
     },
     {
       "name": "嘉定北",
@@ -1196,9 +1714,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.031825,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "jiading",
+      "economy_area": "嘉定区",
+      "economy_scope": "全区规模以上工业产值；不使用区属3072.1亿元替代全区口径",
+      "economy_index": 0.397818,
+      "richness": 1.119346
     },
     {
       "name": "嘉定新城",
@@ -1211,9 +1736,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 4,
+      "yield": "电池 / 武器 / 模块 / 特种合金",
+      "factor": 1.409736,
+      "zone": "industrial",
+      "zone_name": "工业制造区",
+      "economy_source": "jiading",
+      "economy_area": "嘉定区",
+      "economy_scope": "全区规模以上工业产值；不使用区属3072.1亿元替代全区口径",
+      "economy_index": 0.621701,
+      "richness": 3.13651
     },
     {
       "name": "南翔",
@@ -1226,9 +1758,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 4,
+      "yield": "电池 / 武器 / 模块 / 特种合金",
+      "factor": 1.409736,
+      "zone": "industrial",
+      "zone_name": "工业制造区",
+      "economy_source": "jiading",
+      "economy_area": "嘉定区",
+      "economy_scope": "全区规模以上工业产值；不使用区属3072.1亿元替代全区口径",
+      "economy_index": 0.621701,
+      "richness": 3.13651
     },
     {
       "name": "上海西站",
@@ -1242,9 +1781,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "江苏路",
@@ -1258,9 +1804,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "迪士尼",
@@ -1273,9 +1826,16 @@
       ],
       "selection_reason": "旅游地标/网络知名度",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 4,
+      "yield": "食品 / 医药 / 修复档案",
+      "factor": 1.44,
+      "zone": "culture",
+      "zone_name": "文旅文教区",
+      "economy_source": "pudong",
+      "economy_area": "浦东新区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 1,
+      "richness": 3.25
     },
     {
       "name": "花桥",
@@ -1288,9 +1848,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "安亭",
@@ -1303,9 +1870,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 4,
+      "yield": "电池 / 武器 / 模块 / 特种合金",
+      "factor": 1.409736,
+      "zone": "industrial",
+      "zone_name": "工业制造区",
+      "economy_source": "jiading",
+      "economy_area": "嘉定区",
+      "economy_scope": "全区规模以上工业产值；不使用区属3072.1亿元替代全区口径",
+      "economy_index": 0.621701,
+      "richness": 3.13651
     },
     {
       "name": "上海汽车城",
@@ -1318,9 +1892,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 4,
+      "yield": "电池 / 武器 / 模块 / 特种合金",
+      "factor": 1.409736,
+      "zone": "industrial",
+      "zone_name": "工业制造区",
+      "economy_source": "jiading",
+      "economy_area": "嘉定区",
+      "economy_scope": "全区规模以上工业产值；不使用区属3072.1亿元替代全区口径",
+      "economy_index": 0.621701,
+      "richness": 3.13651
     },
     {
       "name": "七莘路",
@@ -1334,8 +1915,15 @@
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
       "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.176598,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "minhang",
+      "economy_area": "闵行区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 0.707479,
+      "richness": 1.862244
     },
     {
       "name": "龙华",
@@ -1350,9 +1938,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "汉中路",
@@ -1367,9 +1962,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "天潼路",
@@ -1383,9 +1985,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "金运路",
@@ -1398,9 +2007,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.031825,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "jiading",
+      "economy_area": "嘉定区",
+      "economy_scope": "全区规模以上工业产值；不使用区属3072.1亿元替代全区口径",
+      "economy_index": 0.397818,
+      "richness": 1.119346
     },
     {
       "name": "金沙江路",
@@ -1415,9 +2031,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "一大会址·新天地",
@@ -1431,9 +2054,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "食品 / 医药 / 修复档案",
+      "factor": 1.028,
+      "zone": "culture",
+      "zone_name": "文旅文教区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.35,
+      "richness": 1.105
     },
     {
       "name": "成山路",
@@ -1447,9 +2077,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 4,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.44,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "pudong",
+      "economy_area": "浦东新区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 1,
+      "richness": 3.25
     },
     {
       "name": "华夏中路",
@@ -1463,9 +2100,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 4,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.44,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "pudong",
+      "economy_area": "浦东新区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 1,
+      "richness": 3.25
     },
     {
       "name": "张江路",
@@ -1478,9 +2122,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 5,
+      "yield": "药物 / 医疗模块 / 培养试剂",
+      "factor": 1.56,
+      "zone": "biomedical",
+      "zone_name": "生物医药区",
+      "economy_source": "pudong",
+      "economy_area": "浦东新区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 1,
+      "richness": 3.9
     },
     {
       "name": "封浜",
@@ -1493,9 +2144,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 4,
+      "yield": "电池 / 武器 / 模块 / 特种合金",
+      "factor": 1.409736,
+      "zone": "industrial",
+      "zone_name": "工业制造区",
+      "economy_source": "jiading",
+      "economy_area": "嘉定区",
+      "economy_scope": "全区规模以上工业产值；不使用区属3072.1亿元替代全区口径",
+      "economy_index": 0.621701,
+      "richness": 3.13651
     },
     {
       "name": "真如",
@@ -1509,9 +2167,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "桂桥路",
@@ -1524,9 +2189,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 5,
+      "yield": "电芯 / 模块 / 半导体晶圆",
+      "factor": 1.56,
+      "zone": "research",
+      "zone_name": "电子科创区",
+      "economy_source": "pudong",
+      "economy_area": "浦东新区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 1,
+      "richness": 3.9
     },
     {
       "name": "景洪路",
@@ -1540,9 +2212,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "紫竹高新区",
@@ -1555,9 +2234,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 4,
+      "yield": "电芯 / 模块 / 半导体晶圆",
+      "factor": 1.410376,
+      "zone": "research",
+      "zone_name": "电子科创区",
+      "economy_source": "minhang",
+      "economy_area": "闵行区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 0.629704,
+      "richness": 3.138911
     },
     {
       "name": "惠南",
@@ -1570,9 +2256,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 4,
+      "yield": "净水 / 食物 / 耐储种子",
+      "factor": 1.44,
+      "zone": "agriculture",
+      "zone_name": "郊野农业区",
+      "economy_source": "pudong",
+      "economy_area": "浦东新区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 1,
+      "richness": 3.25
     },
     {
       "name": "朱家角",
@@ -1585,9 +2278,16 @@
       ],
       "selection_reason": "旅游地标/网络知名度",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "食品 / 医药 / 修复档案",
+      "factor": 1.028,
+      "zone": "culture",
+      "zone_name": "文旅文教区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.35,
+      "richness": 1.105
     },
     {
       "name": "西岑",
@@ -1600,9 +2300,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "净水 / 食物 / 耐储种子",
+      "factor": 1.028,
+      "zone": "agriculture",
+      "zone_name": "郊野农业区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.35,
+      "richness": 1.105
     },
     {
       "name": "青浦新城",
@@ -1615,9 +2322,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "康文路",
@@ -1630,9 +2344,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.0238,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.2975,
+      "richness": 1.08925
     },
     {
       "name": "复旦大学",
@@ -1645,9 +2366,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "食品 / 医药 / 修复档案",
+      "factor": 1.028,
+      "zone": "culture",
+      "zone_name": "文旅文教区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.35,
+      "richness": 1.105
     },
     {
       "name": "国权路",
@@ -1661,9 +2389,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 1,
+      "yield": "食品 / 医药 / 修复档案",
+      "factor": 1.028,
+      "zone": "culture",
+      "zone_name": "文旅文教区",
+      "economy_source": "city_reference",
+      "economy_area": "全市行业参照 / 区级数值待补",
+      "economy_scope": "缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据",
+      "economy_index": 0.35,
+      "richness": 1.105
     },
     {
       "name": "御桥",
@@ -1677,9 +2412,16 @@
       ],
       "selection_reason": "换乘枢纽",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 5,
+      "yield": "电池 / 武器 / 模块 / 特种合金",
+      "factor": 1.56,
+      "zone": "industrial",
+      "zone_name": "工业制造区",
+      "economy_source": "pudong",
+      "economy_area": "浦东新区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 1,
+      "richness": 3.9
     },
     {
       "name": "周浦",
@@ -1692,9 +2434,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 5,
+      "yield": "药物 / 医疗模块 / 培养试剂",
+      "factor": 1.56,
+      "zone": "biomedical",
+      "zone_name": "生物医药区",
+      "economy_source": "pudong",
+      "economy_area": "浦东新区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 1,
+      "richness": 3.9
     },
     {
       "name": "航头",
@@ -1707,9 +2456,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 4,
+      "yield": "净水 / 食物 / 耐储种子",
+      "factor": 1.44,
+      "zone": "agriculture",
+      "zone_name": "郊野农业区",
+      "economy_source": "pudong",
+      "economy_area": "浦东新区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 1,
+      "richness": 3.25
     },
     {
       "name": "汇臻路",
@@ -1723,8 +2479,15 @@
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
       "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.176598,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "minhang",
+      "economy_area": "闵行区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 0.707479,
+      "richness": 1.862244
     },
     {
       "name": "上海国际旅游度假区",
@@ -1737,9 +2500,16 @@
       ],
       "selection_reason": "线路端点/区域代表",
       "traffic": 100,
-      "radiation": 2,
-      "yield": "通用回收物资",
-      "factor": 1.0
+      "radiation": 4,
+      "yield": "水 / 食物 / 日用药物",
+      "factor": 1.44,
+      "zone": "residential",
+      "zone_name": "居民生活区",
+      "economy_source": "pudong",
+      "economy_area": "浦东新区",
+      "economy_scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "economy_index": 1,
+      "richness": 3.25
     }
   ],
   "lines": [

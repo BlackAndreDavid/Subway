@@ -29,6 +29,27 @@
     "docs/base.png",
     "docs/combat.png",
     "docs/map.png",
-    "docs/shop.png"
-  ]
+    "docs/shop.png",
+    "docs/map_zhangjiang.png",
+    "docs/regional_materials.png"
+  ],
+  "regional_materials": {
+    "candidate_count_per_slot": 2,
+    "selected": "A",
+    "note": "Visually inspected both candidates. A gives clear isolated silhouettes without tiny watch numerals; processed with the same technical crop/normalization contract.",
+    "sources": [
+      {
+        "path": "candidates/materials_a.png",
+        "sha256": "4fb27d753b02cb5b87e74636aaf1f04defd5bd72cdf675982f367578929f9f60"
+      },
+      {
+        "path": "candidates/materials_b.png",
+        "sha256": "2c92282321f68233086ed8dab183f0a0cdaae53eb9be6833b443fde7894ab273"
+      },
+      {
+        "path": "sources/region_materials_v1.png",
+        "sha256": "4fb27d753b02cb5b87e74636aaf1f04defd5bd72cdf675982f367578929f9f60"
+      }
+    ]
+  }
 }

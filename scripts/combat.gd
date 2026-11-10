@@ -2,6 +2,7 @@ extends Control
 signal changed
 signal notice(text: String)
 signal ended(success: bool)
+const Loot=preload("res://scripts/loot_rules.gd")
 const Art=preload("res://scripts/art_library.gd")
 const C=preload("res://scripts/catalog.gd")
 var player=Vector2(450,300)
@@ -229,37 +230,19 @@ func use_drug() -> void:
 	notice.emit("使用了"+C.item(id).name)
 	changed.emit()
 func create_loot() -> void:
-	var loot: Array=room().loot
-	if room().kind=="boss":
-		loot.append("5_%d" % rng.randi_range(0,3))
-		loot.append("chest")
-	else:
-		var roll=rng.randf()
-		if roll<0.2: pass
-		elif roll<0.38: loot.append("power")
-		elif roll<0.52: loot.append("5_%d" % rng.randi_range(0,3))
-		elif roll<0.66: loot.append("3_%d" % rng.randi_range(0,3))
-		elif roll<0.78: loot.append("credits")
-		elif roll<0.91: loot.append("scrap")
-		else: loot.append("chest")
+	room().loot.append_array(Loot.roll_room(int(Game.state.station),int(Game.run.floor),rng,room().kind=="boss"))
 func collect(index: int) -> void:
 	if Game.run.fighting or index>=room().loot.size(): return
 	var entry=room().loot[index]
 	var id: String=entry.id if entry is Dictionary else entry
 	if id=="chest":
 		room().loot.remove_at(index)
-		var value=20+int(Game.run.floor)*18
-		var choices=C.all_ids()+["scrap"]
-		for _i in range(8):
-			var next: String=choices[rng.randi_range(0,choices.size()-1)]
-			if C.item(next).price<=value:
-				room().loot.append(next)
-				value-=int(C.item(next).price)
-			if value<6: break
-		notice.emit("宝箱开启，物资价值上限随层数提升。")
+		room().loot.append_array(Loot.open_chest(int(Game.state.station),int(Game.run.floor),rng))
+		notice.emit("宝箱开启：产出受区域白名单、辐射与层数影响。")
 	elif id=="power" or id=="credits":
-		Game.state.power+=8 if id=="credits" else 5
-		if id=="power": Game.run.energy+=5
+		var value=Loot.pickup_value(int(Game.state.station),id)
+		Game.state.power+=value
+		if id=="power":Game.run.energy+=value
 		room().loot.remove_at(index)
 	else:
 		if not Game.pick_up(id,int(entry.uses) if entry is Dictionary else -1):
