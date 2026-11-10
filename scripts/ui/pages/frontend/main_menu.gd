@@ -22,7 +22,7 @@ func build(context: Control) -> void:
 	menu.alignment=BoxContainer.ALIGNMENT_CENTER
 	menu.add_theme_constant_override("separation",18)
 	app.section(menu,"回到轨道之下","原型版本 0.1  /  GODOT 4.6")
-	app.button("开始游戏   →",app.show_slots,menu)
+	app.button("开始游戏",app.show_slots,menu)
 	app.button("设置",app.show_settings,menu)
 	app.button("退出",func():get_tree().quit(),menu)
 	menu.add_child(app.wrapped("原创程序美术\n回收探索 × 车厢家园 × 地下贸易",15))

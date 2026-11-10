@@ -8,11 +8,12 @@
 			"hp_remaining": 99.85,
 			"items_picked": 13,
 			"radiation": 1,
+			"return_terminal_with_f": true,
 			"rooms": 41,
 			"rooms_cleared": 38,
 			"seed": 2026,
 			"station": "邮电新村",
-			"time_used": 382.25,
+			"time_used": 383.05,
 			"visited": 41
 		},
 		{
@@ -23,6 +24,7 @@
 			"hp_remaining": 0.0,
 			"items_picked": 10,
 			"radiation": 1,
+			"return_terminal_with_f": false,
 			"rooms": 41,
 			"rooms_cleared": 27,
 			"seed": 2026,
@@ -38,6 +40,7 @@
 			"hp_remaining": 0.0,
 			"items_picked": 6,
 			"radiation": 1,
+			"return_terminal_with_f": false,
 			"rooms": 41,
 			"rooms_cleared": 23,
 			"seed": 2026,
@@ -53,11 +56,12 @@
 			"hp_remaining": 99.85,
 			"items_picked": 12,
 			"radiation": 3,
+			"return_terminal_with_f": true,
 			"rooms": 41,
 			"rooms_cleared": 38,
 			"seed": 2026,
 			"station": "人民广场",
-			"time_used": 387.05,
+			"time_used": 387.85,
 			"visited": 41
 		},
 		{
@@ -68,6 +72,7 @@
 			"hp_remaining": 0.0,
 			"items_picked": 10,
 			"radiation": 3,
+			"return_terminal_with_f": false,
 			"rooms": 41,
 			"rooms_cleared": 23,
 			"seed": 2026,
@@ -83,6 +88,7 @@
 			"hp_remaining": 0.0,
 			"items_picked": 6,
 			"radiation": 3,
+			"return_terminal_with_f": false,
 			"rooms": 41,
 			"rooms_cleared": 28,
 			"seed": 2026,
@@ -98,11 +104,12 @@
 			"hp_remaining": 89.05,
 			"items_picked": 10,
 			"radiation": 5,
+			"return_terminal_with_f": true,
 			"rooms": 41,
 			"rooms_cleared": 38,
 			"seed": 2026,
 			"station": "滴水湖",
-			"time_used": 384.05,
+			"time_used": 384.85,
 			"visited": 41
 		},
 		{
@@ -113,6 +120,7 @@
 			"hp_remaining": 0.0,
 			"items_picked": 7,
 			"radiation": 5,
+			"return_terminal_with_f": false,
 			"rooms": 41,
 			"rooms_cleared": 28,
 			"seed": 2026,
@@ -128,6 +136,7 @@
 			"hp_remaining": 0.0,
 			"items_picked": 6,
 			"radiation": 5,
+			"return_terminal_with_f": false,
 			"rooms": 41,
 			"rooms_cleared": 27,
 			"seed": 2026,
@@ -136,7 +145,7 @@
 			"visited": 31
 		}
 	],
-	"controller": "WASD movement, mouse fire, F at doors and floor pickups; not human-player feedback",
+	"controller": "WASD movement, mouse fire, F at doors, floor pickups and the separate boss return terminal; not human-player feedback",
 	"introductory_wins": 1,
 	"passed": true,
 	"stat_overrides": false

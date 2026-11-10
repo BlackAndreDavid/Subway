@@ -20,7 +20,8 @@ func build(context: Control) -> void:
 	app.battle.changed.connect(app.refresh_combat)
 	app.battle.notice.connect(app.say)
 	app.battle.reward_requested.connect(app.show_reward)
-	app.battle.descent_requested.connect(app.confirm_extract)
+	app.battle.descent_requested.connect(app.descend_floor)
+	app.battle.return_requested.connect(app.return_to_base)
 	app.battle.ended.connect(func(success):
 		var result=Game.end_run(success)
 		app.show_base()
@@ -47,12 +48,14 @@ func refresh_combat() -> void:
 		if r.kind=="reward" and not r.claimed:
 			app.side.add_child(app.wrapped("靠近房间中央宝箱，按 F 选择奖励。",15))
 		if r.kind=="shop":
-			app.button("补给商：凝胶绷带 / 22 电量",func():app.buy_run_item("3_0",22),app.side)
-			app.button("补给商：轻量背架 / 40 电量",func():app.buy_run_item("5_1",40),app.side)
+			app.side.add_child(app.label("凝胶绷带 · 22 电量",15))
+			app.button("购买绷带",func():app.buy_run_item("3_0",22),app.side)
+			app.side.add_child(app.label("轻量背架 · 40 电量",15))
+			app.button("购买背架",func():app.buy_run_item("5_1",40),app.side)
 		if not r.loot.is_empty():app.side.add_child(app.wrapped("地面有 %d 件物资：靠近按 F；电量/电卡自动吸附。" % r.loot.size(),14))
-		if r.kind=="boss" and r.cleared:app.side.add_child(app.wrapped("靠近中央通道，按 F 选择下一层或安全返程。"))
-	app.button("背包 / B",app.show_bag,app.side,bool(Game.run.fighting))
-	app.button("暂停 / Esc",app.show_pause,app.side)
+		if r.kind=="boss" and r.cleared:app.side.add_child(app.wrapped("楼梯通往下一层，返程终端返回基地。靠近后按 F。"))
+	app.button("背包",app.show_bag,app.side,bool(Game.run.fighting))
+	app.button("暂停",app.show_pause,app.side)
 func buy_run_item(id: String,cost: int) -> void:
 	if Game.run.fighting:return
 	if Game.state.power<cost:app.say("电量不足。")

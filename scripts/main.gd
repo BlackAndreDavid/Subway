@@ -1,7 +1,7 @@
 extends Control
 const C=preload("res://scripts/catalog.gd")
 const StoragePresenter=preload("res://scripts/ui/components/storage_presenter.gd")
-const PAGE_SCENES={"menu": "res://scenes/frontend/main_menu.tscn", "slots": "res://scenes/frontend/save_slots.tscn", "base": "res://scenes/base/base.tscn", "map": "res://scenes/base/metro/metro_map.tscn", "prepare": "res://scenes/exploration/preparation.tscn", "combat": "res://scenes/exploration/combat.tscn", "shop": "res://scenes/shop/shop.tscn"}
+const PAGE_SCENES={"menu": "res://scenes/frontend/main_menu.tscn", "slots": "res://scenes/frontend/save_slots.tscn", "base": "res://scenes/base/base.tscn", "furniture": "res://scenes/base/furniture_editor.tscn", "map": "res://scenes/base/metro/metro_map.tscn", "prepare": "res://scenes/exploration/preparation.tscn", "combat": "res://scenes/exploration/combat.tscn", "shop": "res://scenes/shop/shop.tscn"}
 var current_screen: Control
 var storage_panel: Control
 var dialogue_data: Dictionary={}
@@ -74,12 +74,15 @@ func clear_page(id: String) -> void:
 	current_screen=null
 	storage_panel=null
 	combat_hud=null
-	if is_instance_valid(modal): modal.queue_free()
+	if is_instance_valid(modal):
+		remove_child(modal)
+		modal.queue_free()
 	modal=null
 	if is_instance_valid(root):
 		remove_child(root)
 		root.queue_free()
 	battle=null
+	side=null
 	drawer=null
 	drawer_toggle=null
 	minimap=null
@@ -200,7 +203,7 @@ func toggle_drawer() -> void:
 	drawer.visible=not drawer.visible
 	drawer_toggle.text="收起详情 ‹" if drawer.visible else "展开详情 ›"
 func show_base(placing: bool=false) -> void:
-	mount_page("furniture" if placing else "base",placing)
+	mount_page("furniture" if placing else "base")
 func show_map() -> void:
 	mount_page("map")
 func station_detail() -> void:
@@ -222,6 +225,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if event.physical_keycode==KEY_ESCAPE:
 		if is_instance_valid(modal):close_modal()
 		elif page=="combat":show_pause()
+		elif page=="furniture":show_base()
 	elif event.physical_keycode==KEY_B and page=="combat":
 		if is_instance_valid(modal):close_modal()
 		else:show_bag()
@@ -241,16 +245,27 @@ func mount_dialog(path: String,title: String) -> void:
 	host.add_child(view)
 	view.build(self)
 func close_modal() -> void:
-	if is_instance_valid(modal):modal.queue_free()
+	if is_instance_valid(modal):
+		remove_child(modal)
+		modal.queue_free()
 	modal=null
 	if is_instance_valid(battle):battle.paused=false
+	if page=="furniture" and is_instance_valid(current_screen):current_screen.refresh_furniture_options()
 func show_settings() -> void:
 	mount_dialog("res://scenes/frontend/settings_dialog.tscn","设置")
 func show_pause() -> void:
 	mount_dialog("res://scenes/exploration/pause_dialog.tscn","作业暂停")
-func confirm_extract() -> void:
-	if not Game.can_extract():return
-	mount_dialog("res://scenes/exploration/extract_dialog.tscn","本层结束 / 下一步")
+func descend_floor() -> void:
+	if not is_instance_valid(battle) or battle.nearby_exit()!="descent":return
+	if Game.next_floor():
+		battle.enter_room()
+		refresh_combat()
+	else:say(Game.last_error)
+func return_to_base() -> void:
+	if not is_instance_valid(battle) or battle.nearby_exit()!="return":return
+	var message=Game.end_run(true)
+	show_base()
+	say(message)
 func show_reward() -> void:
 	if Game.run.is_empty() or Game.run.fighting or not is_instance_valid(battle):return
 	var room: Dictionary=Game.run.floor_data.rooms[int(Game.run.room)]
@@ -259,7 +274,10 @@ func show_reward() -> void:
 func show_base_dialogue(info: Dictionary) -> void:
 	if not page in ["base","furniture"] or not Game.run.is_empty():return
 	dialogue_data=info
-	mount_dialog("res://scenes/base/dialogue.tscn",str(info.name))
+	close_modal()
+	modal=preload("res://scenes/base/dialogue.tscn").instantiate()
+	add_child(modal)
+	modal.build(self)
 func show_crafting() -> void:
 	if not page in ["base","furniture"] or not Game.run.is_empty():return
 	mount_dialog("res://scenes/base/crafting.tscn","材料合成 / 家具")
@@ -312,9 +330,8 @@ func show_shop() -> void:
 func item_card(parent: Node,id: String) -> void:
 	if is_instance_valid(current_screen) and page=="shop":current_screen.item_card(parent,id)
 
-func mount_page(id: String,placing: bool=false) -> void:
+func mount_page(id: String) -> void:
 	clear_page(id)
-	current_screen=load("res://scenes/base/furniture_editor.tscn" if id=="furniture" else PAGE_SCENES[id]).instantiate()
+	current_screen=load(PAGE_SCENES[id]).instantiate()
 	body.add_child(current_screen)
-	if id in ["base","furniture"]:current_screen.build(self,placing)
-	else:current_screen.build(self)
+	current_screen.build(self)

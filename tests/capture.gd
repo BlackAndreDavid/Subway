@@ -21,20 +21,18 @@ func capture() -> void:
 	await shot("menu")
 	game.new_game(0,"上海堡垒")
 	ui.show_base()
-	await shot("base_undress")
+	for type in range(4):
+		game.craft_furniture(type)
+		if type!=2:game.place_furniture(type,[Vector2i(1,1),Vector2i(3,1),Vector2i(7,1),Vector2i(1,4)][type])
+	game.trade("3_0",true)
+	ui.show_base(true)
+	await shot("base_decoration")
 	ui.show_crafting()
 	await shot("crafting")
 	ui.close_modal()
-	for type in range(4):
-		game.craft_furniture(type)
-		game.place_furniture(type,[Vector2i(1,1),Vector2i(3,1),Vector2i(7,1),Vector2i(1,4)][type])
-	game.trade("3_0",true)
-	ui.stage.get_child(0).refresh_furniture()
-	await create_timer(1.3).timeout
+	game.place_furniture(2,Vector2i(7,1))
+	ui.show_base()
 	await shot("base")
-	ui.toggle_drawer()
-	await shot("base_details")
-	ui.toggle_drawer()
 	ui.stage.get_child(0).heroine.grid_position=Vector2(2.4,1.5)
 	await process_frame
 	gestures.tap(KEY_F)
@@ -136,10 +134,15 @@ func capture() -> void:
 	ui.modal.get_node("Frame/Scroll/Content").get_child(1).choose(0)
 	game.run.room=game.run.floor_data.boss
 	game.run.floor_data.rooms[game.run.room].cleared=true
-	ui.battle.enter_room(Vector2(450,300))
-	gestures.tap(KEY_F)
+	ui.battle.enter_room(ui.battle.exit_entities.descent.position+Vector2(0,48))
+	ui.battle.sync_exit_entities()
 	await shot("boss_exit")
-	ui.close_modal()
+	ui.battle.player=ui.battle.exit_entities.return.position+Vector2(0,48)
+	ui.battle.sync_exit_entities()
+	ui.battle.queue_redraw()
+	await shot("boss_return")
+	gestures.tap(KEY_F)
+	await shot("base_undress")
 	ui.clear_page("art_gallery")
 	var gallery=GridContainer.new()
 	gallery.columns=4

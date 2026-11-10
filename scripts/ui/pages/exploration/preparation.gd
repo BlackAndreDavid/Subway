@@ -19,7 +19,7 @@ func build(context: Control) -> void:
 	for stats in C.CLASSES:
 		app.class_select.add_item("%s   HP %d / 背包 %d×%d / 护甲 %d%% / 射程 %d" % [stats.name,stats.hp,stats.grid_cols,stats.grid_rows,stats.armor*100,stats.range])
 	header.add_child(app.class_select)
-	app.button("通过检查站 →",app.start_run,header)
+	app.button("出发",app.start_run,header)
 	app.back_button(app.show_base,header)
 	app.loadout_slots=HBoxContainer.new()
 	app.loadout_slots.add_theme_constant_override("separation",16)

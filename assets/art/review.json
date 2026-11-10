@@ -100,6 +100,8 @@
         "path": "sources/base_heroine_portrait_v1.png",
         "sha256": "e3c227314ea04c981185a89c0e6566b9dd22c265403bae7ad0c9520d77d2ca6d"
       }
-    ]
+    ],
+    "idle_frame_zero_based": 2,
+    "idle_selection": "Visually inspected all sixteen existing walk poses; frame 2 in each direction collects both feet into a stationary pose. Reused without changing source art, palette or stable IDs. Native screenshots verify standing after stopping and expedition-only suit removal."
   }
 }

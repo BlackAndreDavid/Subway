@@ -1,9 +1,9 @@
 {
   "review_date": "2026-11-11",
-  "scope": "full prototype plus interactive base, unified heroine art, crafting, centered upright sprites, armored charge behavior, boss-only exits and 1.5x floors",
-  "acceptance_items": 57,
+  "scope": "full prototype plus bottom base navigation, independent decoration, standing and expedition-only suit animation, left portrait with bottom subtitles, short button labels and separate physical boss exits",
+  "acceptance_items": 63,
   "open_acceptance_items": 0,
-  "checks": 331145,
+  "checks": 331192,
   "failures": 0,
   "map_seeds": 1000,
   "playthrough_cases": 9,
@@ -55,5 +55,34 @@
     "turn_rate_radians_per_second": 0.22,
     "stops_on_wall": true,
     "sprite_rotation": false
-  }
+  },
+  "base_ui_checks": "tests/base_ui_checks.gd",
+  "boss_exits": {
+    "entities": [
+      "descent",
+      "return"
+    ],
+    "separate_nodes": true,
+    "physical_interaction_key": "F",
+    "interaction_radius": 64,
+    "merged_dialog_removed": true,
+    "successful_playthrough_terminal_interactions": 3
+  },
+  "base_ui": {
+    "right_drawer_removed": true,
+    "bottom_navigation": true,
+    "independent_decoration_controller": true,
+    "subtitle_overlay": true,
+    "portrait_side": "left",
+    "suit_animation_trigger": "expedition settlement only",
+    "standing_frame_zero_based": 2
+  },
+  "ui_native_captures": [
+    "docs/base.png",
+    "docs/base_decoration.png",
+    "docs/base_dialogue.png",
+    "docs/base_undress.png",
+    "docs/boss_exit.png",
+    "docs/boss_return.png"
+  ]
 }

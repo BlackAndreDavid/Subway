@@ -29,7 +29,8 @@ func build(context: Control) -> void:
 		app.button("合成",func():
 			if Game.craft_furniture(selected_type):app.say("已合成"+C.FURNITURE_NAMES[selected_type])
 			else:app.say(Game.last_error)
+			if app.page=="furniture":app.current_screen.refresh_furniture_options()
 			app.show_crafting(),row,not enough)
 		add_child(HSeparator.new())
-	app.button("布置已合成家具",func():app.show_base(true);app.toggle_drawer(),self)
-	app.button("返回基地",app.close_modal,self)
+	if app.page=="base":app.button("装修",func():app.show_base(true),self)
+	app.button("返回",app.close_modal,self)

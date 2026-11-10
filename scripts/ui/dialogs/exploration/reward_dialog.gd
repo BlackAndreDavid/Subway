@@ -3,8 +3,10 @@ var app: Control
 func build(context: Control) -> void:
 	app=context
 	add_child(app.wrapped("箱盖卡得很紧……打开后发现两件遗留装备。只能带走其中一件。"))
-	app.button("聚焦晶体 / 本次探索伤害 +25%",func():choose(0),self)
-	app.button("散射电容 / 2×2主动道具",func():choose(1),self)
+	add_child(app.wrapped("聚焦晶体：本次探索伤害 +25%。",18))
+	app.button("聚焦晶体",func():choose(0),self)
+	add_child(app.wrapped("散射电容：2×2主动道具，使用后发射扇形弹幕。",18))
+	app.button("散射电容",func():choose(1),self)
 	app.button("整理背包",app.show_bag,self)
 	app.button("暂不领取",app.close_modal,self)
 func choose(index: int) -> void:

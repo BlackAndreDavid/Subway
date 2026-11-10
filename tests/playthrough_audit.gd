@@ -5,6 +5,7 @@ const C=preload("res://scripts/catalog.gd")
 var game: Node
 var failed=false
 var finished=false
+var returned=false
 var key_states={}
 var rows: Array=[]
 func _initialize() -> void:
@@ -54,7 +55,9 @@ func audit() -> void:
 			var battle=load("res://scripts/combat.gd").new()
 			battle.size=Vector2(900,600)
 			finished=false
+			returned=false
 			battle.ended.connect(func(_success):finished=true)
+			battle.return_requested.connect(func():returned=true)
 			root.add_child(battle)
 			battle.set_process(false)
 			await process_frame
@@ -158,12 +161,21 @@ func audit() -> void:
 				battle._process(dt)
 				if before>0 and battle.enemies.is_empty():cleared+=1
 			var won=not finished and battle.room().kind=="boss" and battle.room().cleared
+			if won:
+				release_inputs()
+				# Complete the successful route through the separate physical return terminal.
+				for walk_tick in range(200):
+					walk_toward(battle.exit_entities.return.position,battle.player)
+					if battle.exit_entities.return.in_range(battle.player):tap(KEY_F)
+					if returned:break
+					battle._process(dt)
+				if not returned:failed=true
 			var visited=0
 			cleared=0
 			for room in game.run.floor_data.rooms:
 				if room.visited:visited+=1
 				if room.kind in ["normal","boss"] and room.cleared:cleared+=1
-			rows.append({"station":C.STATIONS[station].name,"radiation":C.STATIONS[station].radiation,"class":C.CLASSES[class_index].name,"seed":2026,"boss_defeated":won,"time_used":snappedf(battle.age-initial_time,0.01),"hp_remaining":snappedf(maxf(0,game.run.hp),0.01),"visited":visited,"rooms":game.run.floor_data.rooms.size(),"rooms_cleared":cleared,"items_picked":recovered,"doors_entered_with_f":doors_entered,"account_change":snappedf(float(game.state.power)-start_power,0.01)})
+			rows.append({"station":C.STATIONS[station].name,"radiation":C.STATIONS[station].radiation,"class":C.CLASSES[class_index].name,"seed":2026,"boss_defeated":won,"return_terminal_with_f":returned,"time_used":snappedf(battle.age-initial_time,0.01),"hp_remaining":snappedf(maxf(0,game.run.hp),0.01),"visited":visited,"rooms":game.run.floor_data.rooms.size(),"rooms_cleared":cleared,"items_picked":recovered,"doors_entered_with_f":doors_entered,"account_change":snappedf(float(game.state.power)-start_power,0.01)})
 			release_inputs()
 			game.end_run(won)
 			if not game.load_game(0):failed=true
@@ -179,7 +191,7 @@ func audit() -> void:
 		failed=true
 		push_error("No introductory class completed the scripted playthrough")
 	DirAccess.make_dir_recursive_absolute("res://work")
-	var report={"controller":"WASD movement, mouse fire, F at doors and floor pickups; not human-player feedback","stat_overrides":false,"cases":rows,"introductory_wins":low_wins,"passed":not failed}
+	var report={"controller":"WASD movement, mouse fire, F at doors, floor pickups and the separate boss return terminal; not human-player feedback","stat_overrides":false,"cases":rows,"introductory_wins":low_wins,"passed":not failed}
 	var file=FileAccess.open("res://work/playthrough-report.json",FileAccess.WRITE)
 	file.store_string(JSON.stringify(report,"\t"))
 	file.close()

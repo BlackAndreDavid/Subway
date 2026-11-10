@@ -10,7 +10,7 @@ var state: Dictionary = {}
 var run: Dictionary = {}
 var settings = {"volume":0.5,"fullscreen":false}
 var last_error = ""
-var base_arrival=true
+var base_arrival=false
 var base_position=Vector2(5,3)
 
 func _ready() -> void:
@@ -23,7 +23,7 @@ func new_game(index: int, base_name: String) -> bool:
 	state={"version":SAVE_VERSION,"name":base_name.strip_edges() if not base_name.strip_edges().is_empty() else "上海堡垒", "day":1,"station":0,"water":24,"food":24,"power":240,"stash":["3_0","3_1","3_2","3_3","4_0","4_1","4_2","4_3","5_0","5_1","5_2","5_3"],"furniture":[],"news":0,"market_stock":{},"customer":0}
 	run={}
 	state.stash.append_array(["scrap","scrap","scrap","scrap","scrap","scrap","scrap","scrap","scrap","scrap","scrap","scrap","1_0","1_0","0_0","0_0"])
-	base_arrival=true
+	base_arrival=false
 	base_position=Vector2(5,3)
 	return save_game()
 
@@ -50,7 +50,7 @@ func load_game(index: int) -> bool:
 		for field in ["x","y","rot"]:placement[field]=int(placement[field])
 	state.version=SAVE_VERSION
 	run={}
-	base_arrival=true
+	base_arrival=false
 	base_position=Vector2(5,3)
 	return true
 
@@ -298,8 +298,7 @@ func claim_reward(index: int) -> String:
 	return "已获得聚焦晶体：伤害 +25%。" if index==0 else "已获得散射电容，可在背包中装配。"
 
 func next_floor() -> bool:
-	var room=run.floor_data.rooms[int(run.room)]
-	if room.kind!="boss" or not room.cleared: return false
+	if not can_extract():return false
 	var next=FloorGenerator.generate(int(run.seed)+int(run.floor)*997,int(run.floor)+1)
 	if state.power<next.budget:
 		last_error="下一层保底路线需要 %d 电量，请先撤离交易。" % next.budget
@@ -314,7 +313,7 @@ func can_extract() -> bool:
 	return not run.is_empty() and not run.fighting and run.floor_data.rooms[int(run.room)].kind=="boss" and run.floor_data.rooms[int(run.room)].cleared
 func end_run(success: bool) -> String:
 	if run.is_empty(): return ""
-	if success and not can_extract():return "请先击败本层 Boss，在中央通道选择安全返程。"
+	if success and not can_extract():return "请先击败本层 Boss，在返程终端返回基地。"
 	var count=run.bag.size()
 	if success:
 		for entry in run.bag:

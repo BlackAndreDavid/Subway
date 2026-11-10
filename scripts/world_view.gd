@@ -103,10 +103,13 @@ func _process(delta: float) -> void:
 	entities.scale=Vector2.ONE*base_scale()
 	var movement=Vector2.ZERO
 	if can_interact():movement=Vector2(float(Input.is_physical_key_pressed(KEY_D))-float(Input.is_physical_key_pressed(KEY_A)),float(Input.is_physical_key_pressed(KEY_S))-float(Input.is_physical_key_pressed(KEY_W))).normalized()
-	if interaction_allowed.is_valid() and not interaction_allowed.call():return
+	if interaction_allowed.is_valid() and not interaction_allowed.call():
+		heroine.advance(0,Vector2.ZERO)
+		return
 	var screen_delta=movement*170*delta
 	var step=Vector2((screen_delta.x/41+screen_delta.y/22)/2,(screen_delta.y/22-screen_delta.x/41)/2)
 	var point: Vector2=heroine.grid_position
+	var before=iso(point.x,point.y)
 	var next=(point+Vector2(step.x,0)).clamp(Vector2(0.25,0.25),Vector2(9.75,5.75))
 	if not occupied(next):point.x=next.x
 	next=(point+Vector2(0,step.y)).clamp(Vector2(0.25,0.25),Vector2(9.75,5.75))
@@ -114,7 +117,7 @@ func _process(delta: float) -> void:
 	heroine.grid_position=point
 	heroine.position=iso(point.x,point.y)
 	Game.base_position=point
-	heroine.advance(delta,movement)
+	heroine.advance(delta,(heroine.position-before).normalized())
 	queue_redraw()
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not event is InputEventKey or event.physical_keycode!=KEY_F or not event.pressed or event.echo or not can_interact():return

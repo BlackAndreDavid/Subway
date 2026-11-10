@@ -24,9 +24,9 @@ func run(tree: SceneTree,game: Node,ui: Control,check: Callable) -> void:
 	var girl=world.heroine
 	check.call(world.entities.y_sort_enabled and girl.scene_file_path=="res://scenes/base/heroine.tscn","base uses an independently sorted heroine scene")
 	check.call(world.base_scale()>minf(world.size.x/900.0,world.size.y/610.0) and world.base_scale()*world.BASE_BOUNDS.size.y/world.size.y>0.85,"base camera fits actual carriage bounds at a larger scale")
-	check.call(girl.changing_suit() and Art.frame_count("base/undress")==8,"base arrival starts eight-frame suit removal")
+	check.call(not girl.changing_suit() and Art.frame_count("base/undress")==8,"loading a base does not replay expedition suit removal")
 	girl.advance(2.0,Vector2.ZERO)
-	check.call(not girl.changing_suit() and girl.current_texture()==Art.texture("base/heroine/2"),"suit removal ends in base-only casual heroine")
+	check.call(girl.current_texture()==Art.texture("base/heroine/2",girl.IDLE_FRAME),"base starts in the casual standing pose")
 	var start: Vector2=girl.grid_position
 	gestures.key(KEY_D,true)
 	world._process(0.15)
@@ -40,9 +40,9 @@ func run(tree: SceneTree,game: Node,ui: Control,check: Callable) -> void:
 	girl.grid_position=Vector2(2.4,1.5)
 	gestures.tap(KEY_F)
 	check.call(is_instance_valid(ui.modal) and ui.dialogue_data.kind=="stash","nearby F opens the old-box interaction")
-	var dialogue=ui.modal.get_node("Frame/Scroll/Content").get_child(1)
+	var dialogue=ui.modal
 	check.call(dialogue.scene_file_path=="res://scenes/base/dialogue.tscn" and dialogue.get_node("Portrait").texture is AtlasTexture,"facility interaction shows a real heroine portrait scene")
-	check.call(dialogue.get_node("Words").get_child(2).text.contains("箱子很旧"),"facility dialogue contains the heroine's contextual opinion")
+	check.call(dialogue.get_node("Subtitle/Words/Thought").text.contains("箱子很旧"),"facility subtitle contains the heroine's contextual opinion")
 	start=girl.grid_position
 	gestures.key(KEY_D,true)
 	world._process(0.2)
@@ -80,8 +80,8 @@ func run(tree: SceneTree,game: Node,ui: Control,check: Callable) -> void:
 	before=game.run.duplicate(true)
 	game.end_run(true)
 	check.call(not game.run.is_empty() and game.run.bag==before.bag and not game.can_extract(),"normal rooms cannot extract through the game API")
-	ui.confirm_extract()
-	check.call(not is_instance_valid(ui.modal),"normal rooms cannot open the return choice")
+	ui.return_to_base()
+	check.call(not is_instance_valid(ui.modal) and not game.run.is_empty(),"normal rooms cannot trigger the return action")
 	check.call(game.pick_up("3_2"),"antiradiation medicine can be carried")
 	game.equip_entry(game.run.bag.size()-1)
 	game.run.hp=50
@@ -111,23 +111,41 @@ func run(tree: SceneTree,game: Node,ui: Control,check: Callable) -> void:
 	check.call(battle.room().claimed,"freeing a real 2x2 area permits active-item treasure")
 	game.run.room=game.run.floor_data.boss
 	battle.enter_room(Vector2(450,300))
-	check.call(not game.can_extract(),"live boss blocks both extraction and descent")
+	check.call(not game.can_extract() and not battle.exit_layer.visible,"live boss hides and blocks both exit entities")
 	var boss: Dictionary=battle.enemies[0]
 	battle.shoot(boss.pos,Vector2.RIGHT,false,10000,500)
 	battle.update_bullets(0.001)
 	battle._process(0.01)
-	check.call(game.can_extract() and battle.room().cleared,"defeating boss unlocks the shared exit")
+	check.call(game.can_extract() and battle.room().cleared and battle.exit_layer.visible,"defeating boss unlocks the two physical exits")
 	gestures.tap(KEY_F)
-	var exit_view=ui.modal.get_node("Frame/Scroll/Content").get_child(1)
-	var choices=exit_view.get_child(1)
-	check.call(choices.get_child_count()==2 and choices.get_child(0).text.contains("下一层") and choices.get_child(1).text.contains("返程"),"boss exit presents descent and return side by side")
-	choices.get_child(0).pressed.emit()
+	check.call(game.run.floor==1 and not is_instance_valid(ui.modal),"former shared center no longer opens an exit choice")
+	ui.descend_floor()
+	ui.return_to_base()
+	check.call(game.run.floor==1,"exit callbacks cannot bypass physical proximity")
+	battle.player=battle.exit_entities.descent.position
+	game.state.power=0
+	gestures.tap(KEY_F)
+	check.call(game.run.floor==1 and ui.page=="combat","insufficient next-floor energy leaves the player beside the stairs")
+	game.state.power=500
+	gestures.tap(KEY_F)
 	check.call(game.run.floor==2 and game.run.room==0 and not game.run.has("timer") and not is_instance_valid(ui.modal),"descent enters the next floor without restoring a removed timer")
+	check.call(not battle.exit_layer.visible,"leaving boss room hides both exits")
 	game.run.room=game.run.floor_data.boss
 	game.run.floor_data.rooms[game.run.room].cleared=true
-	battle.enter_room(Vector2(450,300))
+	battle.enter_room(battle.exit_entities.return.position)
+	battle.paused=true
 	gestures.tap(KEY_F)
-	exit_view=ui.modal.get_node("Frame/Scroll/Content").get_child(1)
-	exit_view.get_child(1).get_child(1).pressed.emit()
-	check.call(game.run.is_empty() and ui.page=="base" and game.load_game(0),"boss return saves cargo and loads back into base")
+	check.call(not game.run.is_empty(),"paused input cannot activate the return terminal")
+	battle.paused=false
+	gestures.key(KEY_F,true,true)
+	gestures.key(KEY_F,false)
+	check.call(not game.run.is_empty(),"key echo cannot activate the return terminal")
+	gestures.tap(KEY_F)
+	check.call(game.run.is_empty() and ui.page=="base" and ui.stage.get_child(0).heroine.changing_suit(),"return terminal settles cargo and plays the expedition-only suit removal")
+	var returned_girl=ui.stage.get_child(0).heroine
+	returned_girl.advance(2,Vector2.ZERO)
+	check.call(not returned_girl.changing_suit() and returned_girl.current_texture()==Art.texture("base/heroine/2",returned_girl.IDLE_FRAME),"expedition suit removal finishes in a stationary casual pose")
+	ui.show_base()
+	check.call(not ui.stage.get_child(0).heroine.changing_suit(),"the same expedition arrival animation cannot be replayed by rebuilding the base page")
+	check.call(game.load_game(0) and not game.base_arrival,"return cargo persists without marking ordinary loading as an arrival")
 	await tree.process_frame

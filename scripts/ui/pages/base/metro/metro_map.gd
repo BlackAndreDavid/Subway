@@ -50,7 +50,7 @@ func station_detail() -> void:
 		app.map_view.center_station(app.map_selection)
 		app.station_detail())
 	app.side.add_child(stops)
-	app.button("重置视图 / 查看全网",func():app.map_view.reset_map(),app.side)
+	app.button("重置视图",func():app.map_view.reset_map(),app.side)
 	var s=C.STATIONS[app.map_selection]
 	app.section(app.side,s.name,Metro.lines_for(app.map_selection))
 	app.side.add_child(app.wrapped("选站依据："+s.selection_reason,14))
@@ -60,5 +60,6 @@ func station_detail() -> void:
 	app.side.add_child(app.wrapped("经济参考：%s（%d）\n区域数据仅作游戏校准，非单站统计。%s" % [s.economy_area,s.economy_year," 黄浦采用公报转录。" if s.economy_verification=="official_report_secondary_transcription" else ""],12))
 	app.side.add_child(app.wrapped("地下客流（游戏） %d 人/日\n辐射度（游戏） %d / 5\n产出物资   %s\n价格指数   × %.2f" % [s.traffic,s.radiation,s.yield,s.factor],15))
 	app.side.add_child(app.wrapped("路线："+Metro.route_names(int(Game.state.station),app.map_selection),13))
-	app.button("前往   /   %d 电量" % Game.travel_cost(app.map_selection),func():app.say(Game.travel(app.map_selection));app.show_map(),app.map_actions,app.map_selection==int(Game.state.station))
+	app.side.add_child(app.label("移动消耗 %d 电量" % Game.travel_cost(app.map_selection),15))
+	app.button("前往",func():app.say(Game.travel(app.map_selection));app.show_map(),app.map_actions,app.map_selection==int(Game.state.station))
 	app.back_button(app.show_base,app.map_actions)

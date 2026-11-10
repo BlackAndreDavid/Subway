@@ -4,6 +4,7 @@ signal notice(text: String)
 signal ended(success: bool)
 signal reward_requested
 signal descent_requested
+signal return_requested
 const Loot=preload("res://scripts/loot_rules.gd")
 const Art=preload("res://scripts/art_library.gd")
 const C=preload("res://scripts/catalog.gd")
@@ -25,6 +26,8 @@ var flash=0.0
 var pending_end=false
 var pointer_blocked=false
 var show_hitboxes=false
+var exit_layer: Node2D
+var exit_entities: Dictionary={}
 const VIEW_SIZE=Vector2(900,600)
 const INTERACT_DISTANCE=64.0
 const AREA=Rect2(45,65,810,475)
@@ -55,7 +58,34 @@ func _ready() -> void:
 		p.volume_db=-13
 		add_child(p)
 		sounds[key]=p
+	setup_exit_entities()
+	resized.connect(sync_exit_entities)
 	enter_room()
+func setup_exit_entities() -> void:
+	exit_layer=get_node_or_null("Exits")
+	if exit_layer==null:
+		exit_layer=Node2D.new()
+		exit_layer.name="Exits"
+		add_child(exit_layer)
+		for action in ["descent","return"]:
+			var entity=preload("res://scenes/exploration/exit.tscn").instantiate()
+			entity.action=action
+			entity.position=Vector2(330 if action=="descent" else 570,285)
+			exit_layer.add_child(entity)
+	for entity in exit_layer.get_children():exit_entities[entity.action]=entity
+func sync_exit_entities() -> void:
+	if not is_instance_valid(exit_layer):return
+	exit_layer.position=camera_offset()
+	exit_layer.scale=Vector2.ONE*camera_scale()
+	exit_layer.visible=Game.can_extract()
+	for entity in exit_entities.values():
+		entity.highlighted=not paused and not pending_end and exit_layer.visible and entity.in_range(player)
+		entity.queue_redraw()
+func nearby_exit() -> String:
+	if paused or pending_end or not Game.can_extract():return ""
+	for entity in exit_entities.values():
+		if entity.in_range(player):return entity.action
+	return ""
 func _exit_tree() -> void:
 	# Release active playback when leaving combat, before queued nodes are freed.
 	for sound in sounds.values():
@@ -83,6 +113,7 @@ func enter_room(spawn: Vector2=Vector2(450,300)) -> void:
 				enemies.append(make_enemy(rng.randi_range(0,3),pos))
 	ensure_ground_loot()
 	Game.run.fighting=not enemies.is_empty()
+	sync_exit_entities()
 	sounds.door.play()
 	changed.emit()
 	queue_redraw()
@@ -127,12 +158,14 @@ func _process(delta: float) -> void:
 		notice.emit("房间已清理。可以拾取、整理背包和使用通道。")
 		changed.emit()
 	update_ground_loot(delta)
+	sync_exit_entities()
 	queue_redraw()
 func _unhandled_key_input(event: InputEvent) -> void:
 	if Game.run.is_empty() or not event.is_pressed() or event.is_echo() or paused: return
 	if event.physical_keycode==KEY_F:
-		interact()
 		get_viewport().set_input_as_handled()
+		interact()
+		return
 	if event.physical_keycode==KEY_Q: use_drug()
 func _input(event: InputEvent) -> void:
 	# Capture Space before focused UI buttons can treat it as an activation.
@@ -288,8 +321,10 @@ func interact() -> void:
 	var id=nearby_door()
 	if id>=0:
 		goto_room(id)
-	elif room().kind=="boss" and room().cleared and player.distance_to(Vector2(450,300))<=40:
+	elif nearby_exit()=="descent":
 		descent_requested.emit()
+	elif nearby_exit()=="return":
+		return_requested.emit()
 	elif room().kind=="reward" and not room().claimed and player.distance_to(Vector2(450,280))<=INTERACT_DISTANCE:
 		reward_requested.emit()
 	elif nearest_loot()>=0:collect(nearest_loot())
@@ -442,9 +477,6 @@ func _draw() -> void:
 	draw_string(font,Vector2(290,34),"%s  /  第 %d 层  ·  房间 %02d" % [{"normal":"回收区","start":"检查站","reward":"遗留物资室","shop":"流动补给商","boss":"站区守卫"}[r.kind],Game.run.floor,int(r.id)+1],HORIZONTAL_ALIGNMENT_LEFT,-1,19,Color("b9d9d6"))
 	if not Game.run.fighting:
 		if r.kind=="reward" and not r.claimed: draw_texture_rect(Art.texture("chest"),Rect2(420,250,60,60),false)
-		if r.kind=="boss" and r.cleared:
-			draw_circle(Vector2(450,300),52,Color("3f7479"))
-			draw_string(font,Vector2(375,307),"F 下一层 / 撤离",HORIZONTAL_ALIGNMENT_LEFT,-1,18,Color("c5e4db"))
 		if r.kind=="shop": draw_texture_rect(Art.texture("station"),Rect2(420,240,65,65),false)
 	ensure_ground_loot()
 	for index in range(r.loot.size()):
@@ -470,7 +502,6 @@ func _draw() -> void:
 		var health_origin=Vector2(e.pos)-Vector2(22,enemy_radius(e)+12)
 		draw_rect(Rect2(health_origin,Vector2(44,4)),Color("21323a"))
 		draw_rect(Rect2(health_origin,Vector2(44*maxf(0,e.hp/e.max),4)),Color("d5927e"))
-		if float(e.get("armor",0))>0:draw_string(font,health_origin+Vector2(-3,-5),"重甲 %d%%" % roundi(float(e.armor)*100),HORIZONTAL_ALIGNMENT_LEFT,-1,11,Color("8bc9bf"))
 	if hurt_cd<=0 or int(age*14)%2==0:
 		draw_texture_rect(Art.texture("player/%d" % direction,frame),Rect2(player-Vector2(27,30),Vector2(54,54)),false)
 	if Game.run.shield>0: draw_arc(player,35,0,TAU,40,Color("8bd9e3"),3,true)

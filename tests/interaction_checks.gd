@@ -204,4 +204,4 @@ func run(scene_tree: SceneTree,game: Node,ui: Control,check: Callable) -> void:
 	game.end_run(false)
 	ui.show_base()
 	await tree.process_frame
-	check.call(not ui.drawer.visible,"base data drawer also defaults hidden")
+	check.call(not is_instance_valid(ui.drawer) and not is_instance_valid(ui.drawer_toggle),"base removes the details drawer and its toggle")
