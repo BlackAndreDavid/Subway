@@ -16,6 +16,7 @@ func _initialize() -> void:
 		return
 	call_deferred("run_tests")
 func run_tests() -> void:
+	root.size=Vector2i(1440,900)
 	game=root.get_node("Game")
 	preload("res://tests/art_and_map_checks.gd").run(check)
 	preload("res://tests/palette_checks.gd").run(check)
@@ -103,14 +104,14 @@ func run_tests() -> void:
 		balance=game.state.power
 		check(game.move_room(neighbor),"room transition")
 		check(game.run.energy==energy-1 and game.state.power==balance-1,"room energy cost")
-		while game.run.bag.size()<int(game.run.stats.capacity):check(game.pick_up("scrap"),"fill bag")
-		check(not game.pick_up("scrap"),"capacity bound")
+		while game.pick_up("1_0"):pass
+		check(not game.pick_up("1_0"),"physical capacity bound")
 		var output=game.end_run(c!=2)
 		check(game.run.is_empty(),"run settled")
 		check(output!="","settlement message")
 	# Exercise UI routes, equipment, inventory, drops, combat patterns and settlement.
 	game.new_game(0,"界面测试")
-	var ui=load("res://scenes/main.tscn").instantiate()
+	var ui=load("res://scenes/app/main.tscn").instantiate()
 	root.add_child(ui)
 	await process_frame
 	ui.show_slots()
@@ -161,7 +162,7 @@ func run_tests() -> void:
 	ui.show_bag()
 	check(ui.battle.paused,"inventory pauses")
 	ui.bag_selected=0
-	ui.swap_bag(1)
+	check(game.move_bag(0,Vector2i(0,2),0),"inventory position move")
 	ui.close_modal()
 	check(not ui.battle.paused,"resume from inventory")
 	var battle=ui.battle
@@ -222,6 +223,7 @@ func run_tests() -> void:
 	await process_frame
 	check(game.load_game(0),"settlement persisted")
 	await preload("res://tests/interaction_checks.gd").new().run(self,game,ui,check)
+	await preload("res://tests/inventory_checks.gd").new().run(self,game,ui,check)
 	ui.queue_free()
 	await process_frame
 	await process_frame

@@ -14,7 +14,7 @@ func shot(name: String) -> void:
 func capture() -> void:
 	root.size=Vector2i(1440,900)
 	var game=root.get_node("Game")
-	ui=load("res://scenes/main.tscn").instantiate()
+	ui=load("res://scenes/app/main.tscn").instantiate()
 	root.add_child(ui)
 	await shot("menu")
 	game.new_game(0,"上海堡垒")
@@ -33,6 +33,9 @@ func capture() -> void:
 			ui.station_detail()
 			break
 	await shot("map_zhangjiang")
+	ui.show_stash()
+	await shot("warehouse_grid")
+	ui.close_modal()
 	ui.show_preparation()
 	await shot("prepare")
 	# Exercise real mouse drags for the visual review too.
@@ -53,6 +56,7 @@ func capture() -> void:
 	ui.battle.player=ui.battle.door_position(int(ui.battle.room().links[0]))
 	ui.battle.door_delay=0
 	gestures.tap(KEY_F)
+	gestures.tap(KEY_SPACE)
 	await create_timer(0.5).timeout
 	await shot("combat")
 	ui.toggle_drawer()
@@ -75,6 +79,25 @@ func capture() -> void:
 	ui.battle.player=ui.battle.room().ground[2].pos+Vector2(0,-45)
 	ui.battle.queue_redraw()
 	await shot("ground_loot")
+	game.pick_up("0_1")
+	game.pick_up("2_2")
+	game.pick_up("mat_valve")
+	ui.bag_selected=1
+	ui.show_bag()
+	await shot("backpack_grid")
+	ui.close_modal()
+	# Facing fixture: left/right/up/down for both mobile quadrupeds.
+	ui.battle.room().loot=[]
+	ui.battle.room().ground=[]
+	var headings=[Vector2.LEFT,Vector2.RIGHT,Vector2.UP,Vector2.DOWN]
+	ui.battle.player=Vector2(100,480)
+	for type in [0,3]:
+		for i in range(4):
+			var enemy=ui.battle.make_enemy(type,Vector2(240+i*150,240+type*55))
+			ui.battle.update_enemy_facing(enemy,headings[i]*10,0.2)
+			ui.battle.enemies.append(enemy)
+	ui.battle.queue_redraw()
+	await shot("enemy_facing")
 	ui.clear_page("art_gallery")
 	var gallery=GridContainer.new()
 	gallery.columns=4

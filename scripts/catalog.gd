@@ -3,9 +3,43 @@ const RegionalData=preload("res://scripts/regional_data.gd")
 const Art=preload("res://scripts/art_library.gd")
 
 const CLASSES = [
-	{"name":"坦克", "hp":160.0, "capacity":20, "armor":0.40, "range":260.0, "speed":190.0},
-	{"name":"射手", "hp":110.0, "capacity":15, "armor":0.10, "range":620.0, "speed":235.0},
-	{"name":"刺客", "hp":80.0, "capacity":11, "armor":0.25, "range":410.0, "speed":290.0}]
+	{"name":"坦克", "hp":160.0, "capacity":30, "grid_cols":6,"grid_rows":5,"armor":0.40, "range":260.0, "speed":190.0},
+	{"name":"射手", "hp":110.0, "capacity":24, "grid_cols":6,"grid_rows":4,"armor":0.10, "range":620.0, "speed":235.0},
+	{"name":"刺客", "hp":80.0, "capacity":18, "grid_cols":6,"grid_rows":3,"armor":0.25, "range":410.0, "speed":290.0}]
+const SHAPES={
+	"0_0":["#","#"],"0_1":["#","#"],"0_2":["#","#"],"0_3":["##","##"],
+	"1_0":["#"],"1_1":["#","#"],"1_2":["##","##"],"1_3":["###","###"],
+	"2_0":["##"],"2_1":["#"],"2_2":["##","#."],"2_3":["##","##"],
+	"3_0":["#","#"],"3_1":["#","#"],"3_2":["#"],"3_3":["##","##"],
+	"4_0":["##","##"],"4_1":["##","##"],"4_2":["###","###"],"4_3":["###","###"],
+	"5_0":["##","##"],"5_1":["##","##","##"],"5_2":["##","##"],"5_3":["#..","###"],
+	"scrap":["##"],"mat_wafer":["##","##"],"mat_alloy":["##"],"mat_culture":["#","#"],
+	"mat_watch":["#"],"mat_bearing":["##","##"],"mat_valve":["#.","##"],"mat_seeds":["##"],"mat_archive":["##","##"]}
+static var cell_cache: Dictionary={}
+static var bounds_cache: Dictionary={}
+static func cells(id: String,rotation: int=0) -> Array:
+	var cache_key=id+":"+str(posmod(rotation,4))
+	if cell_cache.has(cache_key):return cell_cache[cache_key]
+	var result: Array=[]
+	var shape: Array=SHAPES[id]
+	for y in range(shape.size()):
+		for x in range(shape[y].length()):
+			if shape[y][x]=="#":result.append(Vector2i(x,y))
+	var bounds=Vector2i(shape[0].length(),shape.size())
+	for turn in range(posmod(rotation,4)):
+		for index in range(result.size()):result[index]=Vector2i(bounds.y-1-result[index].y,result[index].x)
+		bounds=Vector2i(bounds.y,bounds.x)
+	cell_cache[cache_key]=result
+	return result
+static func bounds(id: String,rotation: int=0) -> Vector2i:
+	var cache_key=id+":"+str(posmod(rotation,4))
+	if bounds_cache.has(cache_key):return bounds_cache[cache_key]
+	var extent=Vector2i.ZERO
+	for cell in cells(id,rotation):extent=extent.max(cell+Vector2i.ONE)
+	bounds_cache[cache_key]=extent
+	return extent
+static func weapon_cooldown(id: String) -> float:
+	return {"4_0":10.0,"4_1":7.0,"4_2":15.0,"4_3":6.0}.get(id,0.0)
 const CATEGORY_NAMES = ["水", "电", "食物", "药物", "武器", "强化模块"]
 const NAMES = [
 	["回收净水", "密封饮用水", "矿化水", "应急水箱"],

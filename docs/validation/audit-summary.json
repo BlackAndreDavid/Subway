@@ -1,9 +1,9 @@
 {
-  "review_date": "2026-11-10",
-  "scope": "prototype milestone plus maximized UI, warehouse drag/drop, physical F doors, fog minimap and floor pickups",
-  "acceptance_items": 36,
+  "review_date": "2026-11-11",
+  "scope": "prototype plus spatial inventories, combat HUD, enemy facing and scene encapsulation",
+  "acceptance_items": 45,
   "open_acceptance_items": 0,
-  "checks": 225099,
+  "checks": 225270,
   "failures": 0,
   "map_seeds": 1000,
   "playthrough_cases": 9,
@@ -23,9 +23,12 @@
     "Huangpu numeric reference is an explicitly labeled report transcription, not a claimed downloaded official original.",
     "Missing statistical axes remain null; available axes are reweighted.",
     "Original draft multiplayer/licences/black-market etc. remain outside this prototype milestone.",
-    "Water, food and battery trade goods occupy one slot; only direct power/currency floor pickups are automatic and slot-free."
+    "Water, food and battery trade goods use their concrete geometric footprints; only direct power/currency floor pickups are automatic and slot-free."
   ],
   "introductory_boss_wins": 3,
   "physical_door_interactions": 546,
-  "interaction_checks": "tests/interaction_checks.gd"
+  "interaction_checks": "tests/interaction_checks.gd",
+  "scene_count": 23,
+  "item_footprints": 33,
+  "inventory_checks": "tests/inventory_checks.gd"
 }

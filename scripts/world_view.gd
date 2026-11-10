@@ -1,7 +1,7 @@
 extends Control
 signal station_selected(index: int)
 signal furniture_changed
-var mode="base"
+@export_enum("base","map") var mode="base"
 var selected_station=0
 var placing=false
 var furniture_type=0

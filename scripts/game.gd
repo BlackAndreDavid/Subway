@@ -2,7 +2,9 @@ extends Node
 const Metro=preload("res://scripts/metro.gd")
 const Catalog = preload("res://scripts/catalog.gd")
 const FloorGenerator = preload("res://scripts/floor_generator.gd")
-const SAVE_VERSION = 1
+const Inventory=preload("res://scripts/inventory.gd")
+const SAVE_VERSION = 2
+const STASH_COLUMNS=12
 var slot = -1
 var state: Dictionary = {}
 var run: Dictionary = {}
@@ -37,13 +39,18 @@ func load_game(index: int) -> bool:
 		return false
 	slot=index
 	state=data
+	ensure_stash()
+	state.stash_rows=int(state.stash_rows)
+	for placement in state.stash_layout:
+		for field in ["x","y","rot"]:placement[field]=int(placement[field])
+	state.version=SAVE_VERSION
 	run={}
 	return true
 
 func validate_save(data: Dictionary) -> bool:
 	for key in ["version","name","day","station","water","food","power","stash","furniture","news","market_stock","customer"]:
 		if not data.has(key): return false
-	if data.version!=SAVE_VERSION or not data.name is String: return false
+	if not (data.version is int or data.version is float) or not int(data.version) in [1,SAVE_VERSION] or float(int(data.version))!=float(data.version) or not data.name is String: return false
 	for key in ["day","station","water","food","power","news","customer"]:
 		if not (data[key] is int or data[key] is float): return false
 	if data.day<1 or data.station<0 or data.station>=Catalog.STATIONS.size(): return false
@@ -52,6 +59,11 @@ func validate_save(data: Dictionary) -> bool:
 	var valid = Catalog.valid_ids()
 	for id in data.stash:
 		if not id is String or not valid.has(id): return false
+	if int(data.version)==SAVE_VERSION:
+		if not data.has_all(["stash_layout","stash_rows"]) or not data.stash_layout is Array or data.stash_layout.size()!=data.stash.size():return false
+		if not (data.stash_rows is int or data.stash_rows is float) or int(data.stash_rows)!=data.stash_rows or data.stash_rows<1:return false
+		var entries=stash_entries_for(data)
+		if entries.size()!=data.stash.size() or not Inventory.valid(entries,Vector2i(STASH_COLUMNS,int(data.stash_rows))):return false
 	for furniture in data.furniture:
 		if not furniture is Dictionary or not furniture.has_all(["x","y","type"]): return false
 		for key in ["x","y","type"]:
@@ -79,6 +91,8 @@ func write_json(path: String,data: Dictionary) -> bool:
 
 func save_game() -> bool:
 	if slot<0 or not run.is_empty(): return false
+	ensure_stash()
+	state.version=SAVE_VERSION
 	return write_json("user://slot_%d.json" % slot,state)
 
 func apply_settings() -> void:
@@ -128,10 +142,10 @@ func trade(id: String,buy: bool) -> String:
 		if state.power<value: return "电量不足。"
 		state.power-=value
 		state.market_stock[id]=state.market_stock.get(id,4)-1
-		state.stash.append(id)
+		add_stash(id)
 	else:
 		if not state.stash.has(id): return "仓库中没有该物品。"
-		state.stash.erase(id)
+		remove_stash(state.stash.find(id))
 		state.power+=value
 	save_game()
 	return ("购入" if buy else "售出")+Catalog.item(id).name
@@ -149,22 +163,24 @@ func accept_customer() -> String:
 	var offer=customer_offer()
 	if offer.buying:
 		if not state.stash.has(offer.id): return "没有该顾客需要的货物。"
-		state.stash.erase(offer.id)
+		remove_stash(state.stash.find(offer.id))
 		state.power+=offer.price
 	else:
 		if state.power<offer.price: return "电量不足。"
 		state.power-=offer.price
-		state.stash.append(offer.id)
+		add_stash(offer.id)
 	state.customer+=1
 	save_game()
 	return "交易完成，新顾客已到站。"
 
-func begin_run(class_index: int,module: String,weapon: String,drug: String,seed_value: int=-1) -> bool:
+func begin_run(class_index: int,module: String,weapon: String,drug: String,seed_value: int=-1,source_indices: Dictionary={}) -> bool:
 	if not run.is_empty() or class_index<0 or class_index>=Catalog.CLASSES.size():
 		last_error="职业无效或探索已开始。"
 		return false
 	var available: Array=state.stash.duplicate()
 	var selections=[module,weapon,drug]
+	var selected_indices: Array=[]
+	var slot_keys=["module","weapon","drug"]
 	for index in range(selections.size()):
 		var id: String=selections[index]
 		if id=="":continue
@@ -172,23 +188,40 @@ func begin_run(class_index: int,module: String,weapon: String,drug: String,seed_
 			last_error="装备必须来自仓库且与槽位类型匹配。"
 			return false
 		available.erase(id)
+		var source_index=int(source_indices.get(slot_keys[index],state.stash.find(id)))
+		if source_index<0 or source_index>=state.stash.size() or state.stash[source_index]!=id or selected_indices.has(source_index):
+			last_error="仓库格子已变化，请重新选择装备。"
+			return false
+		selected_indices.append(source_index)
 	var floor_data=FloorGenerator.generate(seed_value if seed_value>=0 else randi(),1)
 	if state.power<floor_data.budget:
 		last_error="本层无掉落保底路线需 %d 电量，账户不足。" % floor_data.budget
 		return false
-	for id in [module,weapon,drug]:
-		if id!="" and not state.stash.has(id):
-			last_error="仓库中缺少装备。"
-			return false
 	var stats=Catalog.CLASSES[class_index].duplicate(true)
-	var bag: Array=[]
-	for id in [module,weapon,drug]:
-		if id!="":
-			state.stash.erase(id)
-			bag.append({"id":id,"uses":Catalog.item(id).uses})
 	if module=="5_0": stats.armor=minf(0.7,stats.armor+0.15)
-	if module=="5_1": stats.capacity+=6
+	if module=="5_1": stats.grid_rows+=1
+	stats.capacity=int(stats.grid_cols)*int(stats.grid_rows)
+	var bag: Array=[]
+	for id in selections:
+		if id=="":continue
+		var placement=Inventory.first_fit(bag,Vector2i(stats.grid_cols,stats.grid_rows),id)
+		if placement.is_empty():
+			last_error="所选装备无法放入该职业背包。"
+			return false
+		placement.merge({"id":id,"uses":Catalog.item(id).uses})
+		bag.append(placement)
+	ensure_stash()
+	selected_indices.sort()
+	selected_indices.reverse()
+	for index in selected_indices:remove_stash(int(index))
 	run={"class":class_index,"stats":stats,"hp":stats.hp,"module":module,"weapon":weapon,"drug":drug,"bag":bag,"floor_data":floor_data,"room":0,"floor":1,"energy":floor_data.budget,"timer":360.0-float(Catalog.STATIONS[int(state.station)].radiation)*20.0,"buff":0.0,"shield":0.0,"weapon_cd":0.0,"rewards":[],"damage":1.0,"fighting":false,"seed":floor_data.seed}
+	run.equipped_uid={"module":-1,"weapon":-1,"drug":-1}
+	run.next_uid=0
+	for entry in bag:
+		entry.uid=run.next_uid
+		run.next_uid+=1
+		for key in ["module","weapon","drug"]:
+			if entry.id==run[key]:run.equipped_uid[key]=entry.uid
 	return true
 
 func move_room(id: int) -> bool:
@@ -199,9 +232,50 @@ func move_room(id: int) -> bool:
 	run.room=id
 	return true
 
+func bag_dimensions() -> Vector2i:
+	return Vector2i(int(run.stats.grid_cols),int(run.stats.grid_rows))
+func can_pick_up(id: String) -> bool:
+	return not run.is_empty() and not Inventory.first_fit(run.bag,bag_dimensions(),id).is_empty()
 func pick_up(id: String,remaining_uses: int=-1) -> bool:
-	if run.bag.size()>=int(run.stats.capacity): return false
-	run.bag.append({"id":id,"uses":Catalog.item(id).uses if remaining_uses<0 else remaining_uses})
+	if run.is_empty() or run.fighting or not Catalog.valid_ids().has(id):return false
+	var placement=Inventory.first_fit(run.bag,bag_dimensions(),id)
+	if placement.is_empty():return false
+	placement.merge({"id":id,"uses":Catalog.item(id).uses if remaining_uses<0 else remaining_uses,"uid":run.next_uid})
+	run.next_uid+=1
+	run.bag.append(placement)
+	return true
+func move_bag(index: int,position: Vector2i,rotation: int) -> bool:
+	if run.is_empty() or run.fighting or index<0 or index>=run.bag.size():return false
+	if not Inventory.fits(run.bag,bag_dimensions(),run.bag[index].id,position,rotation,index):return false
+	run.bag[index].merge({"x":position.x,"y":position.y,"rot":posmod(rotation,4)},true)
+	return true
+func set_module(id: String) -> bool:
+	if run.is_empty() or run.fighting or (id!="" and not run.bag.any(func(entry):return entry.id==id and Catalog.item(id).category==5)):return false
+	var stats: Dictionary=run.stats
+	var base: Dictionary=Catalog.CLASSES[int(run["class"])]
+	var dimensions=Vector2i(int(base.grid_cols),int(base.grid_rows)+(1 if id=="5_1" else 0))
+	if not Inventory.valid(run.bag,dimensions):
+		last_error="物品超出基础背包边界；先整理下方扩展格，再卸下背架。"
+		return false
+	stats.armor=minf(0.7,float(base.armor)+(0.15 if id=="5_0" else 0.0))
+	stats.grid_rows=dimensions.y
+	stats.capacity=dimensions.x*dimensions.y
+	run.module=id
+	return true
+func equipped_entry(slot_key: String) -> Dictionary:
+	if run.is_empty() or run[slot_key]=="":return {}
+	for entry in run.bag:
+		if entry.id==run[slot_key] and int(entry.uid)==int(run.equipped_uid[slot_key]):return entry
+	return {}
+func equip_entry(index: int) -> bool:
+	if run.is_empty() or run.fighting or index<0 or index>=run.bag.size():return false
+	var entry: Dictionary=run.bag[index]
+	var key: String={3:"drug",4:"weapon",5:"module"}.get(int(Catalog.item(entry.id).category),"")
+	if key=="":return false
+	var unequip=int(run.equipped_uid[key])==int(entry.uid)
+	if key=="module" and not set_module("" if unequip else entry.id):return false
+	run[key]="" if unequip else entry.id
+	run.equipped_uid[key]=-1 if unequip else int(entry.uid)
 	return true
 
 func claim_reward(index: int) -> String:
@@ -234,10 +308,56 @@ func end_run(success: bool) -> String:
 	var count=run.bag.size()
 	if success:
 		for entry in run.bag:
-			state.stash.append(entry.id)
+			add_stash(entry.id)
 	else:
 		# Equipped items and cargo are lost. Combat already spent electricity.
 		count=0
 	run={}
 	save_game()
 	return "安全返程，回收 %d 件物资。已存入基地仓库。" % count if success else "救援队将你送回基地，本次携带物资遗失。"
+
+func stash_entries_for(data: Dictionary) -> Array:
+	var result: Array=[]
+	for index in range(data.stash.size()):
+		if not data.stash_layout[index] is Dictionary:return []
+		var entry: Dictionary=data.stash_layout[index].duplicate()
+		entry.id=data.stash[index]
+		result.append(entry)
+	return result
+func ensure_stash() -> void:
+	if state.is_empty():return
+	if state.has_all(["stash_layout","stash_rows"]) and state.stash_layout.size()==state.stash.size():return
+	state.stash_layout=[]
+	state.stash_rows=10
+	var entries: Array=[]
+	for id in state.stash:
+		var placement=Inventory.first_fit(entries,Vector2i(STASH_COLUMNS,int(state.stash_rows)),id)
+		while placement.is_empty():
+			state.stash_rows+=2
+			placement=Inventory.first_fit(entries,Vector2i(STASH_COLUMNS,int(state.stash_rows)),id)
+		state.stash_layout.append(placement.duplicate())
+		var entry=placement.duplicate()
+		entry.id=id
+		entries.append(entry)
+func stash_entries() -> Array:
+	ensure_stash()
+	return stash_entries_for(state)
+func add_stash(id: String) -> void:
+	ensure_stash()
+	var entries=stash_entries_for(state)
+	var placement=Inventory.first_fit(entries,Vector2i(STASH_COLUMNS,int(state.stash_rows)),id)
+	while placement.is_empty():
+		state.stash_rows+=2
+		placement=Inventory.first_fit(entries,Vector2i(STASH_COLUMNS,int(state.stash_rows)),id)
+	state.stash.append(id)
+	state.stash_layout.append(placement)
+func remove_stash(index: int) -> void:
+	ensure_stash()
+	if index<0 or index>=state.stash.size():return
+	state.stash.remove_at(index)
+	state.stash_layout.remove_at(index)
+func move_stash(index: int,position: Vector2i,rotation: int) -> bool:
+	var entries=stash_entries()
+	if not run.is_empty() or index<0 or index>=entries.size() or not Inventory.fits(entries,Vector2i(STASH_COLUMNS,int(state.stash_rows)),entries[index].id,position,rotation,index):return false
+	state.stash_layout[index]={"x":position.x,"y":position.y,"rot":posmod(rotation,4)}
+	return save_game()

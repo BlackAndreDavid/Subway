@@ -84,7 +84,7 @@ func audit() -> void:
 					var loot_distance=INF
 					for index in range(battle.room().loot.size()):
 						var id=battle.loot_id(battle.room().loot[index])
-						if not battle.automatic_loot(id) and id!="chest" and game.run.bag.size()>=int(game.run.stats.capacity):continue
+						if not battle.automatic_loot(id) and id!="chest" and not game.can_pick_up(id):continue
 						var token=str(game.run.room)+":"+str(battle.room().ground[index].pos)+":"+id
 						if ignored_loot.has(token):continue
 						var distance=battle.player.distance_to(battle.room().ground[index].pos)
@@ -152,7 +152,7 @@ func audit() -> void:
 				motion.global_position=motion.position
 				Input.parse_input_event(motion)
 				if game.run.hp<float(game.run.stats.hp)-35:tap(KEY_Q)
-				if game.run.weapon_cd<=0:tap(KEY_E)
+				if game.run.weapon_cd<=0:tap(KEY_SPACE)
 				Input.flush_buffered_events()
 				var before=battle.enemies.size()
 				battle._process(dt)

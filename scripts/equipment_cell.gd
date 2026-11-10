@@ -58,6 +58,9 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 	var index=model.item_index(slot_type) if slot_type!="" else stock_index
 	var data=model.drag_data(index,slot_type if slot_type!="" else "warehouse")
 	if data.is_empty():return null
+	data.rotation=int(model.layout[index].rot)
+	data.item_id=model.stock[index]
+	data.anchor=Vector2i.ZERO
 	var preview=TextureRect.new()
 	preview.texture=load(C.item(model.stock[index]).icon)
 	preview.custom_minimum_size=Vector2(72,72)

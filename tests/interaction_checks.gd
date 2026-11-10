@@ -19,17 +19,20 @@ func mouse(point: Vector2,pressed: bool) -> void:
 	event.global_position=point
 	event.button_index=MOUSE_BUTTON_LEFT
 	event.pressed=pressed
-	tree.root.push_input(event,true)
+	Input.parse_input_event(event)
+	Input.flush_buffered_events()
 func motion(point: Vector2,relative: Vector2) -> void:
 	var event=InputEventMouseMotion.new()
 	event.position=point
 	event.global_position=point
 	event.relative=relative
 	event.button_mask=MOUSE_BUTTON_MASK_LEFT
-	tree.root.push_input(event,true)
+	Input.parse_input_event(event)
+	Input.flush_buffered_events()
 func drag(source: Control,target: Control) -> void:
+	await drag_to(source,target.get_global_rect().get_center())
+func drag_to(source: Control,finish: Vector2) -> void:
 	var start=source.get_global_rect().get_center()
-	var finish=target.get_global_rect().get_center()
 	motion(start,Vector2.ZERO)
 	mouse(start,true)
 	motion(start+Vector2(22,0),Vector2(22,0))
@@ -59,7 +62,7 @@ func run(scene_tree: SceneTree,game: Node,ui: Control,check: Callable) -> void:
 	data=model.drag_data(2)
 	data.model=empty.get_instance_id()
 	check.call(not model.assign("weapon",data),"foreign warehouse drag rejected")
-	check.call(model.drag_data(4).is_empty(),"water is not an equipment selection")
+	check.call(not model.assign("weapon",model.drag_data(4)),"water can be moved but cannot enter an equipment slot")
 	game.new_game(0,"交互修正测试")
 	var stock=game.state.stash.duplicate()
 	check.call(not game.begin_run(0,"3_0","","",2026),"departure rejects wrong category")
@@ -82,7 +85,7 @@ func run(scene_tree: SceneTree,game: Node,ui: Control,check: Callable) -> void:
 	await drag(ui.warehouse_grid.get_child(0),ui.loadout_slots.get_child(2))
 	check.call(ui.loadout.selected_id("weapon")=="4_1" and ui.loadout.selected_id("drug")=="3_0","real mouse drag equips weapon and medicine")
 	check.call(game.state.stash==stock,"preparation drag does not consume stock")
-	await drag(ui.loadout_slots.get_child(0),ui.warehouse_grid.get_child(0))
+	await drag_to(ui.loadout_slots.get_child(0),ui.warehouse_grid.tiles[8].global_position+Vector2(16,16))
 	check.call(ui.loadout.selected_id("module")=="","real mouse drag returns module to warehouse")
 	await drag(ui.warehouse_grid.get_child(8),ui.loadout_slots.get_child(0))
 	ui.start_run()
@@ -169,7 +172,7 @@ func run(scene_tree: SceneTree,game: Node,ui: Control,check: Callable) -> void:
 	battle.player=Vector2(790,480)
 	var loot_before=battle.room().loot.duplicate(true)
 	check.call(not battle.collect(2) and battle.room().loot==loot_before,"remote pickup rejected without removing loot")
-	while game.run.bag.size()<int(game.run.stats.capacity):game.pick_up("scrap")
+	while game.pick_up("1_0"):pass
 	var count=game.run.bag.size()
 	var old_power=float(game.state.power)
 	var old_energy=float(game.run.energy)
@@ -185,8 +188,9 @@ func run(scene_tree: SceneTree,game: Node,ui: Control,check: Callable) -> void:
 	tap(KEY_F)
 	check.call(battle.room().loot.has("0_0") and game.run.bag.size()==count,"full bag leaves manual water pickup on ground")
 	game.run.bag.pop_back()
+	game.run.bag.pop_back()
 	tap(KEY_F)
-	check.call(not battle.room().loot.has("0_0") and game.run.bag.back().id=="0_0","F picks up nearby water into one backpack slot")
+	check.call(not battle.room().loot.has("0_0") and game.run.bag.back().id=="0_0","F picks up nearby water into its physical backpack footprint")
 	var chest_index=battle.room().loot.find("chest")
 	battle.player=battle.room().ground[chest_index].pos
 	battle.rng.seed=8004

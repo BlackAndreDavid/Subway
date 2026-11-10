@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/ui/pages/frontend/main_menu.gd" id="1"]
+[node name="MainMenu" type="HBoxContainer"]
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1")
+[node name="Hero" type="VBoxContainer" parent="."]
+layout_mode = 2
+custom_minimum_size = Vector2(790,0)
+size_flags_horizontal = 3
+[node name="Actions" type="VBoxContainer" parent="."]
+layout_mode = 2
+custom_minimum_size = Vector2(350,0)

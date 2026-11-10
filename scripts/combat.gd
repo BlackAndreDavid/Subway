@@ -35,6 +35,9 @@ func world_mouse() -> Vector2:
 func _ready() -> void:
 	mouse_filter=Control.MOUSE_FILTER_IGNORE
 	font=ThemeDB.fallback_font
+	if Game.run.is_empty():
+		set_process(false)
+		return
 	rng.seed=int(Game.run.seed)
 	for key in ["shot","pickup","hit","door"]:
 		var p=AudioStreamPlayer.new()
@@ -75,7 +78,7 @@ func enter_room(spawn: Vector2=Vector2(450,300)) -> void:
 	queue_redraw()
 func make_enemy(type: int,pos: Vector2) -> Dictionary:
 	var hp=([32,45,28,38,400][type])*(1+0.23*(int(Game.run.floor)-1))
-	return {"type":type,"pos":pos,"hp":float(hp),"max":float(hp),"timer":rng.randf_range(0.3,1.6),"phase":0.0,"velocity":Vector2.ZERO}
+	return {"type":type,"pos":pos,"hp":float(hp),"max":float(hp),"timer":rng.randf_range(0.3,1.6),"phase":0.0,"velocity":Vector2.ZERO,"travel":Vector2.ZERO,"facing":Vector2.LEFT if type in [0,3] else Vector2.RIGHT,"walk_time":0.0}
 func _process(delta: float) -> void:
 	if Game.run.is_empty() or paused or pending_end: return
 	age+=delta
@@ -119,16 +122,21 @@ func _process(delta: float) -> void:
 	update_ground_loot(delta)
 	queue_redraw()
 func _unhandled_key_input(event: InputEvent) -> void:
-	if not event.is_pressed() or event.is_echo() or paused: return
+	if Game.run.is_empty() or not event.is_pressed() or event.is_echo() or paused: return
 	if event.physical_keycode==KEY_F:
 		interact()
 		get_viewport().set_input_as_handled()
-	elif event.physical_keycode==KEY_E: use_weapon()
 	if event.physical_keycode==KEY_Q: use_drug()
+func _input(event: InputEvent) -> void:
+	# Capture Space before focused UI buttons can treat it as an activation.
+	if not event is InputEventKey or event.physical_keycode!=KEY_SPACE or paused or pending_end or Game.run.is_empty():return
+	if event.pressed and not event.echo:use_weapon()
+	get_viewport().set_input_as_handled()
 func shoot(pos: Vector2,dir: Vector2,enemy: bool,damage: float,distance: float=900,penetrating: bool=false) -> void:
 	bullets.append({"pos":pos,"vel":dir*(230 if enemy else 540),"enemy":enemy,"damage":damage,"distance":distance,"hit":[],"penetrating":penetrating})
 func update_enemies(delta: float) -> void:
 	for e in enemies:
+		var before: Vector2=e.pos
 		var to: Vector2=player-e.pos
 		e.timer-=delta
 		e.phase+=delta
@@ -158,7 +166,20 @@ func update_enemies(delta: float) -> void:
 					for i in range(-1,2): shoot(e.pos,to.normalized().rotated(i*0.15),true,15)
 					e.timer=1.6 if e.hp<e.max*0.5 else 2.2
 		e.pos=e.pos.clamp(AREA.position+Vector2(25,25),AREA.end-Vector2(25,25))
+		update_enemy_facing(e,e.pos-before,delta)
 		if to.length()<(42 if e.type==4 else 27): take_damage(18)
+func update_enemy_facing(enemy: Dictionary,displacement: Vector2,delta: float) -> void:
+	enemy.travel=displacement
+	if displacement.length_squared()>0.0001:
+		enemy.facing=displacement.normalized()
+		enemy.walk_time+=delta
+	else:enemy.walk_time=0.0
+func enemy_rotation(enemy: Dictionary) -> float:
+	# Quadrupeds have a left-facing source atlas; turn it toward actual travel.
+	return wrapf(Vector2(enemy.facing).angle()-(0.0 if enemy_flipped(enemy) else PI),-PI,PI) if int(enemy.type) in [0,3] else 0.0
+func enemy_flipped(enemy: Dictionary) -> bool:
+	# The bandit atlas faces right; never use player direction while retreating.
+	return float(enemy.facing.x)>0.01 if int(enemy.type) in [0,3] else int(enemy.type) in [1,4] and float(enemy.facing.x)<-0.01
 func update_bullets(delta: float) -> void:
 	for b in bullets.duplicate():
 		b.pos+=b.vel*delta
@@ -226,6 +247,7 @@ func goto_room(id: int) -> bool:
 	notice.emit("战斗中无法通行，或电量不足。")
 	return false
 func use_weapon() -> void:
+	if Game.run.is_empty() or paused or pending_end:return
 	if Game.run.weapon=="" or Game.run.weapon_cd>0: return
 	var aim=(world_mouse()-player).normalized()
 	if aim==Vector2.ZERO: aim=Vector2.RIGHT
@@ -249,13 +271,10 @@ func use_weapon() -> void:
 			Game.run.weapon_cd=6.0
 	changed.emit()
 func use_drug() -> void:
+	if Game.run.is_empty() or paused or pending_end:return
 	var id: String=Game.run.drug
 	if id=="": return
-	var entry: Dictionary={}
-	for candidate in Game.run.bag:
-		if candidate.id==id and candidate.uses>0:
-			entry=candidate
-			break
+	var entry: Dictionary=Game.equipped_entry("drug")
 	if entry.is_empty(): return
 	match id:
 		"3_0": Game.run.hp=minf(Game.run.stats.hp,Game.run.hp+35)
@@ -266,6 +285,7 @@ func use_drug() -> void:
 	if entry.uses<=0:
 		Game.run.bag.erase(entry)
 		Game.run.drug=""
+		Game.run.equipped_uid.drug=-1
 	notice.emit("使用了"+C.item(id).name)
 	changed.emit()
 func create_loot() -> void:
@@ -354,7 +374,7 @@ func _draw() -> void:
 		var diff: Vector2i=Game.run.floor_data.rooms[id].pos-r.pos
 		var pos=Vector2(450,65) if diff.y<0 else Vector2(450,540) if diff.y>0 else Vector2(45,300) if diff.x<0 else Vector2(855,300)
 		draw_rect(Rect2(pos-Vector2(25,15),Vector2(50,30)),Color("9e685e") if Game.run.fighting else Color("79bdb5"))
-	draw_string(font,Vector2(45,34),"%s  /  第 %d 层  ·  房间 %02d" % [{"normal":"回收区","start":"检查站","reward":"遗留物资室","shop":"流动补给商","boss":"站区守卫"}[r.kind],Game.run.floor,int(r.id)+1],HORIZONTAL_ALIGNMENT_LEFT,-1,19,Color("b9d9d6"))
+	draw_string(font,Vector2(290,34),"%s  /  第 %d 层  ·  房间 %02d" % [{"normal":"回收区","start":"检查站","reward":"遗留物资室","shop":"流动补给商","boss":"站区守卫"}[r.kind],Game.run.floor,int(r.id)+1],HORIZONTAL_ALIGNMENT_LEFT,-1,19,Color("b9d9d6"))
 	if not Game.run.fighting:
 		if r.kind=="reward" and not r.claimed: draw_texture_rect(Art.texture("chest"),Rect2(420,250,60,60),false)
 		if r.kind=="boss" and r.cleared:
@@ -369,7 +389,8 @@ func _draw() -> void:
 		draw_texture_rect(loot_texture(id),Rect2(pos-Vector2(21,21),Vector2(42,42)),false)
 	if not Game.run.fighting and nearest_loot()>=0 and nearby_door()<0:
 		var id=loot_id(r.loot[nearest_loot()])
-		var text="F 打开宝箱" if id=="chest" else "F 拾取 · "+C.item(id).name+"（1格）"
+		var bounds=C.bounds(id) if id!="chest" else Vector2i.ONE
+		var text="F 打开宝箱" if id=="chest" else "F 拾取 · %s（%d×%d / %d格）" % [C.item(id).name,bounds.x,bounds.y,C.cells(id).size()]
 		draw_string(font,Vector2(45,559),text,HORIZONTAL_ALIGNMENT_LEFT,-1,15,Color("eed4a1"))
 	if not Game.run.fighting and nearby_door()>=0:
 		var door=door_position(nearby_door())
@@ -377,7 +398,13 @@ func _draw() -> void:
 	for e in enemies:
 		var dim=Vector2(86,86) if e.type==4 else Vector2(53,53)
 		if e.type==3 and e.timer>1.85: draw_line(e.pos,e.pos+e.velocity*0.5,Color(0.9,0.45,0.35,0.5),3)
-		draw_texture_rect(Art.texture("enemies/%d" % e.type,Art.frames_at_time("enemies/%d" % e.type,age)),Rect2(e.pos-dim*0.5,dim),false)
+		var animation_time=float(e.walk_time) if e.type!=2 else age
+		var sprite=Art.texture("enemies/%d" % e.type,Art.frames_at_time("enemies/%d" % e.type,animation_time))
+		draw_set_transform(camera_offset()+Vector2(e.pos)*camera_scale(),enemy_rotation(e),Vector2.ONE*camera_scale())
+		var sprite_rect=Rect2(-dim*0.5,dim)
+		if enemy_flipped(e):sprite_rect=Rect2(Vector2(dim.x*0.5,-dim.y*0.5),Vector2(-dim.x,dim.y))
+		draw_texture_rect(sprite,sprite_rect,false)
+		draw_set_transform(camera_offset(),0,Vector2.ONE*camera_scale())
 		draw_rect(Rect2(e.pos-Vector2(22,35),Vector2(44,4)),Color("21323a"))
 		draw_rect(Rect2(e.pos-Vector2(22,35),Vector2(44*maxf(0,e.hp/e.max),4)),Color("d5927e"))
 	if hurt_cd<=0 or int(age*14)%2==0:
@@ -386,7 +413,7 @@ func _draw() -> void:
 	if flash>0: draw_arc(player,250*(1-flash/0.3),0,TAU,60,Color("a8ebe2"),4,true)
 	for b in bullets:
 		draw_texture_rect(Art.texture("enemy_bullet" if b.enemy else "bullet"),Rect2(b.pos-Vector2(7,7),Vector2(14,14)),false)
-	draw_string(font,Vector2(45,580),"WASD 移动  /  鼠标射击  /  F 进入  /  E 武器  /  Q 药物  /  B 背包  /  长按 Tab 地图  /  Esc 暂停",HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("6f949e"))
+	draw_string(font,Vector2(45,580),"WASD 移动  /  鼠标射击  /  F 互动  /  空格 主动道具  /  Q 药物  /  B 背包  /  长按 Tab 地图  /  Esc 暂停",HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("6f949e"))
 func style() -> StyleBoxFlat:
 	var s=StyleBoxFlat.new()
 	s.bg_color=Color("142a35")

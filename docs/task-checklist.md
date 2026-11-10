@@ -62,3 +62,18 @@
 - [x] 增加真实鼠标拖拽、键位与边界回归；九组试玩改为WASD走向门和掉落物并按F，重拍原生截图，更新记录并提交推送。
 
 证据：`tests/interaction_checks.gd`、`tests/playthrough_audit.gd`、`docs/ground_loot.png`、`docs/prepare_equipped.png`、`docs/combat_map_held.png`与详情展开截图；验收结果以本次提交的CI为准。
+
+
+## HUD、形状储物、敌人朝向与场景封装
+
+- [x] 主动道具图标、充能进度与剩余时间显示在左上角，空格使用；焦点按钮不抢占战斗空格，暂停时不能触发。
+- [x] 药物图标及剩余次数显示在右下角，Q使用，消耗绑定所选具体副本。
+- [x] 33种道具逐一配置真实形状，含长方形和L形；主动道具均至少2×2，按实际占用格判定。
+- [x] 背包、仓库、整备仓库、商店库存统一格子展示，支持拖拽、R旋转、落点预览、越界/重叠拒绝与取消保留。
+- [x] 三职业固定6×5、6×4、6×3；背架增加实际一行，卸载前检查扩展行，碎片面积不能替代可放置形状。
+- [x] 存档版本1自动迁移网格且保留全部副本；版本2保存位置/旋转、校验重叠；出发扣除选中实物而非同名首件。
+- [x] 敌人朝向按实际位移更新，枪手撤退、爬行怪锁定冲刺、左右/上下方向与停止动画均检查。
+- [x] 23个场景按app/frontend/base/exploration/inventory/shop/common分层；独立页面控制器、静态结构节点与可复用组件实际用于运行。
+- [x] 新增形状/存档/HUD/朝向/场景与真实拖拽测试，重拍原生截图，更新完整试玩及保存推送记录。
+
+证据：`docs/inventory-grid.md`、`docs/scene-architecture.md`、`tests/inventory_checks.gd`、原生`backpack_grid.png`/`warehouse_grid.png`/`enemy_facing.png`；远端状态以本次提交的GitHub Actions为准。
