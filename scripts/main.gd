@@ -1,4 +1,7 @@
 extends Control
+const Art=preload("res://scripts/art_library.gd")
+const Metro=preload("res://scripts/metro.gd")
+const MapData=preload("res://scripts/metro_data.gd")
 const C=preload("res://scripts/catalog.gd")
 const World=preload("res://scripts/world_view.gd")
 const Combat=preload("res://scripts/combat.gd")
@@ -18,6 +21,7 @@ var weapon_select: OptionButton
 var drug_select: OptionButton
 var base_name: LineEdit
 var map_selection=0
+var map_view: Control
 var bag_selected=-1
 var shop_category=0
 var notice_text="欢迎来到地下。"
@@ -45,6 +49,7 @@ func _ready() -> void:
 			box.border_color=Color("92c6c4")
 		t.set_stylebox(state,"Button",box)
 	theme=t
+	texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST
 	ThemeDB.fallback_font=fonts
 	show_menu()
 
@@ -142,7 +147,7 @@ func show_menu() -> void:
 	hero.add_child(label("最后一班，\n开往明天。",68,Color("e4e2ca")))
 	hero.add_child(wrapped("地表沉默之后，城市在轨道下重生。\n作为一名回收员，探索、交易，守住属于你的那节车厢。",21))
 	var art=TextureRect.new()
-	art.texture=load("res://assets/station.svg")
+	art.texture=Art.texture("station")
 	art.custom_minimum_size=Vector2(180,180)
 	art.expand_mode=TextureRect.EXPAND_IGNORE_SIZE
 	art.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED
@@ -234,6 +239,7 @@ func show_map() -> void:
 	map_selection=int(Game.state.station)
 	var world=World.new()
 	world.mode="map"
+	map_view=world
 	world.selected_station=map_selection
 	world.custom_minimum_size=Vector2(900,610)
 	world.size_flags_vertical=Control.SIZE_EXPAND_FILL
@@ -243,10 +249,40 @@ func show_map() -> void:
 	station_detail()
 func station_detail() -> void:
 	empty(side)
+	section(side,"上海地下交通网","真实线路 · 主要站点压缩图")
+	var lines=OptionButton.new()
+	lines.add_item("全部 21 条线路")
+	lines.set_item_metadata(0,"")
+	var ids: Array=[]
+	for line in MapData.LINES:
+		if ids.has(line.id):continue
+		ids.append(line.id)
+		lines.add_item(line.name)
+		lines.set_item_metadata(lines.item_count-1,line.id)
+		if map_view.line_filter==line.id:lines.select(lines.item_count-1)
+	lines.item_selected.connect(func(index):
+		map_view.line_filter=lines.get_item_metadata(index)
+		map_view.queue_redraw()
+		station_detail())
+	side.add_child(lines)
+	var stops=OptionButton.new()
+	stops.clip_text=true
+	for i in range(C.STATIONS.size()):
+		if map_view.line_filter!="" and not C.STATIONS[i].lines.has(map_view.line_filter):continue
+		stops.add_item(C.STATIONS[i].name)
+		stops.set_item_metadata(stops.item_count-1,i)
+		if i==map_selection:stops.select(stops.item_count-1)
+	stops.item_selected.connect(func(index):
+		map_selection=int(stops.get_item_metadata(index))
+		map_view.center_station(map_selection)
+		station_detail())
+	side.add_child(stops)
+	button("重置视图 / 查看全网",func():map_view.reset_map(),side)
 	var s=C.STATIONS[map_selection]
-	section(side,s.name,"站点档案 / STATION PROFILE")
-	side.add_child(wrapped("客流量   %d 人 / 日\n辐射度   %d / 5\n产出物资   %s\n价格指数   × %.2f\n地表防护时间   %d 秒" % [s.traffic,s.radiation,s.yield,s.factor,360-int(s.radiation)*20]))
-	side.add_child(wrapped("辐射越高，地表停留时间越短。站点与每日新闻共同影响收购价格。"))
+	section(side,s.name,Metro.lines_for(map_selection))
+	side.add_child(wrapped("选站依据："+s.selection_reason,14))
+	side.add_child(wrapped("地下客流（游戏） %d 人/日\n辐射度（游戏） %d / 5\n产出物资   %s\n价格指数   × %.2f\n地表防护   %d 秒" % [s.traffic,s.radiation,s.yield,s.factor,360-int(s.radiation)*20],15))
+	side.add_child(wrapped("路线："+Metro.route_names(int(Game.state.station),map_selection),13))
 	button("前往   /   %d 电量" % Game.travel_cost(map_selection),func():say(Game.travel(map_selection));show_map(),side,map_selection==int(Game.state.station))
 	back_button(show_base,side)
 func equipment_select(parent: Node,category: int,title: String) -> OptionButton:

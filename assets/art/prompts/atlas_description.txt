@@ -1,0 +1,11 @@
+8 columns × 9 rows, 72 equal square cells; read left-to-right, top-to-bottom.
+R0: four walk frames facing LEFT; four walk frames facing RIGHT. Character: short licensed scavenger in ochre radiation coat, bone helmet, glowing mint visor, gray boots and small backpack.
+R1: four walk frames facing DOWN toward viewer; four walk frames facing UP away. Same exact scavenger, alternating feet 0/1/2/3.
+R2: four scuttling frames of brown mutated rat; four walking/aiming frames of gray hooded scavenger bandit.
+R3: four pulsing frames of dusty-purple spore turret; four crawling/charging frames of mint armored six-legged mutant.
+R4: four idle/attack frames of large rust-and-bone station-guardian industrial robot boss; four WATER item icons: dented canteen, sealed water bottle, mineral water flask, emergency water tank.
+R5: four ELECTRICITY icons: worn battery, standard teal power cell, high-density twin-cell, solid-state battery bank; four FOOD icons: compressed biscuits, mushroom tin, hydroponic greens, orange emergency ration packet.
+R6: four MEDICINE icons: gel bandage roll, adrenaline injector, anti-radiation pill blister, composite first-aid case; four ACTIVE WEAPON icons: echo pulse emitter, spread-shot capacitor, refracting shield projector, magnetic rail lens.
+R7: four MODULE icons: honeycomb armor plate, lightweight backpack frame, steady-current coil, energy-leech tentacle device; player mint bullet, enemy rust bullet, isometric wooden storage cube, locked salvage chest.
+R8: mint subway train-front icon, subway helmet emblem, metal floor tile, recovered alloy scraps, isometric workbench cube, isometric resting-pod cube, isometric hydroponic cube, mint electric-card pickup.
+Each asset stands alone completely within its cell; empty transparent padding 15% on all four sides. No grid lines, captions, cell borders, letters or numerals. Four-frame groups differ in leg/arm phase, not colors/costume/scale. Each object recognizable at 48–64 px. Supply candidate variations as separate sheets, keeping the same slot layout.

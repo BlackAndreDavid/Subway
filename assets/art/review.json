@@ -1,0 +1,34 @@
+{
+  "workflow_version": 1,
+  "style": "prompts/style.txt",
+  "candidate_count_per_slot": 2,
+  "selected_candidate": "B",
+  "edited_source": "sources/subway_atlas_v1.png",
+  "visual_review": {
+    "A": "Original industrial salvage look, weaker direction/costume consistency.",
+    "B": "Selected: consistent helmet/backpack, more distinct silhouettes, coherent palette.",
+    "edited_B": "Visually inspected after image-tool edit; retained slot order, four directional groups and distinct enemy poses. Technical import applies alpha threshold and shared group sizing."
+  },
+  "sources": [
+    {
+      "path": "candidates/atlas_a.png",
+      "sha256": "88a8c471492474b8fe0ccc710e31e3aafb7e0cc6f1204413a57062e1c388e74d"
+    },
+    {
+      "path": "candidates/atlas_b.png",
+      "sha256": "1830e72e26fb820b44d494ff6e00d6f366bf56c1f5e88b747c45d0a96a5b1bcd"
+    },
+    {
+      "path": "sources/subway_atlas_v1.png",
+      "sha256": "a1a63aa1cd77ef070c114aa3ae66965077481e713f58bd425cddc3a090cb824e"
+    }
+  ],
+  "runtime_checks": "PNG dimensions, transparent margins, stable feet, unique nonempty frames, animated frame selection; gameplay integration and native captures",
+  "status": "passed_automated_checks_and_native_visual_review",
+  "native_captures": [
+    "docs/base.png",
+    "docs/combat.png",
+    "docs/map.png",
+    "docs/shop.png"
+  ]
+}

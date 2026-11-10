@@ -8,13 +8,22 @@ var furniture_type=0
 var hover=-1
 var preview=Vector2i(-1,-1)
 var dragging: Dictionary = {}
+const Art=preload("res://scripts/art_library.gd")
+const Metro=preload("res://scripts/metro.gd")
+const MapData=preload("res://scripts/metro_data.gd")
 const C=preload("res://scripts/catalog.gd")
+var map_texture: Texture2D
+var map_zoom=0.38
+var map_pan=Vector2(70,105)
+var line_filter=""
+var panning=false
 var font: Font
-var textures: Dictionary = {}
 func _ready() -> void:
 	font=ThemeDB.fallback_font
-	for path in ["res://assets/furniture/crate.svg","res://assets/player/2_0.svg"]:
-		textures[path]=load(path)
+	if mode=="map":
+		map_texture=load("res://assets/maps/shanghai_metro.png")
+		clip_contents=true
+		call_deferred("reset_map")
 	mouse_filter=Control.MOUSE_FILTER_STOP
 	queue_redraw()
 func iso(x: float,y: float) -> Vector2:
@@ -22,7 +31,48 @@ func iso(x: float,y: float) -> Vector2:
 func tile_at(p: Vector2) -> Vector2i:
 	var q=p-Vector2(435,140)
 	return Vector2i(floori((q.x/41+q.y/22)/2),floori((q.y/22-q.x/41)/2))
+func map_point(index: int) -> Vector2:
+	return map_pan+C.STATIONS[index].pos*map_zoom
+func reset_map() -> void:
+	map_zoom=minf((size.x-60)/MapData.CANVAS.x,(size.y-150)/MapData.CANVAS.y)
+	map_pan=Vector2((size.x-MapData.CANVAS.x*map_zoom)/2,105)
+	queue_redraw()
+func center_station(index: int) -> void:
+	selected_station=index
+	map_zoom=maxf(map_zoom,0.8)
+	map_pan=Vector2(size.x/2,(size.y+85)/2)-C.STATIONS[index].pos*map_zoom
+	queue_redraw()
+func nearest_station(position: Vector2) -> int:
+	var nearest=-1
+	var distance=13.0
+	for i in range(C.STATIONS.size()):
+		if line_filter!="" and not C.STATIONS[i].lines.has(line_filter):continue
+		var current=map_point(i).distance_to(position)
+		if current<distance:
+			nearest=i
+			distance=current
+	return nearest
 func _gui_input(event: InputEvent) -> void:
+	if mode=="map":
+		if event is InputEventMouseMotion:
+			if panning:map_pan+=event.relative
+			hover=nearest_station(event.position)
+			tooltip_text="" if hover<0 else "%s\n%s\n地下客流 %d（游戏） · 辐射 %d（游戏）\n产出：%s" % [C.STATIONS[hover].name,Metro.lines_for(hover),C.STATIONS[hover].traffic,C.STATIONS[hover].radiation,C.STATIONS[hover].yield]
+			queue_redraw()
+		elif event is InputEventMouseButton:
+			if event.button_index in [MOUSE_BUTTON_MIDDLE,MOUSE_BUTTON_RIGHT]:panning=event.pressed
+			if event.pressed and event.button_index in [MOUSE_BUTTON_WHEEL_UP,MOUSE_BUTTON_WHEEL_DOWN]:
+				var before=(event.position-map_pan)/map_zoom
+				map_zoom=clampf(map_zoom*(1.2 if event.button_index==MOUSE_BUTTON_WHEEL_UP else 1/1.2),0.25,2.3)
+				map_pan=event.position-before*map_zoom
+				queue_redraw()
+			elif event.pressed and event.button_index==MOUSE_BUTTON_LEFT:
+				var index=nearest_station(event.position)
+				if index>=0:
+					selected_station=index
+					station_selected.emit(index)
+					queue_redraw()
+		return
 	if event is InputEventMouseMotion:
 		if mode=="map":
 			hover=-1
@@ -99,28 +149,55 @@ func draw_base() -> void:
 	furniture.sort_custom(func(a,b):return a.x+a.y<b.x+b.y)
 	for item in furniture:
 		var p=iso(float(item.x)+0.5,float(item.y)+0.5)
-		var tint=[Color("e8bd82"),Color("91d3ce"),Color("b5a2cd"),Color("a3c585")][int(item.type)]
-		draw_texture_rect(textures["res://assets/furniture/crate.svg"],Rect2(p-Vector2(32,58),Vector2(64,64)),false,tint)
+		draw_texture_rect(Art.texture("furniture/%d" % int(item.type)),Rect2(p-Vector2(32,58),Vector2(64,64)),false)
 	if placing and preview.x>=0 and preview.x<10 and preview.y>=0 and preview.y<6:
 		var p=iso(preview.x,preview.y)
 		draw_colored_polygon(PackedVector2Array([p,iso(preview.x+1,preview.y),iso(preview.x+1,preview.y+1),iso(preview.x,preview.y+1)]),Color(0.55,0.9,0.85,0.45))
-	draw_texture_rect(textures["res://assets/player/2_0.svg"],Rect2(iso(5,3)-Vector2(28,53),Vector2(56,56)),false)
+	draw_texture_rect(Art.texture("player/2"),Rect2(iso(5,3)-Vector2(28,53),Vector2(56,56)),false)
 	text_at(Vector2(30,size.y-55),"布置模式：左键放置 · 拖动已有家具 · 右键回收 · 同格不可重叠" if placing else "车窗外，是仍在呼吸的地下城市。",Color("8da8b1"),17)
 	text_at(Vector2(30,size.y-28),"每日消耗   2 水 / 2 食物 / 5 电量     ·     基地操作后自动保存",Color("5f8390"),14)
 func draw_map() -> void:
-	text_at(Vector2(30,42),"SHANGHAI / 地下交通网",Color("b5dfdb"),22)
-	text_at(Vector2(30,70),"悬停查看站点信息 · 点击选择目的地",Color("678590"),15)
-	for pair in [[0,1],[1,2],[0,3],[3,4],[2,5],[3,2]]:
-		var a: Vector2=C.STATIONS[pair[0]].pos
-		var b: Vector2=C.STATIONS[pair[1]].pos
-		draw_line(a,b,Color("385965"),14,true)
-		draw_line(a,b,Color("6facae") if pair[0]%2==0 else Color("a18cb9"),5,true)
+	text_at(Vector2(30,42),"SHANGHAI / 上海地铁主要站点",Color("b5dfdb"),22)
+	text_at(Vector2(30,70),"21 条线路 · 110 个站点 · 滚轮缩放 / 右键拖动 / 左键选站",Color("678590"),14)
+	if map_texture==null:return
+	draw_texture_rect(map_texture,Rect2(map_pan,MapData.CANVAS*map_zoom),false,Color(1,1,1,1 if line_filter=="" else 0.25))
+	if line_filter!="":
+		for line in MapData.LINES:
+			if line.id!=line_filter:continue
+			for i in range(line.stations.size()-1):
+				draw_line(map_point(line.stations[i]),map_point(line.stations[i+1]),Color(line.color),4,true)
+	var route=Metro.route(int(Game.state.station),selected_station)
+	for i in range(route.size()-1):draw_line(map_point(route[i]),map_point(route[i+1]),Color(1,0.85,0.5,0.5),5,true)
+	var occupied: Array[Rect2]=[]
+	var order: Array=[selected_station]
+	if hover>=0 and hover!=selected_station:order.append(hover)
+	if not order.has(int(Game.state.station)):order.append(int(Game.state.station))
 	for i in range(C.STATIONS.size()):
+		if not order.has(i):order.append(i)
+	for i in order:
 		var station=C.STATIONS[i]
-		var p: Vector2=station.pos
-		if i==selected_station: draw_circle(p,25,Color(0.93,0.72,0.42,0.18))
-		draw_circle(p,12,Color("efc58d") if i==int(Game.state.station) else Color("b3d7d4"))
-		draw_circle(p,5,Color("18343f"))
-		text_at(p+Vector2(-30,-29),station.name,Color("f0c78f") if i==selected_station else Color("c0d3d3"),18)
-		if i==int(Game.state.station): text_at(p+Vector2(-25,37),"当前站点",Color("e4b97e"),14)
-	text_at(Vector2(30,size.y-30),"示意线路 · 单次移动消耗 6–21 电量 · 各站价格与辐射不同",Color("668994"),14)
+		var point=map_point(i)
+		if not Rect2(12,90,size.x-24,size.y-125).has_point(point):continue
+		var focused=i==selected_station or i==hover or i==int(Game.state.station)
+		if line_filter!="" and not station.lines.has(line_filter) and not focused:continue
+		if focused:
+			draw_circle(point,10,Color("e8bb7a") if i==selected_station else Color("a4d6d1"))
+			draw_circle(point,4,Color("142b35"))
+		var show_name=focused or (line_filter!="" and station.lines.has(line_filter)) or map_zoom>0.85 or station.name in ["人民广场","徐家汇","陆家嘴","虹桥火车站","滴水湖","迪士尼","上海火车站","朱家角"]
+		if not show_name:continue
+		var text=station.name+(" · 当前" if i==int(Game.state.station) else "")
+		var length=font.get_string_size(text,HORIZONTAL_ALIGNMENT_LEFT,-1,14).x
+		var offset=Vector2(12,-12)
+		var rect=Rect2(point+offset-Vector2(3,16),Vector2(length+7,24))
+		var overlap=false
+		for existing in occupied:
+			if existing.intersects(rect):overlap=true
+		if overlap and not focused:continue
+		occupied.append(rect)
+		draw_rect(rect,Color(0.04,0.1,0.14,0.9))
+		text_at(point+offset,text,Color("e8c48d") if focused else Color("b7cecf"),14)
+	draw_rect(Rect2(0,0,size.x,88),Color("10242e"))
+	text_at(Vector2(30,42),"SHANGHAI / 上海地铁主要站点",Color("b5dfdb"),22)
+	text_at(Vector2(30,70),"21 条线路 · 110 个站点 · 滚轮缩放 / 右键拖动 / 左键选站",Color("678590"),14)
+	draw_rect(Rect2(0,size.y-30,size.x,30),Color("10242e"))
+	text_at(Vector2(20,size.y-11),"按真实线路顺序压缩的小站省略图 · 非比例尺 · 黄线为拟定路线 · 游戏数值不代表现实",Color("668994"),12)

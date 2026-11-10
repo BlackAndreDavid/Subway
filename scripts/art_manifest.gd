@@ -1,0 +1,796 @@
+extends RefCounted
+# Generated from assets/art/manifest.json. Stable IDs are the art replacement contract.
+const ENTRIES = {
+	"player/0": {
+		"description": "回收员向左步行",
+		"row": 0,
+		"column": 0,
+		"frames": 4,
+		"anchor": "feet",
+		"cell_size": 64,
+		"fps": 9,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/player/0_0.png",
+			"res://assets/art/runtime/player/0_1.png",
+			"res://assets/art/runtime/player/0_2.png",
+			"res://assets/art/runtime/player/0_3.png"
+		]
+	},
+	"player/1": {
+		"description": "回收员向右步行",
+		"row": 0,
+		"column": 4,
+		"frames": 4,
+		"anchor": "feet",
+		"cell_size": 64,
+		"fps": 9,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/player/1_0.png",
+			"res://assets/art/runtime/player/1_1.png",
+			"res://assets/art/runtime/player/1_2.png",
+			"res://assets/art/runtime/player/1_3.png"
+		]
+	},
+	"player/2": {
+		"description": "回收员面向镜头步行",
+		"row": 1,
+		"column": 0,
+		"frames": 4,
+		"anchor": "feet",
+		"cell_size": 64,
+		"fps": 9,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/player/2_0.png",
+			"res://assets/art/runtime/player/2_1.png",
+			"res://assets/art/runtime/player/2_2.png",
+			"res://assets/art/runtime/player/2_3.png"
+		]
+	},
+	"player/3": {
+		"description": "回收员背向镜头步行",
+		"row": 1,
+		"column": 4,
+		"frames": 4,
+		"anchor": "feet",
+		"cell_size": 64,
+		"fps": 9,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/player/3_0.png",
+			"res://assets/art/runtime/player/3_1.png",
+			"res://assets/art/runtime/player/3_2.png",
+			"res://assets/art/runtime/player/3_3.png"
+		]
+	},
+	"enemies/0": {
+		"description": "变异鼠爬行",
+		"row": 2,
+		"column": 0,
+		"frames": 4,
+		"anchor": "feet",
+		"cell_size": 64,
+		"fps": 9,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/enemies/0_0.png",
+			"res://assets/art/runtime/enemies/0_1.png",
+			"res://assets/art/runtime/enemies/0_2.png",
+			"res://assets/art/runtime/enemies/0_3.png"
+		]
+	},
+	"enemies/1": {
+		"description": "灰袍强盗行走瞄准",
+		"row": 2,
+		"column": 4,
+		"frames": 4,
+		"anchor": "feet",
+		"cell_size": 64,
+		"fps": 9,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/enemies/1_0.png",
+			"res://assets/art/runtime/enemies/1_1.png",
+			"res://assets/art/runtime/enemies/1_2.png",
+			"res://assets/art/runtime/enemies/1_3.png"
+		]
+	},
+	"enemies/2": {
+		"description": "孢子炮台脉动",
+		"row": 3,
+		"column": 0,
+		"frames": 4,
+		"anchor": "feet",
+		"cell_size": 64,
+		"fps": 9,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/enemies/2_0.png",
+			"res://assets/art/runtime/enemies/2_1.png",
+			"res://assets/art/runtime/enemies/2_2.png",
+			"res://assets/art/runtime/enemies/2_3.png"
+		]
+	},
+	"enemies/3": {
+		"description": "装甲爬行者冲锋",
+		"row": 3,
+		"column": 4,
+		"frames": 4,
+		"anchor": "feet",
+		"cell_size": 64,
+		"fps": 9,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/enemies/3_0.png",
+			"res://assets/art/runtime/enemies/3_1.png",
+			"res://assets/art/runtime/enemies/3_2.png",
+			"res://assets/art/runtime/enemies/3_3.png"
+		]
+	},
+	"enemies/4": {
+		"description": "站区守卫机器人待机攻击",
+		"row": 4,
+		"column": 0,
+		"frames": 4,
+		"anchor": "feet",
+		"cell_size": 96,
+		"fps": 9,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/enemies/4_0.png",
+			"res://assets/art/runtime/enemies/4_1.png",
+			"res://assets/art/runtime/enemies/4_2.png",
+			"res://assets/art/runtime/enemies/4_3.png"
+		]
+	},
+	"items/0_0": {
+		"description": "回收净水",
+		"row": 4,
+		"column": 4,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/items/0_0_0.png"
+		]
+	},
+	"items/0_1": {
+		"description": "密封饮用水",
+		"row": 4,
+		"column": 5,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/items/0_1_0.png"
+		]
+	},
+	"items/0_2": {
+		"description": "矿化水",
+		"row": 4,
+		"column": 6,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/items/0_2_0.png"
+		]
+	},
+	"items/0_3": {
+		"description": "应急水箱",
+		"row": 4,
+		"column": 7,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/items/0_3_0.png"
+		]
+	},
+	"items/1_0": {
+		"description": "旧式电池",
+		"row": 5,
+		"column": 0,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/items/1_0_0.png"
+		]
+	},
+	"items/1_1": {
+		"description": "标准电芯",
+		"row": 5,
+		"column": 1,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/items/1_1_0.png"
+		]
+	},
+	"items/1_2": {
+		"description": "高密电池",
+		"row": 5,
+		"column": 2,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/items/1_2_0.png"
+		]
+	},
+	"items/1_3": {
+		"description": "固态电池组",
+		"row": 5,
+		"column": 3,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/items/1_3_0.png"
+		]
+	},
+	"items/2_0": {
+		"description": "压缩饼干",
+		"row": 5,
+		"column": 4,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/items/2_0_0.png"
+		]
+	},
+	"items/2_1": {
+		"description": "菌菇罐头",
+		"row": 5,
+		"column": 5,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/items/2_1_0.png"
+		]
+	},
+	"items/2_2": {
+		"description": "水培蔬菜",
+		"row": 5,
+		"column": 6,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/items/2_2_0.png"
+		]
+	},
+	"items/2_3": {
+		"description": "应急口粮",
+		"row": 5,
+		"column": 7,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/items/2_3_0.png"
+		]
+	},
+	"items/3_0": {
+		"description": "凝胶绷带",
+		"row": 6,
+		"column": 0,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/items/3_0_0.png"
+		]
+	},
+	"items/3_1": {
+		"description": "肾上腺针",
+		"row": 6,
+		"column": 1,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/items/3_1_0.png"
+		]
+	},
+	"items/3_2": {
+		"description": "抗辐射片",
+		"row": 6,
+		"column": 2,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/items/3_2_0.png"
+		]
+	},
+	"items/3_3": {
+		"description": "复合急救剂",
+		"row": 6,
+		"column": 3,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/items/3_3_0.png"
+		]
+	},
+	"items/4_0": {
+		"description": "回声脉冲器",
+		"row": 6,
+		"column": 4,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/items/4_0_0.png"
+		]
+	},
+	"items/4_1": {
+		"description": "散射电容",
+		"row": 6,
+		"column": 5,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/items/4_1_0.png"
+		]
+	},
+	"items/4_2": {
+		"description": "折光屏障",
+		"row": 6,
+		"column": 6,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/items/4_2_0.png"
+		]
+	},
+	"items/4_3": {
+		"description": "磁轨透镜",
+		"row": 6,
+		"column": 7,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/items/4_3_0.png"
+		]
+	},
+	"items/5_0": {
+		"description": "蜂巢装甲",
+		"row": 7,
+		"column": 0,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/items/5_0_0.png"
+		]
+	},
+	"items/5_1": {
+		"description": "轻量背架",
+		"row": 7,
+		"column": 1,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/items/5_1_0.png"
+		]
+	},
+	"items/5_2": {
+		"description": "稳流线圈",
+		"row": 7,
+		"column": 2,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/items/5_2_0.png"
+		]
+	},
+	"items/5_3": {
+		"description": "汲能触须",
+		"row": 7,
+		"column": 3,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/items/5_3_0.png"
+		]
+	},
+	"bullet": {
+		"description": "友方薄荷色子弹",
+		"row": 7,
+		"column": 4,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/bullet_0.png"
+		]
+	},
+	"enemy_bullet": {
+		"description": "敌方锈色子弹",
+		"row": 7,
+		"column": 5,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/enemy_bullet_0.png"
+		]
+	},
+	"furniture/0": {
+		"description": "等距储物箱",
+		"row": 7,
+		"column": 6,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/furniture/0_0.png"
+		]
+	},
+	"chest": {
+		"description": "回收宝箱",
+		"row": 7,
+		"column": 7,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/chest_0.png"
+		]
+	},
+	"station": {
+		"description": "地铁车头",
+		"row": 8,
+		"column": 0,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/station_0.png"
+		]
+	},
+	"icon": {
+		"description": "回收员头盔徽记",
+		"row": 8,
+		"column": 1,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/icon_0.png"
+		]
+	},
+	"floor": {
+		"description": "金属地板",
+		"row": 8,
+		"column": 2,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/floor_0.png"
+		]
+	},
+	"scrap": {
+		"description": "回收合金",
+		"row": 8,
+		"column": 3,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/scrap_0.png"
+		]
+	},
+	"furniture/1": {
+		"description": "工作台",
+		"row": 8,
+		"column": 4,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/furniture/1_0.png"
+		]
+	},
+	"furniture/2": {
+		"description": "休息舱",
+		"row": 8,
+		"column": 5,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/furniture/2_0.png"
+		]
+	},
+	"furniture/3": {
+		"description": "水培箱",
+		"row": 8,
+		"column": 6,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/furniture/3_0.png"
+		]
+	},
+	"credits": {
+		"description": "电卡",
+		"row": 8,
+		"column": 7,
+		"frames": 1,
+		"anchor": "center",
+		"cell_size": 64,
+		"fps": 0,
+		"source": "subway_atlas_v1.png",
+		"candidate_sources": [
+			"atlas_a.png",
+			"atlas_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/credits_0.png"
+		]
+	}
+}

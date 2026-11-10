@@ -1,0 +1,16 @@
+{
+  "reference_date": "2026-11-10",
+  "artwork": "Original raster schematic rendered from curated ordered line paths, not a copied official bitmap. Coordinates are diagrammatic, intermediate minor stations collapsed.",
+  "line_scope": "Lines 1–18, Pujiang, Maglev, Airport Link; branch paths for 5/10/11; operating major nodes only, not unconfirmed future lines.",
+  "sources": [
+    {"id":"official_map","url":"https://service.shmetro.com/skin/map/shmetro-map.jpg","role":"Official map discovery; direct image download returned HTTP 503, used published government map and route lists for cross-check instead"},
+    {"id":"government_map","url":"https://tjj.sh.gov.cn/assets2021/img/shgl2024.pdf","role":"Published Shanghai Metro topology and line-color reference, older map not treated as current opening status"},
+    {"id":"route_list","url":"https://m.amap.com/service/subway/shanghai/","role":"Cross-check ordered stations and branch routes"},
+    {"id":"official_ridership","url":"https://jtw.sh.gov.cn/xwfb2/20260313/ba36df53847348a593e9bf3293354ee8.html","role":"2025 ridership and core-business-station selection; no station-wide precise ranking inferred"},
+    {"id":"official_rename","url":"https://www.shhk.gov.cn/xwzx/002008/002008040/20240922/5bca6d54-4f4d-4a6f-b307-e93a5f31bd6f.html","role":"2024 station renames and map guidance"},
+    {"id":"line18_extension","url":"https://www.shanghai.gov.cn/nw15343/20251229/fcb5d15bff724f659dcc8aea717df2ba.html","role":"Confirmed 2025 Line18 extension to Kangwen Road and Hulan Road interchange"},
+    {"id":"airport_scope","url":"https://www.shanghai.gov.cn/nw31406/20261013/cbaf7d81fa8e45258e4f2ebef3c77a80.html","role":"Airport Link operating section; not-yet-open T3 and Shanghai East are excluded"}
+  ],
+  "station_selection": "Prioritize reported high-ridership CBD stations, major interchanges, well-known landmarks/tourism, airports/rail hubs, and representative endpoints so every operating line has map nodes. Per-station reasons are stored in shanghai_metro.json. Network fame is a qualitative design choice, not an invented quantitative ranking.",
+  "game_values": "Traffic, radiation, prices and yields are fictional prototype values; economic mapping and exclusive pools tracked separately. Legacy indices0–5 retained; 虹桥枢纽 becomes 虹桥火车站 and 临港避难所 becomes 滴水湖."
+}

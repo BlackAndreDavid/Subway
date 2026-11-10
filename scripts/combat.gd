@@ -2,6 +2,7 @@ extends Control
 signal changed
 signal notice(text: String)
 signal ended(success: bool)
+const Art=preload("res://scripts/art_library.gd")
 const C=preload("res://scripts/catalog.gd")
 var player=Vector2(450,300)
 var enemies: Array=[]
@@ -16,22 +17,12 @@ var door_delay=0.8
 var font: Font
 var rng=RandomNumberGenerator.new()
 var sounds: Dictionary={}
-var textures: Dictionary={}
 var flash=0.0
 var pending_end=false
 const AREA=Rect2(45,65,810,475)
 func _ready() -> void:
 	mouse_filter=Control.MOUSE_FILTER_IGNORE
 	font=ThemeDB.fallback_font
-	for d in range(4):
-		for f in range(4):
-			var path="res://assets/player/%d_%d.svg" % [d,f]
-			textures[path]=load(path)
-	for i in range(5):
-		var path="res://assets/enemies/%d.svg" % i
-		textures[path]=load(path)
-	for path in ["res://assets/chest.svg","res://assets/station.svg","res://assets/bullet.svg","res://assets/enemy_bullet.svg"]:
-		textures[path]=load(path)
 	rng.seed=int(Game.run.seed)
 	for key in ["shot","pickup","hit","door"]:
 		var p=AudioStreamPlayer.new()
@@ -294,23 +285,23 @@ func _draw() -> void:
 		draw_rect(Rect2(pos-Vector2(25,15),Vector2(50,30)),Color("9e685e") if Game.run.fighting else Color("79bdb5"))
 	draw_string(font,Vector2(45,34),"%s  /  第 %d 层  ·  房间 %02d" % [{"normal":"回收区","start":"检查站","reward":"遗留物资室","shop":"流动补给商","boss":"站区守卫"}[r.kind],Game.run.floor,int(r.id)+1],HORIZONTAL_ALIGNMENT_LEFT,-1,19,Color("b9d9d6"))
 	if not Game.run.fighting:
-		if r.kind=="reward" and not r.claimed: draw_texture_rect(textures["res://assets/chest.svg"],Rect2(420,250,60,60),false)
+		if r.kind=="reward" and not r.claimed: draw_texture_rect(Art.texture("chest"),Rect2(420,250,60,60),false)
 		if r.kind=="boss" and r.cleared:
 			draw_circle(Vector2(450,300),52,Color("3f7479"))
 			draw_string(font,Vector2(405,307),"下一层",HORIZONTAL_ALIGNMENT_LEFT,-1,21,Color("c5e4db"))
-		if r.kind=="shop": draw_texture_rect(textures["res://assets/station.svg"],Rect2(420,240,65,65),false)
+		if r.kind=="shop": draw_texture_rect(Art.texture("station"),Rect2(420,240,65,65),false)
 	for e in enemies:
 		var dim=Vector2(86,86) if e.type==4 else Vector2(53,53)
 		if e.type==3 and e.timer>1.85: draw_line(e.pos,e.pos+e.velocity*0.5,Color(0.9,0.45,0.35,0.5),3)
-		draw_texture_rect(textures["res://assets/enemies/%d.svg" % e.type],Rect2(e.pos-dim*0.5,dim),false)
+		draw_texture_rect(Art.texture("enemies/%d" % e.type,Art.frames_at_time("enemies/%d" % e.type,age)),Rect2(e.pos-dim*0.5,dim),false)
 		draw_rect(Rect2(e.pos-Vector2(22,35),Vector2(44,4)),Color("21323a"))
 		draw_rect(Rect2(e.pos-Vector2(22,35),Vector2(44*maxf(0,e.hp/e.max),4)),Color("d5927e"))
 	if hurt_cd<=0 or int(age*14)%2==0:
-		draw_texture_rect(textures["res://assets/player/%d_%d.svg" % [direction,frame]],Rect2(player-Vector2(27,30),Vector2(54,54)),false)
+		draw_texture_rect(Art.texture("player/%d" % direction,frame),Rect2(player-Vector2(27,30),Vector2(54,54)),false)
 	if Game.run.shield>0: draw_arc(player,35,0,TAU,40,Color("8bd9e3"),3,true)
 	if flash>0: draw_arc(player,250*(1-flash/0.3),0,TAU,60,Color("a8ebe2"),4,true)
 	for b in bullets:
-		draw_texture_rect(textures["res://assets/enemy_bullet.svg" if b.enemy else "res://assets/bullet.svg"],Rect2(b.pos-Vector2(7,7),Vector2(14,14)),false)
+		draw_texture_rect(Art.texture("enemy_bullet" if b.enemy else "bullet"),Rect2(b.pos-Vector2(7,7),Vector2(14,14)),false)
 	draw_string(font,Vector2(45,580),"WASD 移动   /   方向键或鼠标射击   /   E 主动武器   /   Q 药物   /   Tab 背包   /   Esc 暂停",HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("6f949e"))
 func style() -> StyleBoxFlat:
 	var s=StyleBoxFlat.new()

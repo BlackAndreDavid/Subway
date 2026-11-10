@@ -17,6 +17,7 @@ func _initialize() -> void:
 	call_deferred("run_tests")
 func run_tests() -> void:
 	game=root.get_node("Game")
+	preload("res://tests/art_and_map_checks.gd").run(check)
 	for seed_value in range(1000):
 		var data=Generator.generate(seed_value)
 		var rooms: Array=data.rooms
@@ -128,6 +129,21 @@ func run_tests() -> void:
 	world._gui_input(click)
 	check(game.state.furniture.is_empty(),"recycle furniture")
 	ui.show_map()
+	await process_frame
+	ui.map_view.center_station(1)
+	var map_click=InputEventMouseButton.new()
+	map_click.button_index=MOUSE_BUTTON_LEFT
+	map_click.pressed=true
+	map_click.position=ui.map_view.map_point(1)
+	ui.map_view._gui_input(map_click)
+	check(ui.map_selection==1,"main map point selection")
+	map_click=map_click.duplicate()
+	map_click.button_index=MOUSE_BUTTON_WHEEL_UP
+	var zoom_before=float(ui.map_view.map_zoom)
+	ui.map_view._gui_input(map_click)
+	check(ui.map_view.map_zoom>zoom_before,"main map wheel zoom")
+	ui.map_view.line_filter="10"
+	check(ui.map_view.nearest_station(ui.map_view.map_point(1))==1,"line filter retains selected line station")
 	ui.station_detail()
 	ui.show_preparation()
 	ui.show_shop()
