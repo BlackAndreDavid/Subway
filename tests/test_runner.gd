@@ -202,5 +202,7 @@ func run_tests() -> void:
 	ui.queue_free()
 	await process_frame
 	await process_frame
+	# The audio mixer releases stopped playback on its own thread.
+	await create_timer(0.15).timeout
 	print("TEST RESULT: %d checks; %d failures" % [checks,failures.size()])
 	quit(0 if failures.is_empty() else 1)

@@ -40,6 +40,13 @@ func _ready() -> void:
 		add_child(p)
 		sounds[key]=p
 	enter_room()
+func _exit_tree() -> void:
+	# Release active playback when leaving combat, before queued nodes are freed.
+	for sound in sounds.values():
+		sound.stop()
+		sound.stream=null
+	sounds.clear()
+
 func room() -> Dictionary:
 	return Game.run.floor_data.rooms[int(Game.run.room)]
 func enter_room(spawn: Vector2=Vector2(450,300)) -> void:
