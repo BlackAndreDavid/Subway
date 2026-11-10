@@ -83,7 +83,7 @@ func save_game() -> bool:
 
 func apply_settings() -> void:
 	AudioServer.set_bus_volume_db(0,linear_to_db(maxf(0.0001,settings.volume)))
-	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN if settings.fullscreen else DisplayServer.WINDOW_MODE_WINDOWED)
+	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN if settings.fullscreen else DisplayServer.WINDOW_MODE_MAXIMIZED)
 
 func save_settings() -> void:
 	write_json("user://settings.json",settings)
@@ -160,6 +160,18 @@ func accept_customer() -> String:
 	return "交易完成，新顾客已到站。"
 
 func begin_run(class_index: int,module: String,weapon: String,drug: String,seed_value: int=-1) -> bool:
+	if not run.is_empty() or class_index<0 or class_index>=Catalog.CLASSES.size():
+		last_error="职业无效或探索已开始。"
+		return false
+	var available: Array=state.stash.duplicate()
+	var selections=[module,weapon,drug]
+	for index in range(selections.size()):
+		var id: String=selections[index]
+		if id=="":continue
+		if not available.has(id) or not Catalog.valid_ids().has(id) or int(Catalog.item(id).category)!=[5,4,3][index]:
+			last_error="装备必须来自仓库且与槽位类型匹配。"
+			return false
+		available.erase(id)
 	var floor_data=FloorGenerator.generate(seed_value if seed_value>=0 else randi(),1)
 	if state.power<floor_data.budget:
 		last_error="本层无掉落保底路线需 %d 电量，账户不足。" % floor_data.budget

@@ -1,13 +1,13 @@
 {
   "review_date": "2026-11-10",
-  "scope": "current user-requested prototype milestone",
-  "acceptance_items": 29,
+  "scope": "prototype milestone plus maximized UI, warehouse drag/drop, physical F doors, fog minimap and floor pickups",
+  "acceptance_items": 36,
   "open_acceptance_items": 0,
-  "checks": 225037,
+  "checks": 225099,
   "failures": 0,
   "map_seeds": 1000,
   "playthrough_cases": 9,
-  "playthrough_boss_wins": 9,
+  "playthrough_boss_wins": 8,
   "economic_areas": 15,
   "stations": 110,
   "refined_exploration_areas": 38,
@@ -19,9 +19,13 @@
     "godot --audio-driver Dummy --path . --script tests/capture.gd"
   ],
   "limitations": [
-    "Fixed-input controller is not human-player feedback or a final difficulty study.",
+    "Fixed-input controller is not human feedback: 8/9 boss wins; high-radiation tank timed out after physically walking 26/27 rooms.",
     "Huangpu numeric reference is an explicitly labeled report transcription, not a claimed downloaded official original.",
     "Missing statistical axes remain null; available axes are reweighted.",
-    "Original draft multiplayer/licences/black-market etc. remain outside this prototype milestone."
-  ]
+    "Original draft multiplayer/licences/black-market etc. remain outside this prototype milestone.",
+    "Water, food and battery trade goods occupy one slot; only direct power/currency floor pickups are automatic and slot-free."
+  ],
+  "introductory_boss_wins": 3,
+  "physical_door_interactions": 546,
+  "interaction_checks": "tests/interaction_checks.gd"
 }

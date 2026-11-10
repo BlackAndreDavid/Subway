@@ -6,6 +6,8 @@ const MapData=preload("res://scripts/metro_data.gd")
 const C=preload("res://scripts/catalog.gd")
 const World=preload("res://scripts/world_view.gd")
 const Combat=preload("res://scripts/combat.gd")
+const Loadout=preload("res://scripts/loadout_model.gd")
+const EquipmentCell=preload("res://scripts/equipment_cell.gd")
 const MiniMap=preload("res://scripts/minimap.gd")
 var page="menu"
 var root: VBoxContainer
@@ -17,9 +19,14 @@ var battle: Control
 var modal: Control
 var selected_slot=0
 var class_select: OptionButton
-var module_select: OptionButton
-var weapon_select: OptionButton
-var drug_select: OptionButton
+var loadout: RefCounted
+var loadout_slots: HBoxContainer
+var warehouse_grid: GridContainer
+var stage: Control
+var topbar: HBoxContainer
+var drawer: PanelContainer
+var drawer_toggle: Button
+var minimap: Control
 var base_name: LineEdit
 var map_selection=0
 var map_view: Control
@@ -70,6 +77,10 @@ func clear_page(id: String) -> void:
 		remove_child(root)
 		root.queue_free()
 	battle=null
+	drawer=null
+	drawer_toggle=null
+	minimap=null
+	stage=null
 	root=VBoxContainer.new()
 	add_child(root)
 	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -79,6 +90,7 @@ func clear_page(id: String) -> void:
 	root.offset_bottom=-22
 	root.add_theme_constant_override("separation",17)
 	var top=HBoxContainer.new()
+	topbar=top
 	root.add_child(top)
 	var brand=label("SUBWAY",32,Color("a3d4cf"))
 	top.add_child(brand)
@@ -211,14 +223,45 @@ func confirm_replace() -> void:
 		if Game.new_game(selected_slot,name_input.text):show_base()
 		else:say(Game.last_error),v)
 	button("取消",close_modal,v)
+func gameplay_stage(view: Control) -> void:
+	stage=Control.new()
+	stage.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	stage.size_flags_vertical=Control.SIZE_EXPAND_FILL
+	stage.custom_minimum_size=Vector2(600,500)
+	body.add_child(stage)
+	stage.add_child(view)
+	view.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+func make_drawer(top_offset: float=0) -> VBoxContainer:
+	drawer=PanelContainer.new()
+	stage.add_child(drawer)
+	drawer.set_anchors_and_offsets_preset(Control.PRESET_RIGHT_WIDE)
+	drawer.offset_left=-370
+	drawer.offset_right=0
+	drawer.offset_top=top_offset
+	var style=StyleBoxFlat.new()
+	style.bg_color=Color("112b36")
+	style.set_corner_radius_all(10)
+	style.set_content_margin_all(12)
+	style.set_border_width_all(1)
+	style.border_color=Color("365661")
+	drawer.add_theme_stylebox_override("panel",style)
+	drawer.mouse_filter=Control.MOUSE_FILTER_STOP
+	var column=VBoxContainer.new()
+	column.add_theme_constant_override("separation",10)
+	drawer.add_child(column)
+	drawer_toggle=button("展开详情 ›",toggle_drawer,topbar)
+	drawer.visible=false
+	return column
+func toggle_drawer() -> void:
+	if not is_instance_valid(drawer):return
+	drawer.visible=not drawer.visible
+	drawer_toggle.text="收起详情 ‹" if drawer.visible else "展开详情 ›"
 func show_base(placing: bool=false) -> void:
 	clear_page("base")
 	var world=World.new()
-	world.custom_minimum_size=Vector2(900,610)
-	world.size_flags_vertical=Control.SIZE_EXPAND_FILL
 	world.placing=placing
-	body.add_child(world)
-	side=panel(body)
+	gameplay_stage(world)
+	side=panel(make_drawer(),340)
 	section(side,"车厢基地",C.STATIONS[int(Game.state.station)].name+"  /  自由轨道停泊中")
 	side.add_child(wrapped("每日简报\n"+["农场恢复供水，水价上扬。","充电站检修，电池供应紧张。","水培歉收，食品需求上涨。","医院补充库存，医疗用品走俏。"][int(Game.state.news)]))
 	button("摆放家具   /   方块原型",func():show_base(true),side)
@@ -243,15 +286,9 @@ func show_map() -> void:
 	world.mode="map"
 	map_view=world
 	world.selected_station=map_selection
-	world.custom_minimum_size=Vector2(900,610)
-	world.size_flags_vertical=Control.SIZE_EXPAND_FILL
-	body.add_child(world)
-	var right=VBoxContainer.new()
-	right.custom_minimum_size.x=360
-	right.size_flags_vertical=Control.SIZE_EXPAND_FILL
-	right.add_theme_constant_override("separation",12)
-	body.add_child(right)
-	side=panel(right)
+	gameplay_stage(world)
+	var right=make_drawer()
+	side=panel(right,340)
 	map_actions=VBoxContainer.new()
 	map_actions.add_theme_constant_override("separation",12)
 	right.add_child(map_actions)
@@ -300,47 +337,79 @@ func station_detail() -> void:
 	side.add_child(wrapped("路线："+Metro.route_names(int(Game.state.station),map_selection),13))
 	button("前往   /   %d 电量" % Game.travel_cost(map_selection),func():say(Game.travel(map_selection));show_map(),map_actions,map_selection==int(Game.state.station))
 	back_button(show_base,map_actions)
-func equipment_select(parent: Node,category: int,title: String) -> OptionButton:
-	parent.add_child(label(title,16))
-	var option=OptionButton.new()
-	option.add_item("不携带")
-	option.set_item_metadata(0,"")
-	for id in C.all_ids():
-		if int(C.item(id).category)==category and Game.state.stash.has(id):
-			option.add_item(C.item(id).name+"  /  "+C.item(id).desc)
-			option.set_item_metadata(option.item_count-1,id)
-	if option.item_count>1:option.select(1)
-	option.custom_minimum_size.x=550
-	option.clip_text=true
-	parent.add_child(option)
-	return option
 func show_preparation() -> void:
 	clear_page("prepare")
-	var left=panel(body,820)
-	section(left,"探索整备","选择职业与三个独立装备槽；所有携带物品占据背包格。")
+	loadout=Loadout.new(Game.state.stash)
+	loadout.changed.connect(refresh_loadout)
+	var layout=VBoxContainer.new()
+	layout.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	layout.add_theme_constant_override("separation",14)
+	body.add_child(layout)
+	section(layout,"探索整备","从仓库拖动实际持有的物品到对应槽位；可拖回仓库卸下。空仓库无法选择装备。")
+	var header=HBoxContainer.new()
+	header.add_theme_constant_override("separation",16)
+	layout.add_child(header)
 	class_select=OptionButton.new()
+	class_select.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 	for stats in C.CLASSES:
 		class_select.add_item("%s   HP %d / 容量 %d / 护甲 %d%% / 射程 %d" % [stats.name,stats.hp,stats.capacity,stats.armor*100,stats.range])
-	left.add_child(class_select)
-	module_select=equipment_select(left,5,"模块 / 可拆卸被动")
-	weapon_select=equipment_select(left,4,"武器 / E 键主动能力")
-	drug_select=equipment_select(left,3,"药物 / Q 键有限次数")
-	left.add_child(wrapped("模块和主动武器采用原创效果设计。常规子弹由方向键或鼠标发射；主动道具独立冷却。\n\n基地库存中的装备将被带出；失败会遗失随身物品。安全返程后物品回到仓库，药物在下一次整备补充次数。",17))
-	side=panel(body)
-	section(side,"出发须知","目标区域："+C.STATIONS[int(Game.state.station)].name)
-	side.add_child(wrapped("每层 24–30 个连通房间。\n中段必经奖励房，末端 Boss。\n相邻房间移动消耗 1 电量。\n保底路线覆盖全部房间，出发时检查电量。\n\n房间清空后可撤离；战斗中背包与通道锁定。\n防护倒计时耗尽或生命归零会触发救援。"))
-	button("通过检查站   →",start_run,side)
-	back_button(show_base,side)
+	header.add_child(class_select)
+	button("通过检查站 →",start_run,header)
+	back_button(show_base,header)
+	loadout_slots=HBoxContainer.new()
+	loadout_slots.add_theme_constant_override("separation",16)
+	layout.add_child(loadout_slots)
+	layout.add_child(label("基地仓库 / 每格一件物品",20,Color("e4c493")))
+	var scroll=ScrollContainer.new()
+	scroll.size_flags_vertical=Control.SIZE_EXPAND_FILL
+	scroll.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED
+	layout.add_child(scroll)
+	warehouse_grid=GridContainer.new()
+	warehouse_grid.columns=6
+	warehouse_grid.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	warehouse_grid.add_theme_constant_override("h_separation",12)
+	warehouse_grid.add_theme_constant_override("v_separation",12)
+	scroll.add_child(warehouse_grid)
+	layout.add_child(wrapped("目标：%s · 房间清空后靠近门按 F 通行；B 背包，长按 Tab 2 秒看清地图。
+整备不会消耗仓库物品；出发时扣除选中的实物。失败遗失随身装备与物资。" % C.STATIONS[int(Game.state.station)].name,15))
+	refresh_loadout()
+func refresh_loadout() -> void:
+	empty(loadout_slots)
+	empty(warehouse_grid)
+	for slot_key in ["module","weapon","drug"]:
+		var cell=EquipmentCell.new()
+		cell.model=loadout
+		cell.slot_type=slot_key
+		cell.title={"module":"模块 / 被动","weapon":"武器 / E 主动","drug":"药物 / Q 使用"}[slot_key]
+		cell.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+		loadout_slots.add_child(cell)
+	var count=maxi(12,ceili((loadout.stock.size()+1)/6.0)*6)
+	for index in range(count):
+		var cell=EquipmentCell.new()
+		cell.model=loadout
+		cell.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+		cell.stock_index=index if index<loadout.stock.size() else -1
+		cell.return_zone=index==loadout.stock.size()
+		cell.title="仓库 %02d" % (index+1)
+		warehouse_grid.add_child(cell)
 func start_run() -> void:
-	var ok=Game.begin_run(class_select.selected,module_select.get_item_metadata(module_select.selected),weapon_select.get_item_metadata(weapon_select.selected),drug_select.get_item_metadata(drug_select.selected))
+	var ok=Game.begin_run(class_select.selected,loadout.selected_id("module"),loadout.selected_id("weapon"),loadout.selected_id("drug"))
 	if ok:show_combat()
 	else:say(Game.last_error)
 func show_combat() -> void:
 	clear_page("combat")
 	battle=Combat.new()
-	battle.custom_minimum_size=Vector2(900,600)
-	body.add_child(battle)
-	side=panel(body)
+	gameplay_stage(battle)
+	minimap=MiniMap.new()
+	stage.add_child(minimap)
+	minimap.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
+	minimap.offset_left=-332
+	minimap.offset_right=-12
+	minimap.offset_top=12
+	minimap.offset_bottom=202
+	minimap.can_use=func():return is_instance_valid(battle) and not battle.paused and not is_instance_valid(modal)
+	side=panel(make_drawer(214),340)
 	battle.changed.connect(refresh_combat)
 	battle.notice.connect(say)
 	battle.ended.connect(func(success):
@@ -352,11 +421,9 @@ func refresh_combat() -> void:
 	if Game.run.is_empty() or not is_instance_valid(side):return
 	empty(side)
 	section(side,C.CLASSES[int(Game.run["class"])].name+" / 回收作业")
-	var minimap=MiniMap.new()
-	minimap.selected.connect(func(id):battle.goto_room(id))
-	side.add_child(minimap)
+	if is_instance_valid(minimap):minimap.queue_redraw()
 	var r=Game.run.floor_data.rooms[int(Game.run.room)]
-	side.add_child(wrapped("保底预算 %d 步 / %d 间房\n金：奖励  紫：商店  红：Boss" % [Game.run.floor_data.budget,Game.run.floor_data.rooms.size()],14))
+	side.add_child(wrapped("通道需在门前按 F 进入；战斗时锁定。",14))
 	var drug_uses=0
 	for entry in Game.run.bag:
 		if entry.id==Game.run.drug:drug_uses+=int(entry.uses)
@@ -367,7 +434,7 @@ func refresh_combat() -> void:
 	var visited=0
 	for node in Game.run.floor_data.rooms:
 		if node.visited:visited+=1
-	side.add_child(label("已探索 %d / %d   ·   背包 %d / %d" % [visited,Game.run.floor_data.rooms.size(),Game.run.bag.size(),Game.run.stats.capacity],16))
+	side.add_child(label("已探索 %d 间   ·   背包 %d / %d" % [visited,Game.run.bag.size(),Game.run.stats.capacity],16))
 	if Game.run.fighting:side.add_child(wrapped("战斗中：通道与背包已锁定。",16))
 	else:
 		if r.kind=="reward" and not r.claimed:
@@ -376,21 +443,9 @@ func refresh_combat() -> void:
 		if r.kind=="shop":
 			button("补给商：凝胶绷带 / 22 电量",func():buy_run_item("3_0",22),side)
 			button("补给商：轻量背架 / 40 电量",func():buy_run_item("5_1",40),side)
-		for i in range(r.loot.size()):
-			var index=i
-			var loot_entry=r.loot[i]
-			var id: String=loot_entry.id if loot_entry is Dictionary else loot_entry
-			var title={"power":"电量补给 +%d" % Loot.pickup_value(int(Game.state.station),"power"),"credits":"电卡余额 +%d" % Loot.pickup_value(int(Game.state.station),"credits"),"chest":"随机宝箱 / 点击开启"}.get(id,"")
-			if title=="":title=C.item(id).name
-			button("拾取   "+title,func():battle.collect(index),side)
-		if r.kind=="boss" and r.cleared:
-			button("通往下一层   →",func():
-				if Game.next_floor():battle.enter_room()
-				else:say(Game.last_error),side)
-		for id in r.links:
-			var next_id=id
-			button("通道 → 房间 %02d" % (int(id)+1),func():battle.goto_room(next_id),side)
-	button("背包 / Tab",show_bag,side,bool(Game.run.fighting))
+		if not r.loot.is_empty():side.add_child(wrapped("地面有 %d 件物资：靠近按 F；电量/电卡自动吸附。" % r.loot.size(),14))
+		if r.kind=="boss" and r.cleared:side.add_child(wrapped("靠近中央通道，按 F 前往下一层。"))
+	button("背包 / B",show_bag,side,bool(Game.run.fighting))
 	button("安全撤离",confirm_extract,side,bool(Game.run.fighting))
 	button("暂停 / Esc",show_pause,side)
 func buy_run_item(id: String,cost: int) -> void:
@@ -403,13 +458,14 @@ func buy_run_item(id: String,cost: int) -> void:
 		refresh_combat()
 func _process(_delta: float) -> void:
 	if page=="combat" and not Game.run.is_empty():
+		battle.pointer_blocked=is_instance_valid(drawer) and drawer.visible and drawer.get_global_rect().has_point(get_global_mouse_position())
 		hud.text="生命 %d/%d   电量 %d / 账户 %d   防护 %d 秒   E %.1fs" % [maxi(0,int(Game.run.hp)),Game.run.stats.hp,Game.run.energy,Game.state.power,maxi(0,int(Game.run.timer)),Game.run.weapon_cd]
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not event.is_pressed() or event.is_echo(): return
 	if event.physical_keycode==KEY_ESCAPE:
 		if is_instance_valid(modal):close_modal()
 		elif page=="combat":show_pause()
-	elif event.physical_keycode==KEY_TAB and page=="combat":
+	elif event.physical_keycode==KEY_B and page=="combat":
 		if is_instance_valid(modal):close_modal()
 		else:show_bag()
 func open_modal(title: String) -> VBoxContainer:
@@ -467,7 +523,8 @@ func show_settings() -> void:
 	full.button_pressed=Game.settings.fullscreen
 	full.toggled.connect(func(value):Game.settings.fullscreen=value;Game.apply_settings())
 	v.add_child(full)
-	v.add_child(wrapped("WASD 移动 · 方向键 / 鼠标左键射击\nE 主动武器 · Q 药物 · Tab 背包 · Esc 暂停\n\n战斗原型支持鼠标与键盘。存档保存在 Godot user:// 目录。"))
+	v.add_child(wrapped("WASD 移动 · 方向键 / 鼠标左键射击\nF 门前互动 · E 主动武器 · Q 药物 · B 背包
+长按 Tab 2 秒看清地图 · Esc 暂停\n\n战斗原型支持鼠标与键盘。存档保存在 Godot user:// 目录。"))
 	button("保存设置并返回",func():Game.save_settings();close_modal(),v)
 func show_pause() -> void:
 	var v=open_modal("作业暂停")
@@ -562,11 +619,19 @@ func drop_bag(index: int) -> void:
 	if Game.run.weapon==id:Game.run.weapon=""
 	if Game.run.drug==id:Game.run.drug=""
 	Game.run.floor_data.rooms[int(Game.run.room)].loot.append(Game.run.bag[index].duplicate(true))
+	if is_instance_valid(battle):battle.ensure_ground_loot(battle.player)
 	Game.run.bag.remove_at(index)
 	bag_selected=-1
 func show_shop() -> void:
 	clear_page("shop")
-	var catalog=panel(body,890)
+	stage=Control.new()
+	stage.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+	stage.size_flags_vertical=Control.SIZE_EXPAND_FILL
+	body.add_child(stage)
+	var catalog_host=VBoxContainer.new()
+	stage.add_child(catalog_host)
+	catalog_host.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	var catalog=panel(catalog_host,890)
 	section(catalog,"地下市场 / 以电易物","价格受站点与日报影响 · 当日每种商品限购 4 件")
 	var cats=HBoxContainer.new()
 	catalog.add_child(cats)
@@ -576,7 +641,7 @@ func show_shop() -> void:
 	for j in range(4):
 		var id="%d_%d" % [shop_category,j]
 		item_card(catalog,id)
-	side=panel(body)
+	side=panel(make_drawer(),340)
 	section(side,"开店接客","到站客流：%d 人 / 日" % C.STATIONS[int(Game.state.station)].traffic)
 	var offer=Game.customer_offer()
 	side.add_child(wrapped("第 %d 位顾客\n%s %s\n出价 %d 电量" % [int(Game.state.customer)+1,"想买入" if offer.buying else "想出售",C.item(offer.id).name,offer.price],20))

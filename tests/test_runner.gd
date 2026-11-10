@@ -115,16 +115,17 @@ func run_tests() -> void:
 	await process_frame
 	ui.show_slots()
 	ui.show_base(true)
-	var world=ui.body.get_child(0)
+	await process_frame
+	var world=ui.stage.get_child(0)
 	var click=InputEventMouseButton.new()
 	click.button_index=MOUSE_BUTTON_LEFT
 	click.pressed=true
-	click.position=world.iso(1.5,1.5)
+	click.position=world.base_to_screen(world.iso(1.5,1.5))
 	world._gui_input(click)
 	check(game.state.furniture.size()==1,"place furniture")
 	world._gui_input(click)
 	click.pressed=false
-	click.position=world.iso(3.5,2.5)
+	click.position=world.base_to_screen(world.iso(3.5,2.5))
 	world._gui_input(click)
 	check(int(game.state.furniture[0].x)==3 and int(game.state.furniture[0].y)==2,"drag furniture")
 	click.pressed=true
@@ -168,6 +169,7 @@ func run_tests() -> void:
 	battle.use_drug()
 	check(game.run.hp==85.0 and game.run.bag[2].uses==2,"medicine effect and finite uses")
 	ui.drop_bag(2)
+	battle.player=battle.room().ground.back().pos
 	battle.collect(battle.room().loot.size()-1)
 	check(game.run.bag.back().uses==2,"drop and pickup preserve drug uses")
 	var key=InputEventKey.new()
@@ -219,6 +221,7 @@ func run_tests() -> void:
 	ui.show_base()
 	await process_frame
 	check(game.load_game(0),"settlement persisted")
+	await preload("res://tests/interaction_checks.gd").new().run(self,game,ui,check)
 	ui.queue_free()
 	await process_frame
 	await process_frame

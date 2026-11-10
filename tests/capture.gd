@@ -21,8 +21,11 @@ func capture() -> void:
 	game.state.furniture=[{"x":1,"y":1,"type":0},{"x":3,"y":1,"type":1},{"x":7,"y":1,"type":2},{"x":1,"y":4,"type":3}]
 	ui.show_base(true)
 	await shot("base")
+	ui.toggle_drawer()
+	await shot("base_details")
 	ui.show_map()
 	await shot("map")
+	ui.toggle_drawer()
 	for index in range(ui.C.STATIONS.size()):
 		if ui.C.STATIONS[index].name=="张江高科":
 			ui.map_selection=index
@@ -32,13 +35,46 @@ func capture() -> void:
 	await shot("map_zhangjiang")
 	ui.show_preparation()
 	await shot("prepare")
+	# Exercise real mouse drags for the visual review too.
+	var gestures=load("res://tests/interaction_checks.gd").new()
+	gestures.tree=self
+	await gestures.drag(ui.warehouse_grid.get_child(8),ui.loadout_slots.get_child(0))
+	await gestures.drag(ui.warehouse_grid.get_child(5),ui.loadout_slots.get_child(1))
+	await gestures.drag(ui.warehouse_grid.get_child(0),ui.loadout_slots.get_child(2))
+	await shot("prepare_equipped")
 	ui.show_shop()
 	await shot("shop")
+	ui.toggle_drawer()
+	await shot("shop_details")
 	game.begin_run(1,"5_0","4_1","3_0",2026)
 	ui.show_combat()
-	ui.battle.goto_room(1)
+	await shot("combat_start")
+	# Screenshot fixture: start at the physical gate and use the same F interaction.
+	ui.battle.player=ui.battle.door_position(int(ui.battle.room().links[0]))
+	ui.battle.door_delay=0
+	gestures.tap(KEY_F)
 	await create_timer(0.5).timeout
 	await shot("combat")
+	ui.toggle_drawer()
+	await shot("combat_details")
+	ui.toggle_drawer()
+	ui.battle.set_process(false)
+	ui.minimap.set_process(false)
+	gestures.key(KEY_TAB,true)
+	ui.minimap.advance_hold(2.0)
+	await shot("combat_map_held")
+	gestures.key(KEY_TAB,false)
+	# Cleared-room screenshot fixture to inspect each resource icon and the pickup prompt.
+	ui.battle.enemies=[]
+	ui.battle.bullets=[]
+	game.run.fighting=false
+	ui.battle.room().cleared=true
+	ui.battle.room().loot=["power","credits","0_0","2_0","3_0","4_1","5_0","scrap","chest"]
+	ui.battle.room().ground=[]
+	ui.battle.ensure_ground_loot()
+	ui.battle.player=ui.battle.room().ground[2].pos+Vector2(0,-45)
+	ui.battle.queue_redraw()
+	await shot("ground_loot")
 	ui.clear_page("art_gallery")
 	var gallery=GridContainer.new()
 	gallery.columns=4

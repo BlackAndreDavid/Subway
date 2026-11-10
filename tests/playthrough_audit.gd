@@ -32,6 +32,13 @@ func release_inputs() -> void:
 	button.pressed=false
 	Input.parse_input_event(button)
 	Input.flush_buffered_events()
+func walk_toward(point: Vector2,player: Vector2) -> void:
+	var move=point-player
+	key(KEY_A,move.x< -6)
+	key(KEY_D,move.x>6)
+	key(KEY_W,move.y< -6)
+	key(KEY_S,move.y>6)
+	Input.flush_buffered_events()
 func audit() -> void:
 	game=root.get_node("Game")
 	root.size=Vector2i(1440,900)
@@ -57,6 +64,8 @@ func audit() -> void:
 			var ticks=0
 			var cleared=0
 			var recovered=0
+			var doors_entered=0
+			var ignored_loot={}
 			var previous={}
 			var next_enemy_id=100
 			var dt=0.05
@@ -65,19 +74,43 @@ func audit() -> void:
 			mouse.pressed=true
 			Input.parse_input_event(mouse)
 			while not finished and ticks<10000:
+				ticks+=1
 				if battle.enemies.is_empty() and not game.run.fighting:
 					if battle.room().kind=="reward":game.claim_reward(0)
-					for index in range(battle.room().loot.size()-1,-1,-1):
-						var before=game.run.bag.size()
-						battle.collect(index)
-						recovered+=maxi(0,game.run.bag.size()-before)
 					if step>=route.size():break
-					for code in [KEY_W,KEY_A,KEY_S,KEY_D]:key(code,false)
-					Input.flush_buffered_events()
-					battle.goto_room(int(route[step]))
-					step+=1
-					previous={}
-					battle._process(0.2) # Human-scale transition allowance, no paused timer.
+					# Walk to real loot and doors. Never teleport or call goto_room/collect remotely.
+					battle.ensure_ground_loot()
+					var loot_target=-1
+					var loot_distance=INF
+					for index in range(battle.room().loot.size()):
+						var id=battle.loot_id(battle.room().loot[index])
+						if not battle.automatic_loot(id) and id!="chest" and game.run.bag.size()>=int(game.run.stats.capacity):continue
+						var token=str(game.run.room)+":"+str(battle.room().ground[index].pos)+":"+id
+						if ignored_loot.has(token):continue
+						var distance=battle.player.distance_to(battle.room().ground[index].pos)
+						if distance<loot_distance:
+							loot_target=index
+							loot_distance=distance
+					if loot_target>=0:
+						var pos: Vector2=battle.room().ground[loot_target].pos
+						walk_toward(pos,battle.player)
+						if loot_distance<40 and not battle.automatic_loot(battle.loot_id(battle.room().loot[loot_target])):
+							var before=game.run.bag.size()
+							var token=str(game.run.room)+":"+str(pos)+":"+battle.loot_id(battle.room().loot[loot_target])
+							tap(KEY_F)
+							if before==game.run.bag.size():ignored_loot[token]=true
+							recovered+=maxi(0,game.run.bag.size()-before)
+					else:
+						var door: Vector2=battle.door_position(int(route[step]))
+						walk_toward(door,battle.player)
+						if battle.player.distance_to(door)<55 and battle.door_delay<=0:
+							var from=int(game.run.room)
+							tap(KEY_F)
+							if int(game.run.room)!=from:
+								step+=1
+								doors_entered+=1
+								previous={}
+					battle._process(dt)
 					if finished:break
 					continue
 				var nearest: Dictionary={}
@@ -124,14 +157,13 @@ func audit() -> void:
 				var before=battle.enemies.size()
 				battle._process(dt)
 				if before>0 and battle.enemies.is_empty():cleared+=1
-				ticks+=1
 			var won=not finished and battle.room().kind=="boss" and battle.room().cleared
 			var visited=0
 			cleared=0
 			for room in game.run.floor_data.rooms:
 				if room.visited:visited+=1
 				if room.kind in ["normal","boss"] and room.cleared:cleared+=1
-			rows.append({"station":C.STATIONS[station].name,"radiation":C.STATIONS[station].radiation,"class":C.CLASSES[class_index].name,"seed":2026,"boss_defeated":won,"time_used":snappedf(initial_time-float(game.run.timer),0.01),"hp_remaining":snappedf(maxf(0,game.run.hp),0.01),"visited":visited,"rooms":game.run.floor_data.rooms.size(),"rooms_cleared":cleared,"items_picked":recovered,"account_change":snappedf(float(game.state.power)-start_power,0.01)})
+			rows.append({"station":C.STATIONS[station].name,"radiation":C.STATIONS[station].radiation,"class":C.CLASSES[class_index].name,"seed":2026,"boss_defeated":won,"time_used":snappedf(initial_time-float(game.run.timer),0.01),"hp_remaining":snappedf(maxf(0,game.run.hp),0.01),"visited":visited,"rooms":game.run.floor_data.rooms.size(),"rooms_cleared":cleared,"items_picked":recovered,"doors_entered_with_f":doors_entered,"account_change":snappedf(float(game.state.power)-start_power,0.01)})
 			release_inputs()
 			game.end_run(won)
 			if not game.load_game(0):failed=true
@@ -147,7 +179,7 @@ func audit() -> void:
 		failed=true
 		push_error("No introductory class completed the scripted playthrough")
 	DirAccess.make_dir_recursive_absolute("res://work")
-	var report={"controller":"fixed-input test controller, not human-player feedback","stat_overrides":false,"cases":rows,"introductory_wins":low_wins,"passed":not failed}
+	var report={"controller":"WASD movement, mouse fire, F at doors and floor pickups; not human-player feedback","stat_overrides":false,"cases":rows,"introductory_wins":low_wins,"passed":not failed}
 	var file=FileAccess.open("res://work/playthrough-report.json",FileAccess.WRITE)
 	file.store_string(JSON.stringify(report,"\t"))
 	file.close()

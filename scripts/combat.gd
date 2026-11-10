@@ -20,7 +20,18 @@ var rng=RandomNumberGenerator.new()
 var sounds: Dictionary={}
 var flash=0.0
 var pending_end=false
+var pointer_blocked=false
+const VIEW_SIZE=Vector2(900,600)
+const INTERACT_DISTANCE=64.0
 const AREA=Rect2(45,65,810,475)
+func camera_scale() -> float:
+	return minf(size.x/VIEW_SIZE.x,size.y/VIEW_SIZE.y) if size.x>0 and size.y>0 else 1.0
+func camera_offset() -> Vector2:
+	return (size-VIEW_SIZE*camera_scale())/2
+func world_to_screen(point: Vector2) -> Vector2:
+	return camera_offset()+point*camera_scale()
+func world_mouse() -> Vector2:
+	return (get_local_mouse_position()-camera_offset())/camera_scale()
 func _ready() -> void:
 	mouse_filter=Control.MOUSE_FILTER_IGNORE
 	font=ThemeDB.fallback_font
@@ -57,6 +68,7 @@ func enter_room(spawn: Vector2=Vector2(450,300)) -> void:
 				var pos=Vector2(rng.randf_range(180,760),rng.randf_range(140,450))
 				if pos.distance_to(player)<160: pos=Vector2(760,450)
 				enemies.append(make_enemy(rng.randi_range(0,3),pos))
+	ensure_ground_loot()
 	Game.run.fighting=not enemies.is_empty()
 	sounds.door.play()
 	changed.emit()
@@ -85,17 +97,9 @@ func _process(delta: float) -> void:
 		if absf(movement.x)>absf(movement.y): direction=0 if movement.x<0 else 1
 		else: direction=3 if movement.y<0 else 2
 	else: frame=0
-	# Walking into the opening moves to the neighboring room.
-	if not Game.run.fighting and door_delay<=0:
-		for id in room().links:
-			var diff: Vector2i=Game.run.floor_data.rooms[id].pos-room().pos
-			var at_door=(diff.x<0 and player.x<48 and absf(player.y-300)<48) or (diff.x>0 and player.x>852 and absf(player.y-300)<48) or (diff.y<0 and player.y<68 and absf(player.x-450)<48) or (diff.y>0 and player.y>537 and absf(player.x-450)<48)
-			if at_door:
-				goto_room(id)
-				return
 	player=player.clamp(AREA.position+Vector2(14,14),AREA.end-Vector2(14,14))
 	var aim=Vector2(float(Input.is_physical_key_pressed(KEY_RIGHT))-float(Input.is_physical_key_pressed(KEY_LEFT)),float(Input.is_physical_key_pressed(KEY_DOWN))-float(Input.is_physical_key_pressed(KEY_UP)))
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and Rect2(Vector2.ZERO,Vector2(900,600)).has_point(get_local_mouse_position()): aim=get_local_mouse_position()-player
+	if not pointer_blocked and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and Rect2(Vector2.ZERO,VIEW_SIZE).has_point(world_mouse()): aim=world_mouse()-player
 	if aim.length()>0 and cooldown<=0:
 		shoot(player,aim.normalized(),false,14*float(Game.run.damage),float(Game.run.stats.range))
 		cooldown=0.28*(0.75 if Game.run.module=="5_2" else 1.0)*(0.6 if Game.run.buff>0 else 1.0)
@@ -112,10 +116,14 @@ func _process(delta: float) -> void:
 		if Game.run.module=="5_3": Game.state.power+=2
 		notice.emit("房间已清理。可以拾取、整理背包和使用通道。")
 		changed.emit()
+	update_ground_loot(delta)
 	queue_redraw()
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not event.is_pressed() or event.is_echo() or paused: return
-	if event.physical_keycode==KEY_E: use_weapon()
+	if event.physical_keycode==KEY_F:
+		interact()
+		get_viewport().set_input_as_handled()
+	elif event.physical_keycode==KEY_E: use_weapon()
 	if event.physical_keycode==KEY_Q: use_drug()
 func shoot(pos: Vector2,dir: Vector2,enemy: bool,damage: float,distance: float=900,penetrating: bool=false) -> void:
 	bullets.append({"pos":pos,"vel":dir*(230 if enemy else 540),"enemy":enemy,"damage":damage,"distance":distance,"hit":[],"penetrating":penetrating})
@@ -176,7 +184,36 @@ func take_damage(amount: float) -> void:
 	Game.run.hp-=amount*(1.0-float(Game.run.stats.armor))
 	hurt_cd=0.65
 	sounds.hit.play()
-func goto_room(id: int) -> void:
+func door_position(id: int) -> Vector2:
+	var diff: Vector2i=Game.run.floor_data.rooms[id].pos-room().pos
+	return Vector2(450,65) if diff.y<0 else Vector2(450,540) if diff.y>0 else Vector2(45,300) if diff.x<0 else Vector2(855,300)
+func nearby_door() -> int:
+	if Game.run.is_empty():return -1
+	var closest=-1
+	var distance=INTERACT_DISTANCE
+	for id in room().links:
+		var current=player.distance_to(door_position(id))
+		if current<=distance:
+			closest=id
+			distance=current
+	return closest
+func interact() -> void:
+	if paused or pending_end or Game.run.is_empty():return
+	if Game.run.fighting:
+		notice.emit("战斗中，通道已锁定。")
+		return
+	var id=nearby_door()
+	if id>=0:
+		goto_room(id)
+	elif room().kind=="boss" and room().cleared and player.distance_to(Vector2(450,300))<=40:
+		if Game.next_floor():enter_room()
+		else:notice.emit(Game.last_error)
+	elif nearest_loot()>=0:collect(nearest_loot())
+	else:notice.emit("靠近掉落物或通道后按 F 互动。")
+func goto_room(id: int) -> bool:
+	# Every call, including tests and UI callbacks, must pass the same physical gate.
+	if paused or pending_end or Game.run.is_empty() or id<0 or id>=Game.run.floor_data.rooms.size():return false
+	if not room().links.has(id) or door_delay>0 or player.distance_to(door_position(id))>INTERACT_DISTANCE:return false
 	var diff: Vector2i=Game.run.floor_data.rooms[id].pos-room().pos
 	if Game.move_room(id):
 		var spawn=Vector2(450,300)
@@ -185,10 +222,12 @@ func goto_room(id: int) -> void:
 		if diff.y>0: spawn=Vector2(450,105)
 		if diff.y<0: spawn=Vector2(450,500)
 		enter_room(spawn)
-	else: notice.emit("战斗中无法通行，或电量不足。")
+		return true
+	notice.emit("战斗中无法通行，或电量不足。")
+	return false
 func use_weapon() -> void:
 	if Game.run.weapon=="" or Game.run.weapon_cd>0: return
-	var aim=(get_local_mouse_position()-player).normalized()
+	var aim=(world_mouse()-player).normalized()
 	if aim==Vector2.ZERO: aim=Vector2.RIGHT
 	match Game.run.weapon:
 		"4_0":
@@ -231,33 +270,82 @@ func use_drug() -> void:
 	changed.emit()
 func create_loot() -> void:
 	room().loot.append_array(Loot.roll_room(int(Game.state.station),int(Game.run.floor),rng,room().kind=="boss"))
-func collect(index: int) -> void:
-	if Game.run.fighting or index>=room().loot.size(): return
+	ensure_ground_loot(Vector2(450,390) if room().kind=="boss" else Vector2(450,300))
+func loot_id(entry: Variant) -> String:
+	return str(entry.id) if entry is Dictionary else str(entry)
+func automatic_loot(id: String) -> bool:
+	return id in ["power","credits"]
+func ensure_ground_loot(origin: Vector2=Vector2(450,300)) -> void:
+	if not room().has("ground"):room().ground=[]
+	while room().ground.size()<room().loot.size():
+		var index=room().ground.size()
+		var offset=Vector2((index%5-2)*58,(index/5)*55)
+		room().ground.append({"pos":(origin+offset).clamp(AREA.position+Vector2(35,35),AREA.end-Vector2(35,35))})
+func nearest_loot() -> int:
+	ensure_ground_loot()
+	var nearest=-1
+	var distance=INTERACT_DISTANCE
+	for index in range(room().loot.size()):
+		if automatic_loot(loot_id(room().loot[index])):continue
+		var current=player.distance_to(room().ground[index].pos)
+		if current<=distance:
+			nearest=index
+			distance=current
+	return nearest
+func update_ground_loot(delta: float) -> void:
+	ensure_ground_loot()
+	for index in range(room().loot.size()-1,-1,-1):
+		if not automatic_loot(loot_id(room().loot[index])):continue
+		var ground: Dictionary=room().ground[index]
+		if ground.pos.distance_to(player)<=128:
+			ground.pos=ground.pos.move_toward(player,260*delta)
+			if ground.pos.distance_to(player)<=18:collect(index,true)
+func loot_texture(id: String) -> Texture2D:
+	if id=="power":return Art.texture("items/1_1")
+	if id=="credits":return Art.texture("credits")
+	if id=="chest":return Art.texture("chest")
+	if id=="scrap":return Art.texture("scrap")
+	if id.begins_with("mat_"):return Art.texture("materials/"+id.trim_prefix("mat_"))
+	return Art.texture("items/"+id)
+func collect(index: int,automatic: bool=false) -> bool:
+	if paused or Game.run.fighting or index<0 or index>=room().loot.size():return false
+	ensure_ground_loot()
+	var id_at_index=loot_id(room().loot[index])
+	if automatic and not automatic_loot(id_at_index):return false
+	var range_limit=18.0 if automatic else INTERACT_DISTANCE
+	if player.distance_to(room().ground[index].pos)>range_limit:return false
 	var entry=room().loot[index]
 	var id: String=entry.id if entry is Dictionary else entry
 	if id=="chest":
+		var origin: Vector2=room().ground[index].pos
 		room().loot.remove_at(index)
+		room().ground.remove_at(index)
 		room().loot.append_array(Loot.open_chest(int(Game.state.station),int(Game.run.floor),rng))
-		notice.emit("宝箱开启：产出受区域白名单、辐射与层数影响。")
+		ensure_ground_loot(origin)
+		notice.emit("宝箱已打开，物资已散落在地面。")
 	elif id=="power" or id=="credits":
 		var value=Loot.pickup_value(int(Game.state.station),id)
 		Game.state.power+=value
 		if id=="power":Game.run.energy+=value
 		room().loot.remove_at(index)
+		room().ground.remove_at(index)
 	else:
 		if not Game.pick_up(id,int(entry.uses) if entry is Dictionary else -1):
-			notice.emit("背包已满，请先整理或丢弃。")
-			return
+			notice.emit("背包已满，物品仍留在地上。")
+			return false
 		room().loot.remove_at(index)
+		room().ground.remove_at(index)
 	sounds.pickup.play()
 	changed.emit()
+	return true
 func finish(success: bool) -> void:
 	if pending_end: return
 	pending_end=true
 	ended.emit(success)
 func _draw() -> void:
 	if Game.run.is_empty(): return
-	draw_style_box(style(),Rect2(0,0,900,600))
+	draw_style_box(style(),Rect2(Vector2.ZERO,size))
+	draw_set_transform(camera_offset(),0,Vector2.ONE*camera_scale())
 	for x in range(45,855,45): draw_line(Vector2(x,65),Vector2(x,540),Color("203944"),1)
 	for y in range(65,541,45): draw_line(Vector2(45,y),Vector2(855,y),Color("203944"),1)
 	draw_rect(AREA,Color("47606b"),false,7)
@@ -271,8 +359,21 @@ func _draw() -> void:
 		if r.kind=="reward" and not r.claimed: draw_texture_rect(Art.texture("chest"),Rect2(420,250,60,60),false)
 		if r.kind=="boss" and r.cleared:
 			draw_circle(Vector2(450,300),52,Color("3f7479"))
-			draw_string(font,Vector2(405,307),"下一层",HORIZONTAL_ALIGNMENT_LEFT,-1,21,Color("c5e4db"))
+			draw_string(font,Vector2(405,307),"F 下一层",HORIZONTAL_ALIGNMENT_LEFT,-1,21,Color("c5e4db"))
 		if r.kind=="shop": draw_texture_rect(Art.texture("station"),Rect2(420,240,65,65),false)
+	ensure_ground_loot()
+	for index in range(r.loot.size()):
+		var pos: Vector2=r.ground[index].pos
+		var id=loot_id(r.loot[index])
+		draw_circle(pos,19,Color(0.04,0.1,0.13,0.65))
+		draw_texture_rect(loot_texture(id),Rect2(pos-Vector2(21,21),Vector2(42,42)),false)
+	if not Game.run.fighting and nearest_loot()>=0 and nearby_door()<0:
+		var id=loot_id(r.loot[nearest_loot()])
+		var text="F 打开宝箱" if id=="chest" else "F 拾取 · "+C.item(id).name+"（1格）"
+		draw_string(font,Vector2(45,559),text,HORIZONTAL_ALIGNMENT_LEFT,-1,15,Color("eed4a1"))
+	if not Game.run.fighting and nearby_door()>=0:
+		var door=door_position(nearby_door())
+		draw_string(font,door+Vector2(-30,-30),"F 进入",HORIZONTAL_ALIGNMENT_LEFT,-1,18,Color("f1d398"))
 	for e in enemies:
 		var dim=Vector2(86,86) if e.type==4 else Vector2(53,53)
 		if e.type==3 and e.timer>1.85: draw_line(e.pos,e.pos+e.velocity*0.5,Color(0.9,0.45,0.35,0.5),3)
@@ -285,7 +386,7 @@ func _draw() -> void:
 	if flash>0: draw_arc(player,250*(1-flash/0.3),0,TAU,60,Color("a8ebe2"),4,true)
 	for b in bullets:
 		draw_texture_rect(Art.texture("enemy_bullet" if b.enemy else "bullet"),Rect2(b.pos-Vector2(7,7),Vector2(14,14)),false)
-	draw_string(font,Vector2(45,580),"WASD 移动   /   方向键或鼠标射击   /   E 主动武器   /   Q 药物   /   Tab 背包   /   Esc 暂停",HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("6f949e"))
+	draw_string(font,Vector2(45,580),"WASD 移动  /  鼠标射击  /  F 进入  /  E 武器  /  Q 药物  /  B 背包  /  长按 Tab 地图  /  Esc 暂停",HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("6f949e"))
 func style() -> StyleBoxFlat:
 	var s=StyleBoxFlat.new()
 	s.bg_color=Color("142a35")

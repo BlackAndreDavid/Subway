@@ -26,6 +26,12 @@ func _ready() -> void:
 		call_deferred("reset_map")
 	mouse_filter=Control.MOUSE_FILTER_STOP
 	queue_redraw()
+func base_scale() -> float:
+	return minf(size.x/900.0,size.y/610.0) if size.x>0 and size.y>0 else 1.0
+func base_offset() -> Vector2:
+	return (size-Vector2(900,610)*base_scale())/2
+func base_to_screen(point: Vector2) -> Vector2:
+	return base_offset()+point*base_scale()
 func iso(x: float,y: float) -> Vector2:
 	return Vector2(435+(x-y)*41,140+(x+y)*22)
 func tile_at(p: Vector2) -> Vector2i:
@@ -73,6 +79,9 @@ func _gui_input(event: InputEvent) -> void:
 					station_selected.emit(index)
 					queue_redraw()
 		return
+	event=event.duplicate()
+	if event is InputEventMouse:
+		event.position=(event.position-base_offset())/base_scale()
 	if event is InputEventMouseMotion:
 		if mode=="map":
 			hover=-1
@@ -118,7 +127,9 @@ func _draw() -> void:
 	draw_style_box(panel_style(),Rect2(Vector2.ZERO,size))
 	if Game.state.is_empty(): return
 	if mode=="map": draw_map()
-	else: draw_base()
+	else:
+		draw_set_transform(base_offset(),0,Vector2.ONE*base_scale())
+		draw_base()
 func panel_style() -> StyleBoxFlat:
 	var s=StyleBoxFlat.new()
 	s.bg_color=Color("10242e")
@@ -154,8 +165,8 @@ func draw_base() -> void:
 		var p=iso(preview.x,preview.y)
 		draw_colored_polygon(PackedVector2Array([p,iso(preview.x+1,preview.y),iso(preview.x+1,preview.y+1),iso(preview.x,preview.y+1)]),Color(0.55,0.9,0.85,0.45))
 	draw_texture_rect(Art.texture("player/2"),Rect2(iso(5,3)-Vector2(28,53),Vector2(56,56)),false)
-	text_at(Vector2(30,size.y-55),"布置模式：左键放置 · 拖动已有家具 · 右键回收 · 同格不可重叠" if placing else "车窗外，是仍在呼吸的地下城市。",Color("8da8b1"),17)
-	text_at(Vector2(30,size.y-28),"每日消耗   2 水 / 2 食物 / 5 电量     ·     基地操作后自动保存",Color("5f8390"),14)
+	text_at(Vector2(30,555),"布置模式：左键放置 · 拖动已有家具 · 右键回收 · 同格不可重叠" if placing else "车窗外，是仍在呼吸的地下城市。",Color("8da8b1"),17)
+	text_at(Vector2(30,582),"每日消耗   2 水 / 2 食物 / 5 电量     ·     基地操作后自动保存",Color("5f8390"),14)
 func draw_map() -> void:
 	text_at(Vector2(30,42),"SHANGHAI / 上海地铁主要站点",Color("b5dfdb"),22)
 	text_at(Vector2(30,70),"21 条线路 · 110 个站点 · 滚轮缩放 / 右键拖动 / 左键选站",Color("678590"),14)
