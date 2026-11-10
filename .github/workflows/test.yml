@@ -1,0 +1,34 @@
+name: Godot validation
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GODOT_VERSION: 4.6.3
+      SUBWAY_TEST_MODE: "1"
+      XDG_DATA_HOME: ${{ github.workspace }}/work/test-data
+      XDG_CONFIG_HOME: ${{ github.workspace }}/work/config
+      XDG_CACHE_HOME: ${{ github.workspace }}/work/cache
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download official Godot
+        run: |
+          mkdir -p work/bin
+          curl --fail --location --retry 3 "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip" -o work/godot.zip
+          unzip -q work/godot.zip -d work/bin
+          mv work/bin/Godot_v${GODOT_VERSION}-stable_linux.x86_64 work/bin/godot
+          chmod +x work/bin/godot
+      - name: Regenerate procedural assets
+        run: python3 tools/generate_assets.py
+      - name: Import and check scripts
+        run: |
+          work/bin/godot --headless --editor --import --quit 2>&1 | tee work/import.log
+          if grep -E 'SCRIPT ERROR|Parse Error' work/import.log; then exit 1; fi
+      - name: Map properties and gameplay integration
+        run: |
+          set -o pipefail
+          work/bin/godot --headless --path . --script tests/test_runner.gd 2>&1 | tee work/test.log
+          if grep -E 'SCRIPT ERROR|ERROR:' work/test.log; then exit 1; fi
