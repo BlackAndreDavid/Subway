@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "zones": {
     "residential": {
       "name": "居民生活区",
@@ -206,555 +206,775 @@
   "station_tags": {
     "邮电新村": {
       "zone": "residential",
-      "economy_source": "city_reference",
+      "economy_source": "hongkou",
       "local_factor": 0.85,
-      "radiation_override": 1
+      "radiation_override": 1,
+      "local_area": "邮电新村生活片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "四平路": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "yangpu",
+      "local_factor": 0.85,
+      "local_area": "四平路站外探索片区",
+      "reference_note": "跨区或邻区站点按主要探索方向选择一个经济参照，不作行政边界或地籍认定"
     },
     "世纪大道": {
       "zone": "commercial",
       "economy_source": "pudong",
-      "local_factor": 1.15
+      "local_factor": 1.15,
+      "local_area": "世纪大道站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "人民广场": {
       "zone": "commercial",
-      "economy_source": "city_reference",
-      "local_factor": 1.15
+      "economy_source": "huangpu",
+      "local_factor": 1.15,
+      "local_area": "人民广场—南京路商圈",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "虹桥火车站": {
       "zone": "hub",
       "economy_source": "minhang",
-      "local_factor": 1.15
+      "local_factor": 1.15,
+      "local_area": "虹桥综合交通枢纽",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "滴水湖": {
       "zone": "port",
       "economy_source": "pudong",
-      "local_factor": 1.1
+      "local_factor": 1.1,
+      "local_area": "临港装备与航运回收方向",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "莘庄": {
       "zone": "residential",
       "economy_source": "minhang",
-      "local_factor": 1
+      "local_factor": 1,
+      "local_area": "莘庄站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "上海南站": {
       "zone": "hub",
-      "economy_source": "city_reference",
-      "local_factor": 1.15
+      "economy_source": "xuhui",
+      "local_factor": 1.15,
+      "local_area": "上海南站站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "徐家汇": {
       "zone": "commercial",
-      "economy_source": "city_reference",
-      "local_factor": 1.15
+      "economy_source": "xuhui",
+      "local_factor": 1.15,
+      "local_area": "徐家汇商圈",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "陕西南路": {
-      "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "zone": "commercial",
+      "economy_source": "huangpu",
+      "local_factor": 0.85,
+      "local_area": "淮海中路商业片区",
+      "reference_note": "跨区或邻区站点按主要探索方向选择一个经济参照，不作行政边界或地籍认定"
     },
     "上海火车站": {
       "zone": "hub",
-      "economy_source": "city_reference",
-      "local_factor": 1.15
+      "economy_source": "jingan",
+      "local_factor": 1.15,
+      "local_area": "上海火车站站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "呼兰路": {
       "zone": "industrial",
-      "economy_source": "city_reference",
-      "local_factor": 1.1
+      "economy_source": "baoshan",
+      "local_factor": 1.1,
+      "local_area": "呼兰路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "富锦路": {
       "zone": "industrial",
-      "economy_source": "city_reference",
-      "local_factor": 1.1
+      "economy_source": "baoshan",
+      "local_factor": 1.1,
+      "local_area": "富锦路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "蟠祥路·国家会计学院": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "qingpu",
+      "local_factor": 0.85,
+      "local_area": "蟠祥路·国家会计学院站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "国家会展中心": {
       "zone": "commercial",
-      "economy_source": "city_reference",
-      "local_factor": 1.15
+      "economy_source": "qingpu",
+      "local_factor": 1.15,
+      "local_area": "国家会展中心站外探索片区",
+      "reference_note": "跨区或邻区站点按主要探索方向选择一个经济参照，不作行政边界或地籍认定"
     },
     "虹桥2号航站楼": {
       "zone": "hub",
       "economy_source": "minhang",
-      "local_factor": 1.15
+      "local_factor": 1.15,
+      "local_area": "虹桥机场物流片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "中山公园": {
       "zone": "commercial",
-      "economy_source": "city_reference",
-      "local_factor": 1.15
+      "economy_source": "changning",
+      "local_factor": 1.15,
+      "local_area": "中山公园商圈",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "静安寺": {
       "zone": "commercial",
-      "economy_source": "city_reference",
-      "local_factor": 1.15
+      "economy_source": "jingan",
+      "local_factor": 1.15,
+      "local_area": "静安寺商业片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "南京西路": {
       "zone": "commercial",
-      "economy_source": "city_reference",
-      "local_factor": 1.15
+      "economy_source": "jingan",
+      "local_factor": 1.15,
+      "local_area": "南京西路—张园商圈",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "南京东路": {
       "zone": "commercial",
-      "economy_source": "city_reference",
-      "local_factor": 1.15
+      "economy_source": "huangpu",
+      "local_factor": 1.15,
+      "local_area": "南京东路步行街—外滩商业片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "陆家嘴": {
       "zone": "commercial",
       "economy_source": "pudong",
-      "local_factor": 1.15
+      "local_factor": 1.15,
+      "local_area": "陆家嘴站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "龙阳路": {
       "zone": "hub",
       "economy_source": "pudong",
-      "local_factor": 1.15
+      "local_factor": 1.15,
+      "local_area": "龙阳路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "张江高科": {
       "zone": "research",
       "economy_source": "pudong",
-      "local_factor": 1.1
+      "local_factor": 1.1,
+      "local_area": "张江科学城电子信息回收方向",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "广兰路": {
       "zone": "research",
       "economy_source": "pudong",
-      "local_factor": 1.1
+      "local_factor": 1.1,
+      "local_area": "张江科学城研发片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "浦东1号2号航站楼": {
       "zone": "hub",
       "economy_source": "pudong",
-      "local_factor": 1.15
+      "local_factor": 1.15,
+      "local_area": "浦东机场物流片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "江杨北路": {
       "zone": "industrial",
-      "economy_source": "city_reference",
-      "local_factor": 1.1
+      "economy_source": "baoshan",
+      "local_factor": 1.1,
+      "local_area": "宝山吴淞制造业回收方向",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "长江南路": {
       "zone": "industrial",
-      "economy_source": "city_reference",
-      "local_factor": 1.1
+      "economy_source": "baoshan",
+      "local_factor": 1.1,
+      "local_area": "吴淞创新城回收方向",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "虹口足球场": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "hongkou",
+      "local_factor": 0.85,
+      "local_area": "虹口足球场站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "曹杨路": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "putuo",
+      "local_factor": 0.85,
+      "local_area": "曹杨路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "宜山路": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "xuhui",
+      "local_factor": 0.85,
+      "local_area": "宜山路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "海伦路": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "hongkou",
+      "local_factor": 0.85,
+      "local_area": "海伦路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "大连路": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "yangpu",
+      "local_factor": 0.85,
+      "local_area": "大连路站外探索片区",
+      "reference_note": "跨区或邻区站点按主要探索方向选择一个经济参照，不作行政边界或地籍认定"
     },
     "西藏南路": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "huangpu",
+      "local_factor": 0.85,
+      "local_area": "西藏南路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "上海体育馆": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "xuhui",
+      "local_factor": 0.85,
+      "local_area": "上海体育馆站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "东川路": {
       "zone": "industrial",
       "economy_source": "minhang",
-      "local_factor": 1.1
+      "local_factor": 1.1,
+      "local_area": "东川路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "闵行开发区": {
       "zone": "industrial",
       "economy_source": "minhang",
-      "local_factor": 1.1
+      "local_factor": 1.1,
+      "local_area": "闵行经济技术开发区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "奉贤新城": {
-      "zone": "agriculture",
-      "economy_source": "city_reference",
-      "local_factor": 1
+      "zone": "commercial",
+      "economy_source": "fengxian",
+      "local_factor": 1,
+      "local_area": "奉贤新城商业片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "东方体育中心": {
       "zone": "residential",
       "economy_source": "pudong",
-      "local_factor": 1
+      "local_factor": 1,
+      "local_area": "东方体育中心站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "金桥路": {
-      "zone": "residential",
+      "zone": "industrial",
       "economy_source": "pudong",
-      "local_factor": 1
+      "local_factor": 1,
+      "local_area": "金桥站外制造业回收方向",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "巨峰路": {
       "zone": "residential",
       "economy_source": "pudong",
-      "local_factor": 1
+      "local_factor": 1,
+      "local_area": "巨峰路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "港城路": {
       "zone": "port",
       "economy_source": "pudong",
-      "local_factor": 1.1
+      "local_factor": 1.1,
+      "local_area": "外高桥港区回收方向",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "美兰湖": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "baoshan",
+      "local_factor": 0.85,
+      "local_area": "美兰湖站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "顾村公园": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "baoshan",
+      "local_factor": 0.85,
+      "local_area": "顾村公园站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "上海大学": {
       "zone": "culture",
-      "economy_source": "city_reference",
-      "local_factor": 1
+      "economy_source": "baoshan",
+      "local_factor": 1,
+      "local_area": "上海大学站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "镇坪路": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "putuo",
+      "local_factor": 0.85,
+      "local_area": "镇坪路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "常熟路": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "xuhui",
+      "local_factor": 0.85,
+      "local_area": "常熟路站外探索片区",
+      "reference_note": "跨区或邻区站点按主要探索方向选择一个经济参照，不作行政边界或地籍认定"
     },
     "肇嘉浜路": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "xuhui",
+      "local_factor": 0.85,
+      "local_area": "肇嘉浜路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "耀华路": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "pudong",
+      "local_factor": 0.85,
+      "local_area": "耀华路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "花木路": {
       "zone": "residential",
       "economy_source": "pudong",
-      "local_factor": 1
+      "local_factor": 1,
+      "local_area": "花木路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "市光路": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "yangpu",
+      "local_factor": 0.85,
+      "local_area": "市光路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "江浦路": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "yangpu",
+      "local_factor": 0.85,
+      "local_area": "江浦路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "曲阜路": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "jingan",
+      "local_factor": 0.85,
+      "local_area": "曲阜路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "老西门": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "huangpu",
+      "local_factor": 0.85,
+      "local_area": "老西门站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "沈杜公路": {
       "zone": "residential",
       "economy_source": "minhang",
-      "local_factor": 1
+      "local_factor": 1,
+      "local_area": "沈杜公路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "上海松江站": {
       "zone": "hub",
       "economy_source": "songjiang",
-      "local_factor": 1.15
+      "local_factor": 1.15,
+      "local_area": "上海松江站站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "松江大学城": {
       "zone": "culture",
       "economy_source": "songjiang",
-      "local_factor": 1
+      "local_factor": 1,
+      "local_area": "松江大学城站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "佘山": {
       "zone": "culture",
       "economy_source": "songjiang",
-      "local_factor": 1
+      "local_factor": 1,
+      "local_area": "佘山站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "泗泾": {
       "zone": "residential",
       "economy_source": "songjiang",
-      "local_factor": 1
+      "local_factor": 1,
+      "local_area": "泗泾站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "九亭": {
       "zone": "residential",
       "economy_source": "songjiang",
-      "local_factor": 1
+      "local_factor": 1,
+      "local_area": "九亭站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "七宝": {
       "zone": "commercial",
       "economy_source": "minhang",
-      "local_factor": 1.15
+      "local_factor": 1.15,
+      "local_area": "七宝站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "中春路": {
       "zone": "residential",
       "economy_source": "minhang",
-      "local_factor": 1
+      "local_factor": 1,
+      "local_area": "中春路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "漕河泾开发区": {
       "zone": "research",
-      "economy_source": "city_reference",
-      "local_factor": 1
+      "economy_source": "xuhui",
+      "local_factor": 1,
+      "local_area": "漕河泾开发区研发片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "桂林路": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "xuhui",
+      "local_factor": 0.85,
+      "local_area": "桂林路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "陆家浜路": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "huangpu",
+      "local_factor": 0.85,
+      "local_area": "陆家浜路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "金海路": {
       "zone": "residential",
       "economy_source": "pudong",
-      "local_factor": 1
+      "local_factor": 1,
+      "local_area": "金海路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "曹路": {
       "zone": "residential",
       "economy_source": "pudong",
-      "local_factor": 1
+      "local_factor": 1,
+      "local_area": "曹路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "航中路": {
       "zone": "residential",
       "economy_source": "minhang",
-      "local_factor": 1
+      "local_factor": 1,
+      "local_area": "航中路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "龙溪路": {
       "zone": "residential",
-      "economy_source": "minhang",
-      "local_factor": 1
+      "economy_source": "changning",
+      "local_factor": 1,
+      "local_area": "龙溪路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "虹桥路": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "changning",
+      "local_factor": 0.85,
+      "local_area": "虹桥路站外探索片区",
+      "reference_note": "跨区或邻区站点按主要探索方向选择一个经济参照，不作行政边界或地籍认定"
     },
     "交通大学": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "xuhui",
+      "local_factor": 0.85,
+      "local_area": "交通大学站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "豫园": {
       "zone": "culture",
-      "economy_source": "city_reference",
-      "local_factor": 1
+      "economy_source": "huangpu",
+      "local_factor": 1,
+      "local_area": "豫园—老城厢文旅片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "五角场": {
       "zone": "commercial",
-      "economy_source": "city_reference",
-      "local_factor": 1.15
+      "economy_source": "yangpu",
+      "local_factor": 1.15,
+      "local_area": "五角场大学与商业片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "新江湾城": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "yangpu",
+      "local_factor": 0.85,
+      "local_area": "新江湾城站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "基隆路": {
       "zone": "port",
       "economy_source": "pudong",
-      "local_factor": 1.1
+      "local_factor": 1.1,
+      "local_area": "外高桥物流回收方向",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "嘉定北": {
       "zone": "residential",
       "economy_source": "jiading",
-      "local_factor": 1
+      "local_factor": 1,
+      "local_area": "嘉定北站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "嘉定新城": {
       "zone": "industrial",
       "economy_source": "jiading",
-      "local_factor": 1.1
+      "local_factor": 1.1,
+      "local_area": "嘉定产业与新城回收方向",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "南翔": {
       "zone": "industrial",
       "economy_source": "jiading",
-      "local_factor": 1.1
+      "local_factor": 1.1,
+      "local_area": "南翔站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "上海西站": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "putuo",
+      "local_factor": 0.85,
+      "local_area": "上海西站站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "江苏路": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "changning",
+      "local_factor": 0.85,
+      "local_area": "江苏路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "迪士尼": {
       "zone": "culture",
       "economy_source": "pudong",
-      "local_factor": 1
+      "local_factor": 1,
+      "local_area": "迪士尼站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "花桥": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "kunshan",
+      "local_factor": 0.85,
+      "local_area": "花桥站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "安亭": {
       "zone": "industrial",
       "economy_source": "jiading",
-      "local_factor": 1.1
+      "local_factor": 1.1,
+      "local_area": "安亭汽车制造片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "上海汽车城": {
       "zone": "industrial",
       "economy_source": "jiading",
-      "local_factor": 1.1
+      "local_factor": 1.1,
+      "local_area": "安亭国际汽车城制造片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "七莘路": {
       "zone": "residential",
       "economy_source": "minhang",
-      "local_factor": 1
+      "local_factor": 1,
+      "local_area": "七莘路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "龙华": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "xuhui",
+      "local_factor": 0.85,
+      "local_area": "龙华站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "汉中路": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "jingan",
+      "local_factor": 0.85,
+      "local_area": "汉中路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "天潼路": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "hongkou",
+      "local_factor": 0.85,
+      "local_area": "天潼路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "金运路": {
       "zone": "residential",
       "economy_source": "jiading",
-      "local_factor": 1
+      "local_factor": 1,
+      "local_area": "金运路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "金沙江路": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "putuo",
+      "local_factor": 0.85,
+      "local_area": "金沙江路站外探索片区",
+      "reference_note": "跨区或邻区站点按主要探索方向选择一个经济参照，不作行政边界或地籍认定"
     },
     "一大会址·新天地": {
       "zone": "culture",
-      "economy_source": "city_reference",
-      "local_factor": 1
+      "economy_source": "huangpu",
+      "local_factor": 1,
+      "local_area": "一大会址·新天地站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "成山路": {
       "zone": "residential",
       "economy_source": "pudong",
-      "local_factor": 1
+      "local_factor": 1,
+      "local_area": "成山路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "华夏中路": {
       "zone": "residential",
       "economy_source": "pudong",
-      "local_factor": 1
+      "local_factor": 1,
+      "local_area": "华夏中路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "张江路": {
       "zone": "biomedical",
       "economy_source": "pudong",
-      "local_factor": 1.1
+      "local_factor": 1.1,
+      "local_area": "张江生物医药回收方向",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "封浜": {
       "zone": "industrial",
       "economy_source": "jiading",
-      "local_factor": 1.1
+      "local_factor": 1.1,
+      "local_area": "封浜站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "真如": {
-      "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "zone": "commercial",
+      "economy_source": "putuo",
+      "local_factor": 0.85,
+      "local_area": "真如城市副中心商业片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "桂桥路": {
-      "zone": "research",
+      "zone": "industrial",
       "economy_source": "pudong",
-      "local_factor": 1.1
+      "local_factor": 1.1,
+      "local_area": "金桥制造业片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "景洪路": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "xuhui",
+      "local_factor": 0.85,
+      "local_area": "景洪路站外探索片区",
+      "reference_note": "跨区或邻区站点按主要探索方向选择一个经济参照，不作行政边界或地籍认定"
     },
     "紫竹高新区": {
       "zone": "research",
       "economy_source": "minhang",
-      "local_factor": 1.1
+      "local_factor": 1.1,
+      "local_area": "紫竹高新区站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "惠南": {
       "zone": "agriculture",
       "economy_source": "pudong",
-      "local_factor": 1
+      "local_factor": 1,
+      "local_area": "惠南外围农业回收方向",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "朱家角": {
       "zone": "culture",
-      "economy_source": "city_reference",
-      "local_factor": 1
+      "economy_source": "qingpu",
+      "local_factor": 1,
+      "local_area": "朱家角古镇文旅片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "西岑": {
-      "zone": "agriculture",
-      "economy_source": "city_reference",
-      "local_factor": 1
+      "zone": "research",
+      "economy_source": "qingpu",
+      "local_factor": 1,
+      "local_area": "西岑科创中心—研发片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "青浦新城": {
-      "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "zone": "industrial",
+      "economy_source": "qingpu",
+      "local_factor": 0.85,
+      "local_area": "青浦新城工业回收方向",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "康文路": {
       "zone": "residential",
-      "economy_source": "city_reference",
-      "local_factor": 0.85
+      "economy_source": "baoshan",
+      "local_factor": 0.85,
+      "local_area": "康文路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "复旦大学": {
       "zone": "culture",
-      "economy_source": "city_reference",
-      "local_factor": 1
+      "economy_source": "yangpu",
+      "local_factor": 1,
+      "local_area": "复旦大学文教片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "国权路": {
       "zone": "culture",
-      "economy_source": "city_reference",
-      "local_factor": 1
+      "economy_source": "yangpu",
+      "local_factor": 1,
+      "local_area": "大学路—文教片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "御桥": {
       "zone": "industrial",
       "economy_source": "pudong",
-      "local_factor": 1.1
+      "local_factor": 1.1,
+      "local_area": "御桥站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "周浦": {
       "zone": "biomedical",
       "economy_source": "pudong",
-      "local_factor": 1
+      "local_factor": 1,
+      "local_area": "周浦医谷周边回收方向",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "航头": {
       "zone": "agriculture",
       "economy_source": "pudong",
-      "local_factor": 1
+      "local_factor": 1,
+      "local_area": "航头外围农业回收方向",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "汇臻路": {
       "zone": "residential",
       "economy_source": "minhang",
-      "local_factor": 1
+      "local_factor": 1,
+      "local_area": "汇臻路站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     },
     "上海国际旅游度假区": {
       "zone": "residential",
       "economy_source": "pudong",
-      "local_factor": 1
+      "local_factor": 1,
+      "local_area": "上海国际旅游度假区站外探索片区",
+      "reference_note": "行政地区经济参照，不表示单个站点或每家企业的实际库存"
     }
   },
-  "tag_scope": "Gameplay archetypes, not an exhaustive land-use survey. For example biomedical is an exploration theme rather than a claim every point is a drug factory."
+  "tag_scope": "站外探索方向按商圈、园区、机场、港区与文化地标细分；不是土地用途或污染调查。"
 }

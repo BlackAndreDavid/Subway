@@ -1,14 +1,184 @@
 {
-  "version": 1,
+  "version": 2,
   "reference_year": 2025,
   "units": "亿元人民币；统计口径及年份见每条记录",
-  "note": "区级数据用于游戏资源强度校准，不是单站产出。缺失值为null，不补造数据。无已核实区级记录的站点使用明确标注的0.35设计基准。辐射是核战世界观的虚构参数，与现实污染无关。",
+  "note": "覆盖主地图全部15个行政地区；黄浦明确为公报二次转录，其余为官方记录。缺失指标保持null，计算只按可核实指标重新归一，不再给在用站点填0.35。区级/市级数据仅作游戏校准，辐射为虚构参数。",
   "records": {
-    "pudong": {"area":"浦东新区","industrial":13878.95,"retail":2827.99,"scope":"区级规模以上工业总产值/社会消费品零售总额","url":"https://www.pudong.gov.cn/zwgk/tjj_gkml_ywl_tjsj_gb/2026/135/355149.html"},
-    "minhang": {"area":"闵行区","industrial":3861.18,"retail":1601.31,"scope":"区级规模以上工业总产值/社会消费品零售总额","url":"https://zwgk.shmh.gov.cn/mh-xxgk-cms/website/mh_xxgk/xxgk_tjj_ywxx/content/03630524-ceb3-4541-8504-abaa2333828b.htm"},
-    "jiading": {"area":"嘉定区","industrial":4816.4,"retail":null,"scope":"全区规模以上工业产值；不使用区属3072.1亿元替代全区口径","url":"https://www.shanghai.gov.cn/jiading/index.html"},
-    "songjiang": {"area":"松江区","industrial":3705.81,"retail":null,"scope":"规模以上工业产值；不混用全部工业4040.38亿元","url":"https://www.songjiang.gov.cn/zjsj/stepin.html"},
-    "city_reference": {"area":"全市行业参照 / 区级数值待补","industrial":null,"retail":null,"scope":"缺已核实区级量值，游戏基准0.35；全市2025社零16600.93亿元仅作为背景，不冒充该站点/地区数据","city_retail_background":16600.93,"url":"https://tjj.sh.gov.cn/sjxx/20260123/7a3baff1cdde4b73aeb17885ed6e8266.html"}
+    "pudong": {
+      "area": "浦东新区",
+      "industrial": 13878.95,
+      "retail": 2827.99,
+      "scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "url": "https://www.pudong.gov.cn/zwgk/tjj_gkml_ywl_tjsj_gb/2026/135/355149.html",
+      "year": 2025,
+      "verification": "official",
+      "checked_date": "2026-11-10"
+    },
+    "minhang": {
+      "area": "闵行区",
+      "industrial": 3861.18,
+      "retail": 1601.31,
+      "scope": "区级规模以上工业总产值/社会消费品零售总额",
+      "url": "https://zwgk.shmh.gov.cn/mh-xxgk-cms/website/mh_xxgk/xxgk_tjj_ywxx/content/03630524-ceb3-4541-8504-abaa2333828b.htm",
+      "year": 2025,
+      "verification": "official",
+      "checked_date": "2026-11-10"
+    },
+    "jiading": {
+      "area": "嘉定区",
+      "industrial": 4816.4,
+      "retail": null,
+      "scope": "全区规模以上工业产值；不使用区属3072.1亿元替代全区口径",
+      "url": "https://www.shanghai.gov.cn/jiading/index.html",
+      "year": 2025,
+      "verification": "official",
+      "checked_date": "2026-11-10"
+    },
+    "songjiang": {
+      "area": "松江区",
+      "industrial": 3705.81,
+      "retail": 854.67,
+      "scope": "2025地区规上工业产值及社零，未混用全部工业产值",
+      "url": "https://www.songjiang.gov.cn/zjsj/stepin.html",
+      "year": 2025,
+      "verification": "official",
+      "checked_date": "2026-11-10",
+      "retail_url": "https://www.songjiang.gov.cn/govxxgk/SHSJ31/2026-06-29/c36d8139-2998-4b1e-99fb-3463829c768f.html"
+    },
+    "city_reference": {
+      "area": "上海全市背景（不参与站点计算）",
+      "industrial": null,
+      "retail": null,
+      "scope": "仅保留全市背景记录；未分配给任何当前站点",
+      "city_retail_background": 16600.93,
+      "url": "https://tjj.sh.gov.cn/sjxx/20260123/7a3baff1cdde4b73aeb17885ed6e8266.html",
+      "year": 2025,
+      "verification": "background_only",
+      "checked_date": "2026-11-10"
+    },
+    "huangpu": {
+      "area": "黄浦区",
+      "year": 2025,
+      "industrial": 33.17,
+      "retail": 1065.38,
+      "scope": "地区级规模以上工业总产值/社会消费品零售总额（亿元）",
+      "url": "https://tjgb.hongheiku.com/xjtjgb/xj2020/76707.html",
+      "verification": "official_report_secondary_transcription",
+      "checked_date": "2026-11-10",
+      "access_note": "统计公报转录；原站直链未取得，不冒称直接下载官方原件。",
+      "landmark_reference": "https://www.shanghai.gov.cn/huangpu/index.html"
+    },
+    "xuhui": {
+      "area": "徐汇区",
+      "year": 2025,
+      "industrial": 893.2,
+      "retail": 1238.19,
+      "scope": "规模以上工业总产值含市管单位；社会消费品零售总额；PDF中小数点特殊字形已核对",
+      "url": "https://www.xuhui.gov.cn/zfjg_qzfbm_tjj_tjgb/20260608/574052/2a3d9e2cb69e68aaa749050ac66dea1c.pdf",
+      "verification": "official",
+      "checked_date": "2026-11-10"
+    },
+    "jingan": {
+      "area": "静安区",
+      "year": 2025,
+      "industrial": null,
+      "retail": 1703.52,
+      "scope": "公报社零指标；未取得同口径规上工业总产值，不以工业增加值替代",
+      "url": "https://www.jingan.gov.cn/main/eee7f706-aa43-4b4e-9985-da8e9d0ec836/84606daa-b71a-43e2-a79e-0eaf9a72fe87/25%E5%B9%B4%E9%9D%99%E5%AE%89%E5%8C%BA%E7%BB%9F%E8%AE%A1%E5%85%AC%E6%8A%A5.pdf",
+      "verification": "official",
+      "checked_date": "2026-11-10"
+    },
+    "changning": {
+      "area": "长宁区",
+      "year": 2025,
+      "industrial": 263.36,
+      "retail": 567.6,
+      "scope": "地区级规模以上工业总产值/社会消费品零售总额（亿元）",
+      "url": "https://zwgk.shcn.gov.cn/xxgk/tjxx-tjjzdgz/2026/201/81949.html",
+      "verification": "official",
+      "checked_date": "2026-11-10"
+    },
+    "hongkou": {
+      "area": "虹口区",
+      "year": 2025,
+      "industrial": 77.82,
+      "retail": 450.15,
+      "scope": "2025年12月主要经济指标累计列，单位亿元；非本月列",
+      "url": "https://www.shhk.gov.cn/hkxxgk/pdfjs/web/viewer.html?file=%2Fshhk-zwgk%2Frest%2Fframe%2Fbase%2Fattach%2FattachAction%2FgetContent%3FisCommondto%3Dtrue%26attachGuid%3D37f33794-6772-48e3-a691-4ad0d129787c",
+      "verification": "official",
+      "checked_date": "2026-11-10"
+    },
+    "yangpu": {
+      "area": "杨浦区",
+      "year": 2025,
+      "industrial": 842.01,
+      "retail": 694.1,
+      "scope": "地区级规模以上工业总产值/社会消费品零售总额（亿元）",
+      "url": "https://www.shyp.gov.cn/zhengwu/zwgk-yptj/2026/117/2778/1b13c53002c5420ea00a32060af24f0b.pdf",
+      "verification": "official",
+      "checked_date": "2026-11-10"
+    },
+    "baoshan": {
+      "area": "宝山区",
+      "year": 2025,
+      "industrial": 2341.09,
+      "retail": 944.14,
+      "scope": "地区级规模以上工业总产值/社会消费品零售总额（亿元）",
+      "url": "https://www.shanghai.gov.cn/baoshan/index.html",
+      "verification": "official",
+      "checked_date": "2026-11-10",
+      "report_url": "https://xxgk.shbsq.gov.cn/article.html?infoid=b6b18e3f-568a-46b4-9002-b346fca448c2"
+    },
+    "putuo": {
+      "area": "普陀区",
+      "year": 2025,
+      "industrial": null,
+      "retail": 829.6352,
+      "scope": "2025年12月社零累计8296352万元÷10000；月报工业总产值口径未明确规上，未混用",
+      "url": "https://www.shpt.gov.cn/zhengwu/tjyb-tjjzhzw/2026/35/201517.html",
+      "verification": "official",
+      "checked_date": "2026-11-10"
+    },
+    "qingpu": {
+      "area": "青浦区",
+      "year": 2025,
+      "industrial": 1898.6,
+      "retail": 674.5,
+      "scope": "地区级规模以上工业总产值/社会消费品零售总额（亿元）",
+      "url": "https://www.shqp.gov.cn/stat/tjzltjgb/20260408/1368423.html",
+      "verification": "official",
+      "checked_date": "2026-11-10",
+      "industrial_url": "https://www.shqp.gov.cn/plan/fgw_tzgg/20260320/1366679.html",
+      "pdf_url": "https://www.shqp.gov.cn/stat/stat/upload/202604/0410_090155_617.pdf",
+      "access_note": "HTML正文为附件；与发布页公报及同年计划执行报告交叉核对。"
+    },
+    "fengxian": {
+      "area": "奉贤区",
+      "year": 2025,
+      "industrial": 2894.9,
+      "retail": 582.4,
+      "scope": "地区级规模以上工业总产值/社会消费品零售总额（亿元）",
+      "url": "https://www.fengxian.gov.cn/gmjj/20250623/91147.html",
+      "verification": "official",
+      "checked_date": "2026-11-10",
+      "retail_url": "https://www.fengxian.gov.cn/gmjj/20250623/91151.html"
+    },
+    "kunshan": {
+      "area": "昆山市（花桥）",
+      "year": 2025,
+      "industrial": null,
+      "retail": 1841.22,
+      "scope": "2025全市社零；只得到工业超1.3万亿约数，不编造精确值；花桥在苏州昆山而非上海区级",
+      "url": "https://www.ks.gov.cn/kss/tjfx/202605/319700b1bdda44ecb0c30584163e79fc.shtml",
+      "verification": "official",
+      "checked_date": "2026-11-10"
+    }
   },
-  "calibration": {"industry_denominator":13878.95,"retail_denominator":2827.99,"missing_axis_design_baseline":0.35,"richness_radiation_step":0.65,"richness_economy_weight":0.30}
+  "calibration": {
+    "industry_denominator": 13878.95,
+    "retail_denominator": 2827.99,
+    "richness_radiation_step": 0.65,
+    "richness_economy_weight": 0.3,
+    "missing_axis_policy": "renormalize_available_axes; fail if no verified axis"
+  }
 }

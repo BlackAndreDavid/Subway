@@ -23,6 +23,7 @@ var drug_select: OptionButton
 var base_name: LineEdit
 var map_selection=0
 var map_view: Control
+var map_actions: VBoxContainer
 var bag_selected=-1
 var shop_category=0
 var notice_text="欢迎来到地下。"
@@ -245,11 +246,20 @@ func show_map() -> void:
 	world.custom_minimum_size=Vector2(900,610)
 	world.size_flags_vertical=Control.SIZE_EXPAND_FILL
 	body.add_child(world)
-	side=panel(body)
+	var right=VBoxContainer.new()
+	right.custom_minimum_size.x=360
+	right.size_flags_vertical=Control.SIZE_EXPAND_FILL
+	right.add_theme_constant_override("separation",12)
+	body.add_child(right)
+	side=panel(right)
+	map_actions=VBoxContainer.new()
+	map_actions.add_theme_constant_override("separation",12)
+	right.add_child(map_actions)
 	world.station_selected.connect(func(i):map_selection=i;station_detail())
 	station_detail()
 func station_detail() -> void:
 	empty(side)
+	empty(map_actions)
 	section(side,"上海地下交通网","真实线路 · 主要站点压缩图")
 	var lines=OptionButton.new()
 	lines.add_item("全部 21 条线路")
@@ -284,12 +294,12 @@ func station_detail() -> void:
 	side.add_child(wrapped("选站依据："+s.selection_reason,14))
 	var exclusive_names: Array=[]
 	for id in Loot.exclusive_ids(map_selection):exclusive_names.append(C.item(id).name)
-	side.add_child(wrapped("区域：%s\n丰富度 ×%.2f\n专属：%s" % [s.zone_name,Loot.profile(map_selection).richness,"无" if exclusive_names.is_empty() else " / ".join(exclusive_names)],15))
-	side.add_child(wrapped("经济参考：%s（2025）\n区域数据仅作游戏校准，非单站统计。" % s.economy_area,12))
+	side.add_child(wrapped("区域：%s\n%s\n丰富度 ×%.2f\n专属：%s" % [s.zone_name,s.local_area,Loot.profile(map_selection).richness,"无" if exclusive_names.is_empty() else " / ".join(exclusive_names)],15))
+	side.add_child(wrapped("经济参考：%s（%d）\n区域数据仅作游戏校准，非单站统计。%s" % [s.economy_area,s.economy_year," 黄浦采用公报转录。" if s.economy_verification=="official_report_secondary_transcription" else ""],12))
 	side.add_child(wrapped("地下客流（游戏） %d 人/日\n辐射度（游戏） %d / 5\n产出物资   %s\n价格指数   × %.2f\n地表防护   %d 秒" % [s.traffic,s.radiation,s.yield,s.factor,360-int(s.radiation)*20],15))
 	side.add_child(wrapped("路线："+Metro.route_names(int(Game.state.station),map_selection),13))
-	button("前往   /   %d 电量" % Game.travel_cost(map_selection),func():say(Game.travel(map_selection));show_map(),side,map_selection==int(Game.state.station))
-	back_button(show_base,side)
+	button("前往   /   %d 电量" % Game.travel_cost(map_selection),func():say(Game.travel(map_selection));show_map(),map_actions,map_selection==int(Game.state.station))
+	back_button(show_base,map_actions)
 func equipment_select(parent: Node,category: int,title: String) -> OptionButton:
 	parent.add_child(label(title,16))
 	var option=OptionButton.new()

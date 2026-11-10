@@ -9,6 +9,9 @@ static func run(check: Callable) -> void:
 		representatives[info.zone]=index
 		check.call(info.economy_index>=0 and info.economy_index<=1,"bounded economic reference index")
 		check.call(info.has("economy_source") and info.has("economy_scope"),"traceable reference metadata")
+		check.call(info.economy_source!="city_reference","no station uses an economic placeholder")
+		check.call(info.has("local_area") and not info.local_area.is_empty(),"station-level exploration area label")
+		check.call(info.economy_year==2025,"reference year propagated to UI")
 		var previous: Dictionary={}
 		for radiation in range(1,6):
 			var current=Loot.profile(index,radiation)

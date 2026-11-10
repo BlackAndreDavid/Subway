@@ -1,0 +1,13 @@
+{
+  "scope":"站外探索方向细分，不是土地用途或地籍调查。跨区站点选择一个参考地区；不将区级统计归因为单站经济。",
+  "sources":[
+    {"areas":["人民广场—南京路商圈","豫园—老城厢文旅片区","淮海中路商业片区"],"url":"https://www.shanghai.gov.cn/huangpu/index.html"},
+    {"areas":["西岑科创中心—研发片区"],"url":"https://www.shqp.gov.cn/shqp/zwgk/tabl/sbljg/20250603/1283025.html"},
+    {"areas":["漕河泾开发区研发片区"],"url":"https://www.shanghai.gov.cn/nw4411/20260814/f8308e7f948247e892a4e8726d3b73b1.html"},
+    {"areas":["安亭国际汽车城制造片区","嘉定产业与新城回收方向"],"url":"https://www.shanghai.gov.cn/jiading/index.html"},
+    {"areas":["吴淞创新城回收方向","宝山吴淞制造业回收方向"],"url":"https://www.shanghai.gov.cn/baoshan/index.html"},
+    {"areas":["五角场大学与商业片区"],"url":"https://www.shyp.gov.cn/zhengwu/qfb-zfwj/2026/212/4031.html"},
+    {"areas":["徐家汇商圈"],"url":"https://www.xuhui.gov.cn/xxgk/portal/article/detail?id=8a4c0c06829b645701829b6b29b732ca"}
+  ],
+  "note":"其余名称使用站名及游戏探索方向作为标签，未声称精确到每栋工厂。产业主题、局部系数和灾后辐射为游戏设计值。"
+}

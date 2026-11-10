@@ -140,6 +140,7 @@ func run_tests() -> void:
 	map_click.position=ui.map_view.map_point(1)
 	ui.map_view._gui_input(map_click)
 	check(ui.map_selection==1,"main map point selection")
+	check(ui.map_actions.get_child_count()==2 and not ui.map_actions.get_child(0).disabled,"map travel and back actions remain available outside details scroll")
 	map_click=map_click.duplicate()
 	map_click.button_index=MOUSE_BUTTON_WHEEL_UP
 	var zoom_before=float(ui.map_view.map_zoom)

@@ -8,11 +8,16 @@ r=json.loads((root/'assets/balance/regions.json').read_text())
 m=json.loads((root/'assets/maps/shanghai_metro.json').read_text())
 for station in m['stations']:
  tag=r['station_tags'][station['name']];zone=r['zones'][tag['zone']];ref=e['records'][tag['economy_source']]
- industry=math.sqrt(ref['industrial']/e['calibration']['industry_denominator']) if ref['industrial'] is not None else .35
- retail=math.sqrt(ref['retail']/e['calibration']['retail_denominator']) if ref['retail'] is not None else .35
- weight=zone['industry_weight'];score=max(0,min(1,(industry*weight+retail*(1-weight))*tag['local_factor']))
+ weight=zone['industry_weight']
+ axes=[]
+ for metric,axis_weight,denominator in [('industrial',weight,e['calibration']['industry_denominator']),('retail',1-weight,e['calibration']['retail_denominator'])]:
+  if ref.get(metric) is not None:
+   assert ref[metric]>=0 and denominator>0
+   axes.append((math.sqrt(ref[metric]/denominator),axis_weight))
+ if not axes:raise ValueError('No verified economic axis for '+station['name'])
+ score=max(0,min(1,sum(value*w for value,w in axes)/sum(w for _,w in axes)*tag['local_factor']))
  radiation=tag.get('radiation_override',max(1,min(5,1+int(score*4)+zone['radiation_bias'])))
- station.update(zone=tag['zone'],zone_name=zone['name'],economy_source=tag['economy_source'],economy_area=ref['area'],economy_scope=ref['scope'],economy_index=round(score,6),radiation=radiation,richness=round(1+.65*(radiation-1)+.3*score,6),factor=round(1+.12*(radiation-1)+.08*score,6),**{'yield':zone['yield']})
+ station.update(local_area=tag['local_area'],reference_note=tag['reference_note'],economy_year=ref['year'],economy_verification=ref['verification'],zone=tag['zone'],zone_name=zone['name'],economy_source=tag['economy_source'],economy_area=ref['area'],economy_scope=ref['scope'],economy_index=round(score,6),radiation=radiation,richness=round(1+.65*(radiation-1)+.3*score,6),factor=round(1+.12*(radiation-1)+.08*score,6),**{'yield':zone['yield']})
 (root/'assets/maps/shanghai_metro.json').write_text(json.dumps(m,ensure_ascii=False,indent=2)+'\n')
 def literal(v):
  if isinstance(v,dict):return '{'+','.join(json.dumps(k,ensure_ascii=False)+':'+literal(x) for k,x in v.items())+'}'

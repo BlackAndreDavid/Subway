@@ -43,3 +43,13 @@ jobs:
           set -o pipefail
           work/bin/godot --headless --path . --script tests/test_runner.gd 2>&1 | tee work/test.log
           if grep -E 'SCRIPT ERROR|ERROR:' work/test.log; then exit 1; fi
+
+      - name: Source acceptance and generated-data consistency
+        run: |
+          python3 tools/audit_project.py
+          git diff --exit-code -- assets/maps/shanghai_metro.json scripts/metro_data.gd scripts/regional_data.gd assets/art/manifest.json scripts/art_manifest.gd
+      - name: Ordinary-input full-floor playthroughs
+        run: |
+          set -o pipefail
+          timeout 90 work/bin/godot --headless --path . --script tests/playthrough_audit.gd 2>&1 | tee work/play.log
+          if grep -E 'SCRIPT ERROR|ERROR:' work/play.log; then exit 1; fi
