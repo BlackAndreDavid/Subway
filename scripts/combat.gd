@@ -418,7 +418,7 @@ func create_loot() -> void:
 func loot_id(entry: Variant) -> String:
 	return str(entry.id) if entry is Dictionary else str(entry)
 func automatic_loot(id: String) -> bool:
-	return id in ["power","credits"]
+	return id in ["power","credits","crystal"]
 func ensure_ground_loot(origin: Vector2=Vector2(-1,-1)) -> void:
 	if origin.x<0:origin=geometry.bounds.get_center()
 	if not room().has("ground"):room().ground=[]
@@ -447,7 +447,7 @@ func update_ground_loot(delta: float) -> void:
 			if ground.pos.distance_to(player)<=18:collect(index,true)
 func loot_texture(id: String) -> Texture2D:
 	if id=="power":return Art.texture("items/1_1")
-	if id=="credits":return Art.texture("credits")
+	if id in ["credits","crystal"]:return Art.texture("credits")
 	if id=="chest":return Art.texture("chest")
 	if id=="scrap":return Art.texture("scrap")
 	if id.begins_with("mat_"):return Art.texture("materials/"+id.trim_prefix("mat_"))
@@ -468,10 +468,12 @@ func collect(index: int,automatic: bool=false) -> bool:
 		room().loot.append_array(Loot.open_chest(int(Game.state.station),int(Game.run.floor),rng))
 		ensure_ground_loot(origin)
 		notice.emit("宝箱已打开，物资已散落在地面。")
-	elif id=="power" or id=="credits":
+	elif id in ["power","credits","crystal"]:
 		var value=Loot.pickup_value(int(Game.state.station),id)
-		Game.state.power+=value
-		if id=="power":Game.run.energy+=value
+		if id=="power":
+			Game.state.power+=value
+			Game.run.energy+=value
+		else:Game.state.crystals+=value
 		room().loot.remove_at(index)
 		room().ground.remove_at(index)
 	else:

@@ -1,7 +1,7 @@
 {
   "review_date": "2026-11-11",
-  "scope": "starting-room safe return terminal; boss-only descent remains locked until clearance",
-  "acceptance_items": 81,
+  "scope": "shared 8x4 multi-item transaction board, matching cell sizes, atomic batch checkout and slot-free crystal currency",
+  "acceptance_items": 85,
   "open_acceptance_items": 1,
   "map_seeds": 1000,
   "economic_areas": 15,
@@ -72,24 +72,27 @@
     "docs/shop.png",
     "docs/shop_budget.png",
     "docs/map_travel.png",
-    "docs/start_return.png"
+    "docs/start_return.png",
+    "docs/shop_batch_sell.png",
+    "docs/shop_batch_buy.png",
+    "docs/crystal_drop.png"
   ],
   "status": "development_checkpoint",
   "verification": {
     "earlier_full_regression_checks": 418243,
     "earlier_full_regression_failures": 0,
-    "latest_focused_checks": 194,
+    "latest_focused_checks": 31,
     "latest_focused_failures": 0,
     "full_playthrough_status": "pending; no final acceptance claimed",
     "checkpoint_full_regression_checks": 418244,
     "checkpoint_full_regression_failures": 0,
     "checkpoint_native_screenshots_reviewed": true,
-    "latest_full_regression_checks": 418641,
+    "latest_full_regression_checks": 418675,
     "latest_full_regression_failures": 0,
     "bullet_direction_physics_checks": 39,
     "native_bullet_render_checks": 8,
     "native_bullet_render_failures": 0,
-    "native_shop_checks": 285,
+    "native_shop_checks": 316,
     "native_shop_failures": 0,
     "latest_native_alignment_checks": 160,
     "latest_native_alignment_failures": 0,
@@ -146,7 +149,16 @@
     "budget_persisted": true,
     "window_height": 285,
     "portrait_reference_height": 500,
-    "warehouse_embedded_below": true
+    "warehouse_embedded_below": true,
+    "transaction_grid": [
+      8,
+      4
+    ],
+    "shared_cell_pixels": 48,
+    "shared_buy_sell_board": true,
+    "multi_item_atomic_checkout": true,
+    "currency": "crystals",
+    "basket_checks": "tests/shop_basket_checks.gd"
   },
   "metro_travel": {
     "hops_per_day": 4,
@@ -168,5 +180,18 @@
     "departure_day_refunded": false,
     "descent_requires_boss_clearance": true,
     "checks": "tests/start_return_checks.gd"
+  },
+  "currency": {
+    "name": "水晶",
+    "state_field": "crystals",
+    "initial_balance": 0,
+    "legacy_save_balance": 0,
+    "inventory_cells": 0,
+    "magnetic_pickup": true,
+    "normal_combat_drops": true,
+    "independent_of_power": true,
+    "combat_shop_uses_crystals": true,
+    "asset_id": "credits",
+    "checks": "tests/crystal_checks.gd"
   }
 }

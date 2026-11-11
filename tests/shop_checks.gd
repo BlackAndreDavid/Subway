@@ -99,8 +99,8 @@ func run(tree: SceneTree,game: Node,ui: Control,check: Callable) -> void:
 	check.call(game.state==before and window.phase=="ready","failed save rolls back goods, budget and revision")
 	game.slot=slot
 	page.resolve_customer(true)
-	check.call(game.state.power==before.power+value and game.state.shop_customer.budget==before.shop_customer.budget-value,"customer purchase decreases their budget and pays the player")
-	check.call(ui.hud.text.contains("电 %d" % game.state.power),"trade refreshes account electricity in the header")
+	check.call(game.state.crystals==before.crystals+value and game.state.shop_customer.budget==before.shop_customer.budget-value,"customer purchase decreases their budget and pays the player")
+	check.call(ui.hud.text.contains("水晶 %d" % game.state.crystals),"trade refreshes account electricity in the header")
 	check.call(game.state.customer==before.customer and window.phase=="ready" and page.selection.is_empty(),"successful trade keeps the same visitor available for more category purchases")
 	check.call(game.state.stash.count("5_0")==before.stash.count("5_0")-1,"one selected physical copy is sold")
 	var settled=game.state.duplicate(true)
@@ -119,16 +119,16 @@ func run(tree: SceneTree,game: Node,ui: Control,check: Callable) -> void:
 	check.call(not page.selection.is_empty() and page.selection.source=="customer","real merchant stock drag selects a concrete active item")
 	selection=page.selection.duplicate(true)
 	value=game.customer_quote(selection).price
-	game.state.power=0
+	game.state.crystals=0
 	page.refresh_quote()
 	check.call(page.quote_label.text.contains("买不起") and page.accept_button.disabled,"player affordability is visible before purchase")
 	before=game.state.duplicate(true)
 	page.resolve_customer(true)
 	check.call(game.state==before,"player cannot buy goods without sufficient electricity")
-	game.state.power=1000
+	game.state.crystals=1000
 	before=game.state.duplicate(true)
 	page.resolve_customer(true)
-	check.call(game.state.power==before.power-value and game.state.shop_customer.budget==before.shop_customer.budget+value,"customer sale increases their budget and debits the player")
+	check.call(game.state.crystals==before.crystals-value and game.state.shop_customer.budget==before.shop_customer.budget+value,"customer sale increases their budget and debits the player")
 	check.call(game.state.shop_customer.stock.size()==before.shop_customer.stock.size()-1 and game.state.stash.count(selection.id)==before.stash.count(selection.id)+1,"one exact merchant copy moves into the shaped warehouse")
 	var remaining=game.state.shop_customer.duplicate(true)
 	check.call(game.load_game(0) and game.state.shop_customer.stock.size()==remaining.stock.size() and game.state.shop_customer.budget==remaining.budget,"merchant remaining physical stock and earned budget survive loading")

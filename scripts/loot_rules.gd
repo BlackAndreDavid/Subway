@@ -40,7 +40,7 @@ static func roll_room(station: int,floor_number: int,rng: RandomNumberGenerator,
 	for _i in range(count):
 		var roll=rng.randf()
 		if roll<0.13:loot.append("power")
-		elif roll<0.26:loot.append("credits")
+		elif roll<0.26:loot.append("crystal")
 		elif roll<0.37:loot.append("chest")
 		else:loot.append(choose_item(station,rng,radiation_override))
 	return loot
@@ -60,4 +60,4 @@ static func open_chest(station: int,floor_number: int,rng: RandomNumberGenerator
 		remaining-=int(C.item(id).price)
 	return drops
 static func pickup_value(station: int,kind: String) -> int:
-	return maxi(1,roundi((8 if kind=="credits" else 5)*float(profile(station).richness)))
+	return maxi(1,roundi((8 if kind in ["credits","crystal"] else 5)*float(profile(station).richness)))

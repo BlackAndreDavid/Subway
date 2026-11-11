@@ -25,6 +25,7 @@ func capture() -> void:
 		game.craft_furniture(type)
 		if type!=2:game.place_furniture(type,[Vector2i(1,1),Vector2i(3,1),Vector2i(7,1),Vector2i(1,4)][type])
 	# Obtain the missing bandage through a real visitor, not the retired catalogue.
+	game.state.crystals=100
 	game.open_shop()
 	for day in range(2,100):
 		game.state.day=day

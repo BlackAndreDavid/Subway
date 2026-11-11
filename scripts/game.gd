@@ -3,6 +3,7 @@ const Metro=preload("res://scripts/metro.gd")
 const Catalog = preload("res://scripts/catalog.gd")
 const FloorGenerator = preload("res://scripts/floor_generator.gd")
 const Inventory=preload("res://scripts/inventory.gd")
+const Cart=preload("res://scripts/shop_cart.gd")
 const Shop=preload("res://scripts/shop_rules.gd")
 const TRAVEL_HOPS_PER_DAY=4
 const DAILY_WATER=2
@@ -27,7 +28,7 @@ func _ready() -> void:
 
 func new_game(index: int, base_name: String) -> bool:
 	slot=index
-	state={"version":SAVE_VERSION,"name":base_name.strip_edges() if not base_name.strip_edges().is_empty() else "上海堡垒", "day":1,"station":0,"water":24,"food":24,"power":240,"stash":["3_0","3_1","3_2","3_3","4_0","4_1","4_2","4_3","5_0","5_1","5_2","5_3"],"furniture":[],"news":0,"customer":0}
+	state={"version":SAVE_VERSION,"name":base_name.strip_edges() if not base_name.strip_edges().is_empty() else "上海堡垒", "day":1,"station":0,"water":24,"food":24,"power":240,"crystals":0,"stash":["3_0","3_1","3_2","3_3","4_0","4_1","4_2","4_3","5_0","5_1","5_2","5_3"],"furniture":[],"news":0,"customer":0}
 	run={}
 	state.stash.append_array(["scrap","scrap","scrap","scrap","scrap","scrap","scrap","scrap","scrap","scrap","scrap","scrap","1_0","1_0","0_0","0_0"])
 	shop_open=false
@@ -52,6 +53,7 @@ func load_game(index: int) -> bool:
 		return false
 	slot=index
 	state=data
+	state.crystals=int(state.get("crystals",0))
 	state.erase("market_stock") # Retire legacy system stock.
 	ensure_stash()
 	state.stash_rows=int(state.stash_rows)
@@ -72,6 +74,7 @@ func validate_save(data: Dictionary) -> bool:
 		if not (data[key] is int or data[key] is float): return false
 	if data.day<1 or data.station<0 or data.station>=Catalog.STATIONS.size(): return false
 	if data.water<0 or data.food<0 or data.power<0: return false
+	if data.has("crystals") and (not (data.crystals is int or data.crystals is float) or data.crystals<0 or int(data.crystals)!=data.crystals):return false
 	if not data.stash is Array or not data.furniture is Array: return false
 	var valid = Catalog.valid_ids()
 	for id in data.stash:
@@ -209,36 +212,59 @@ func valid_customer_selection(data: Variant) -> bool:
 	if data.index<0 or data.index>=entries.size() or data.id!=entries[data.index].id:return false
 	if offer.buying and data.signature!=stash_signature():return false
 	return int(Catalog.item(data.id).category)==int(offer.category)
-func customer_quote(selection: Dictionary) -> Dictionary:
-	if not valid_customer_selection(selection):return {"valid":false,"affordable":false,"price":0,"message":"拖入同类物品选择交易。"}
+func customer_quote(selection: Variant) -> Dictionary:
+	var selected: Array=selection if selection is Array else [selection] if selection is Dictionary and not selection.is_empty() else []
+	var invalid={"valid":false,"affordable":false,"price":0,"count":0,"message":"拖入同类物品选择交易。"}
+	if selected.is_empty():return invalid
 	var offer=customer_offer()
-	var value=customer_price(selection.id,offer)
-	var affordable=value<=int(offer.budget) if offer.buying else value<=int(state.power)
-	var message="%s · %d 电量" % [Catalog.item(selection.id).name,value]
-	if not affordable:message+="\n买不起：顾客预算不足。" if offer.buying else "\n买不起：你的电量不足。"
-	return {"valid":true,"affordable":affordable,"price":value,"message":message}
-func accept_customer(expected_key: String="",selection: Dictionary={}) -> String:
+	var seen={}
+	var placed: Array=[]
+	var value=0
+	for data in selected:
+		if not valid_customer_selection(data):return invalid
+		var identity="%s:%d" % [data.source,data.index]
+		if seen.has(identity):return invalid
+		seen[identity]=true
+		var placement: Dictionary={}
+		if selection is Array:
+			if not data.has_all(["cart_x","cart_y","cart_rot"]):return invalid
+			placement={"x":data.cart_x,"y":data.cart_y,"rot":data.cart_rot}
+		else:placement=Inventory.first_fit([],Cart.DIMENSIONS,data.id)
+		placement.id=data.id
+		placed.append(placement)
+		value+=customer_price(data.id,offer)
+	if not Inventory.valid(placed,Cart.DIMENSIONS):return invalid
+	var affordable=value<=int(offer.budget) if offer.buying else value<=int(state.crystals)
+	var message="%d 件 · 合计 %d 水晶" % [selected.size(),value]
+	if not affordable:message+="\n买不起：顾客预算不足。" if offer.buying else "\n买不起：你的水晶不足。"
+	return {"valid":true,"affordable":affordable,"price":value,"count":selected.size(),"message":message}
+func accept_customer(expected_key: String="",selection: Variant={}) -> String:
 	if not shop_open:return "请先开店。"
 	var offer=customer_offer()
 	if offer.is_empty():return "今日顾客已全部接待。"
 	if expected_key!=offer.key:return "该顾客已离开。"
 	var quote=customer_quote(selection)
 	if not quote.valid or not quote.affordable:return quote.message
+	var selected: Array=selection if selection is Array else [selection]
+	var indices: Array=[]
+	for data in selected:indices.append(int(data.index))
+	indices.sort()
+	indices.reverse()
 	var before=state.duplicate(true)
 	if offer.buying:
-		remove_stash(int(selection.index))
-		state.power+=int(quote.price)
+		for index in indices:remove_stash(index)
+		state.crystals+=int(quote.price)
 		state.shop_customer.budget-=int(quote.price)
 	else:
-		state.power-=int(quote.price)
-		add_stash(selection.id)
+		for data in selected:add_stash(data.id)
+		for index in indices:state.shop_customer.stock.remove_at(index)
+		state.crystals-=int(quote.price)
 		state.shop_customer.budget+=int(quote.price)
-		state.shop_customer.stock.remove_at(int(selection.index))
 	state.shop_customer.revision+=1
 	if not save_game():
 		state=before
 		return last_error if not last_error.is_empty() else "交易保存失败，请重试。"
-	return "交易完成。"
+	return "交易完成：%d 件，%d 水晶。" % [quote.count,quote.price]
 func skip_customer(expected_key: String) -> String:
 	var offer=customer_offer()
 	if not shop_open or offer.is_empty() or expected_key!=offer.key:return "该顾客已离开。"

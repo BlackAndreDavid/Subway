@@ -22,6 +22,9 @@ func mouse(point: Vector2,pressed: bool) -> void:
 	Input.parse_input_event(event)
 	Input.flush_buffered_events()
 func motion(point: Vector2,relative: Vector2) -> void:
+	# Native backends poll the physical cursor between frames; keep it aligned
+	# with injected gestures so drag preview/drop coordinates match real input.
+	if DisplayServer.get_name()!="headless":Input.warp_mouse(point)
 	var event=InputEventMouseMotion.new()
 	event.position=point
 	event.global_position=point
@@ -175,6 +178,7 @@ func run(scene_tree: SceneTree,game: Node,ui: Control,check: Callable) -> void:
 	while game.pick_up("1_0"):pass
 	var count=game.run.bag.size()
 	var old_power=float(game.state.power)
+	var old_crystals=int(game.state.crystals)
 	var old_energy=float(game.run.energy)
 	battle.player=battle.room().ground[0].pos+Vector2(100,0)
 	var old_pos: Vector2=battle.room().ground[0].pos
@@ -182,7 +186,7 @@ func run(scene_tree: SceneTree,game: Node,ui: Control,check: Callable) -> void:
 	check.call(battle.room().ground[0].pos.distance_to(battle.player)<old_pos.distance_to(battle.player),"nearby battery visibly moves toward character")
 	for i in range(20):battle.update_ground_loot(0.05)
 	check.call(not battle.room().loot.has("power") and not battle.room().loot.has("credits"),"no-slot battery and currency automatically collected")
-	check.call(game.state.power>old_power and game.run.energy>old_energy and game.run.bag.size()==count,"automatic pickups work with full backpack without consuming slots")
+	check.call(game.state.power>old_power and game.run.energy>old_energy and game.state.crystals>old_crystals and game.run.bag.size()==count,"automatic pickups work with full backpack without consuming slots")
 	var water_index=battle.room().loot.find("0_0")
 	battle.player=battle.room().ground[water_index].pos
 	tap(KEY_F)

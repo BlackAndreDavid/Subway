@@ -119,7 +119,7 @@ func clear_page(id: String) -> void:
 
 func refresh_resource_hud() -> void:
 	if is_instance_valid(hud) and not Game.state.is_empty():
-		hud.text="%s   |   DAY %02d   |   水 %d   食物 %d   电 %d" % [Game.state.name,Game.state.day,Game.state.water,Game.state.food,Game.state.power]
+		hud.text="%s   |   DAY %02d   |   水 %d   食物 %d   电 %d   水晶 %d" % [Game.state.name,Game.state.day,Game.state.water,Game.state.food,Game.state.power,Game.state.crystals]
 
 func label(text: String,fs: int=18,color: Color=Color("c3d6d9")) -> Label:
 	var l=Label.new()

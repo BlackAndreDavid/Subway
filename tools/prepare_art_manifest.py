@@ -30,6 +30,8 @@ entries['base/portrait'].update(source='base_heroine_portrait_v1.png',grid=[1,1]
 for i,name in enumerate(['维修员','医疗信使','拾荒者','种植员']):
  add(f'shop/customers/{i}',name,i//2,i%2,1,'feet',192)
  entries[f'shop/customers/{i}'].update(source='shop_customers_v1.png',grid=[2,2],scale_group='shop_customers',candidate_sources=['shop_customers_a.png','shop_customers_b.png'])
+# Keep the currency art ID stable while replacing the former electric card.
+entries['credits'].update(description='不占格的水晶货币',row=0,column=0,source='crystal_v1.png',grid=[1,1],candidate_sources=['crystal_a.png','crystal_b.png'])
 manifest={'schema_version':1,'style_prompt':'res://assets/art/prompts/style.txt','grid':[8,9],'source_size':[1182,1330],'entries':entries}
 (root/'assets/art/manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
 # A small generated GDScript table avoids export filters and runtime file parsing.

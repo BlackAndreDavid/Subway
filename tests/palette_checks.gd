@@ -41,6 +41,7 @@ static func run(check: Callable) -> void:
 	sources.append_array(review.regional_materials.sources)
 	sources.append_array(review.base_heroine.sources)
 	sources.append_array(review.shop_customers.sources)
+	sources.append_array(review.crystal.sources)
 	for source in sources:
 		var bytes=FileAccess.get_file_as_bytes("res://assets/art/"+source.path)
 		var context=HashingContext.new()

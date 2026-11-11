@@ -49,7 +49,35 @@ func run() -> void:
 	visitor.advance(1)
 	page.select_item(game.customer_drag("stash",game.state.stash.find("5_0")))
 	await shot("res://docs/shop_budget.png")
+	# The same board holds multiple items for both sale and purchase.
+	preload("res://tests/shop_checks.gd").new().fixture(game,true,5,0)
+	game.state.shop_customer.budget=500
+	page.next_customer()
+	visitor.advance(1)
+	page.select_item(game.customer_drag("stash",game.state.stash.find("5_0")))
+	page.select_item(game.customer_drag("stash",game.state.stash.find("5_1")))
+	await shot("res://docs/shop_batch_sell.png")
+	preload("res://tests/shop_checks.gd").new().fixture(game,false,4,1)
+	game.state.crystals=500
+	page.next_customer()
+	visitor.advance(1)
+	page.select_item(game.customer_drag("customer",0))
+	page.select_item(game.customer_drag("customer",1))
+	await shot("res://docs/shop_batch_buy.png")
 	await preload("res://tests/shop_checks.gd").new().run(self,game,ui,check)
 	await preload("res://tests/travel_checks.gd").new().run(self,game,ui,check)
+	await preload("res://tests/shop_basket_checks.gd").new().run(self,game,ui,check)
+	await preload("res://tests/crystal_checks.gd").new().run(self,game,ui,check)
+	# Ground-drop fixture shows the reviewed crystal at its actual gameplay scale.
+	game.new_game(0,"上海堡垒")
+	game.begin_run(1,"","","",2026)
+	ui.show_combat()
+	ui.battle.set_process(false)
+	ui.battle.room().loot=["crystal","power"]
+	ui.battle.room().ground=[]
+	ui.battle.ensure_ground_loot(Vector2(450,300))
+	ui.battle.player=Vector2(520,350)
+	ui.battle.queue_redraw()
+	await shot("res://docs/crystal_drop.png")
 	print("NATIVE SHOP CHECKS: %d; failures: %d" % [checks,failures])
 	quit(1 if failures else 0)

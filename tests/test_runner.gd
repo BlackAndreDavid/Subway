@@ -264,6 +264,8 @@ func run_tests() -> void:
 	await preload("res://tests/armored_beast_checks.gd").new().run(self,game,ui,check)
 	await preload("res://tests/expansion_checks.gd").new().run(self,game,ui,check)
 	await preload("res://tests/shop_checks.gd").new().run(self,game,ui,check)
+	await preload("res://tests/shop_basket_checks.gd").new().run(self,game,ui,check)
+	await preload("res://tests/crystal_checks.gd").new().run(self,game,ui,check)
 	await preload("res://tests/travel_checks.gd").new().run(self,game,ui,check)
 	await preload("res://tests/start_return_checks.gd").new().run(self,game,ui,check)
 	await preload("res://tests/bullet_checks.gd").new().run(self,game,ui,check)

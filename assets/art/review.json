@@ -63,7 +63,7 @@
     ],
     "after_colors_per_sprite": [
       9,
-      26
+      25
     ],
     "palette_size": 32,
     "source_files_unchanged": true,
@@ -123,5 +123,25 @@
       }
     ],
     "native_review": "Passed four visitors at far, near and departure depth, 39 native shop checks; shared 32-color flat regions, no source edits. Screenshots docs/shop_customer_0..3.png and _far/_leaving variants."
+  },
+  "crystal": {
+    "prompt": "prompts/crystal.txt",
+    "selected": "B",
+    "note": "Both transparent candidates inspected; B selected for compact three-shard silhouette at loot size, consistent navy/mint/ochre colors. Region-median simplification removes generated near-color noise; stable credits art ID retained.",
+    "sources": [
+      {
+        "path": "candidates/crystal_a.png",
+        "sha256": "4953456f303088cda0c26ee993675226fa29ae27769d56608d355310a65418aa"
+      },
+      {
+        "path": "candidates/crystal_b.png",
+        "sha256": "844307c08849a7549d1a7f14dc6b6343204ff708d246d6730bd520e3c9f7fa4e"
+      },
+      {
+        "path": "sources/crystal_v1.png",
+        "sha256": "844307c08849a7549d1a7f14dc6b6343204ff708d246d6730bd520e3c9f7fa4e"
+      }
+    ],
+    "native_review": "Reviewed docs/crystal_drop.png at actual gameplay scale and shop_batch_sell/buy screenshots; slot-free pickup and both currencies separated in 316 native shop/currency checks."
   }
 }

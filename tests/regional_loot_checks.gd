@@ -39,7 +39,7 @@ static func run(check: Callable) -> void:
 			var drops=Loot.roll_room(station,2,rng)
 			drops.append(Loot.choose_item(station,rng))
 			for id in drops:
-				if id in ["power","credits","chest"]:continue
+				if id in ["power","credits","crystal","chest"]:continue
 				check.call(allowed.has(id),"normal drop respects regional pool")
 				if Data.MATERIALS.has(id):
 					exclusive_seen[id]=true
@@ -59,7 +59,7 @@ static func run(check: Callable) -> void:
 		for _sample in range(4000):
 			for id in Loot.roll_room(0,1,rng,false,radiation):
 				if id=="chest":sum+=Loot.chest_budget(0,1,radiation)*0.8
-				elif id in ["power","credits"]:sum+=(8 if id=="credits" else 5)*float(Loot.profile(0,radiation).richness)
+				elif id in ["power","credits","crystal"]:sum+=(8 if id in ["credits","crystal"] else 5)*float(Loot.profile(0,radiation).richness)
 				else:sum+=float(C.item(id).price)
 		totals.append(sum/4000)
 	check.call(totals[1]>totals[0]*1.5,"sampled high radiation expected return rises")

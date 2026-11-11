@@ -786,20 +786,24 @@
       ]
     },
     "credits": {
-      "description": "电卡",
-      "row": 8,
-      "column": 7,
+      "description": "不占格的水晶货币",
+      "row": 0,
+      "column": 0,
       "frames": 1,
       "anchor": "center",
       "cell_size": 64,
       "fps": 0,
-      "source": "subway_atlas_v1.png",
+      "source": "crystal_v1.png",
       "candidate_sources": [
-        "atlas_a.png",
-        "atlas_b.png"
+        "crystal_a.png",
+        "crystal_b.png"
       ],
       "files": [
         "res://assets/art/runtime/credits_0.png"
+      ],
+      "grid": [
+        1,
+        1
       ]
     },
     "materials/wafer": {
