@@ -3,6 +3,11 @@ const Metro=preload("res://scripts/metro.gd")
 const Catalog = preload("res://scripts/catalog.gd")
 const FloorGenerator = preload("res://scripts/floor_generator.gd")
 const Inventory=preload("res://scripts/inventory.gd")
+const Shop=preload("res://scripts/shop_rules.gd")
+const TRAVEL_HOPS_PER_DAY=4
+const DAILY_WATER=2
+const DAILY_FOOD=2
+const DAILY_POWER=5
 const SAVE_VERSION = 2
 const STASH_COLUMNS=12
 var slot = -1
@@ -81,6 +86,7 @@ func validate_save(data: Dictionary) -> bool:
 		for key in ["x","y","type"]:
 			if not (furniture[key] is int or furniture[key] is float): return false
 		if furniture.x<0 or furniture.x>=10 or furniture.y<0 or furniture.y>=6 or furniture.type<0 or furniture.type>3: return false
+	if data.has("shop_customer") and not Shop.valid(data.shop_customer,int(data.day),int(data.station),int(data.customer)):return false
 	return true
 
 func write_json(path: String,data: Dictionary) -> bool:
@@ -111,17 +117,20 @@ func save_settings() -> void:
 	write_json("user://settings.json",settings)
 	apply_settings()
 
-func advance_activity_day(reserve: int=0) -> bool:
-	if not run.is_empty() or state.water<2 or state.food<2 or state.power<5+reserve:
-		last_error="每天需要2水、2食物、5电量；探索还需保留 %d 电量。" % reserve
+func advance_days(days: int,reserve: int=0) -> bool:
+	if days<1 or not run.is_empty() or state.water<DAILY_WATER*days or state.food<DAILY_FOOD*days or state.power<DAILY_POWER*days+reserve:
+		last_error="需要 %d 天的补给：%d 水、%d 食物、%d 电量。" % [days,DAILY_WATER*days,DAILY_FOOD*days,DAILY_POWER*days+reserve]
 		return false
-	state.water-=2
-	state.food-=2
-	state.power-=5
-	state.day+=1
+	state.water-=DAILY_WATER*days
+	state.food-=DAILY_FOOD*days
+	state.power-=DAILY_POWER*days
+	state.day+=days
 	state.news=(int(state.day)*7)%4
 	state.customer=0
+	state.erase("shop_customer")
 	return true
+func advance_activity_day(reserve: int=0) -> bool:
+	return advance_days(1,reserve)
 func next_day() -> String:
 	var before=state.duplicate(true)
 	if not advance_activity_day():return last_error
@@ -140,19 +149,28 @@ func open_shop() -> bool:
 	return true
 func close_shop() -> void:shop_open=false
 
+func travel_plan(index: int) -> Dictionary:
+	var path=Metro.route(int(state.station),index)
+	var hops=maxi(0,path.size()-1)
+	var days=ceili(float(hops)/TRAVEL_HOPS_PER_DAY)
+	var cost={"route":path,"days":days,"water":DAILY_WATER*days,"food":DAILY_FOOD*days,"power":DAILY_POWER*days,"available":false}
+	cost.available=not path.is_empty() and days>0 and run.is_empty() and state.water>=cost.water and state.food>=cost.food and state.power>=cost.power
+	return cost
 func travel(index: int) -> String:
 	if index<0 or index>=Catalog.STATIONS.size():return "无效站点。"
-	var cost = travel_cost(index)
-	if index==state.station: return "已经位于该站点。"
-	if state.power<cost: return "账户电量不足。"
-	state.power-=cost
+	if index==int(state.station):return "已经位于该站点。"
+	var plan=travel_plan(index)
+	if plan.route.is_empty():return "该站点没有连通路线。"
+	var before=state.duplicate(true)
+	if not advance_days(int(plan.days)):return last_error
 	state.station=index
-	save_game()
-	return "抵达%s，消耗 %d 电量。" % [Catalog.STATIONS[index].name,cost]
-
+	if not save_game():
+		state=before
+		return last_error if not last_error.is_empty() else "行程保存失败，请重试。"
+	shop_open=false
+	return "抵达%s，经过 %d 天，消耗 %d 水、%d 食物、%d 电量。" % [Catalog.STATIONS[index].name,plan.days,plan.water,plan.food,plan.power]
 func travel_cost(index: int) -> int:
-	var path=Metro.route(int(state.station),index)
-	return 0 if path.size()<=1 else 4+2*(path.size()-1)
+	return int(travel_plan(index).power)
 
 func price(id: String,buy: bool) -> int:
 	var item = Catalog.item(id)
@@ -163,40 +181,73 @@ func price(id: String,buy: bool) -> int:
 func trade(_id: String,_buy: bool) -> String:
 	return "请在营业窗口与到店顾客交易。"
 
+func customer_limit(station: int=-1) -> int:
+	return Shop.limit(int(state.station) if station<0 else station)
 func customer_offer() -> Dictionary:
-	var rng=RandomNumberGenerator.new()
-	rng.seed=int(state.day)*1009+int(state.station)*37+int(state.customer)*17
-	var buying=rng.randf()<0.55
-	var ids=Catalog.valid_ids() if buying else Catalog.all_ids()
-	var id=ids[rng.randi_range(0,ids.size()-1)]
-	return {"key":"%d:%d:%d" % [state.day,state.station,state.customer],"appearance":rng.randi_range(0,3),"id":id,"buying":buying,"price":maxi(1,roundi(price(id,not buying)*(1.15 if buying else 0.72)))}
-
-func accept_customer(expected_key: String="") -> String:
+	if int(state.customer)>=customer_limit():return {}
+	var key=Shop.key(int(state.day),int(state.station),int(state.customer))
+	if not state.has("shop_customer") or state.shop_customer.key!=key:
+		state.shop_customer=Shop.generate(int(state.day),int(state.station),int(state.customer))
+	return state.shop_customer.duplicate(true)
+func stash_signature() -> String:
+	ensure_stash()
+	return JSON.stringify([state.stash,state.stash_layout]).sha256_text()
+func customer_price(id: String,offer: Dictionary) -> int:
+	return maxi(1,roundi(price(id,not offer.buying)*(1.15 if offer.buying else 0.72)))
+func customer_drag(source: String,index: int) -> Dictionary:
+	var offer=customer_offer()
+	if not shop_open or offer.is_empty() or not source in ["stash","customer"]:return {}
+	var entries=stash_entries() if source=="stash" else offer.stock
+	if index<0 or index>=entries.size():return {}
+	return {"key":offer.key,"revision":int(offer.revision),"source":source,"index":index,"id":entries[index].id,"signature":stash_signature() if source=="stash" else ""}
+func valid_customer_selection(data: Variant) -> bool:
+	var offer=customer_offer()
+	if not shop_open or offer.is_empty() or not data is Dictionary or not data.has_all(["key","revision","source","index","id","signature"]):return false
+	if data.key!=offer.key or data.revision!=offer.revision or not data.index is int:return false
+	if data.source!=("stash" if offer.buying else "customer"):return false
+	var entries=stash_entries() if offer.buying else offer.stock
+	if data.index<0 or data.index>=entries.size() or data.id!=entries[data.index].id:return false
+	if offer.buying and data.signature!=stash_signature():return false
+	return int(Catalog.item(data.id).category)==int(offer.category)
+func customer_quote(selection: Dictionary) -> Dictionary:
+	if not valid_customer_selection(selection):return {"valid":false,"affordable":false,"price":0,"message":"拖入同类物品选择交易。"}
+	var offer=customer_offer()
+	var value=customer_price(selection.id,offer)
+	var affordable=value<=int(offer.budget) if offer.buying else value<=int(state.power)
+	var message="%s · %d 电量" % [Catalog.item(selection.id).name,value]
+	if not affordable:message+="\n买不起：顾客预算不足。" if offer.buying else "\n买不起：你的电量不足。"
+	return {"valid":true,"affordable":affordable,"price":value,"message":message}
+func accept_customer(expected_key: String="",selection: Dictionary={}) -> String:
 	if not shop_open:return "请先开店。"
 	var offer=customer_offer()
-	if expected_key!="" and expected_key!=offer.key:return "该顾客已离开。"
+	if offer.is_empty():return "今日顾客已全部接待。"
+	if expected_key!=offer.key:return "该顾客已离开。"
+	var quote=customer_quote(selection)
+	if not quote.valid or not quote.affordable:return quote.message
 	var before=state.duplicate(true)
 	if offer.buying:
-		if not state.stash.has(offer.id): return "没有该顾客需要的货物。"
-		remove_stash(state.stash.find(offer.id))
-		state.power+=offer.price
+		remove_stash(int(selection.index))
+		state.power+=int(quote.price)
+		state.shop_customer.budget-=int(quote.price)
 	else:
-		if state.power<offer.price: return "电量不足。"
-		state.power-=offer.price
-		add_stash(offer.id)
-	state.customer+=1
+		state.power-=int(quote.price)
+		add_stash(selection.id)
+		state.shop_customer.budget+=int(quote.price)
+		state.shop_customer.stock.remove_at(int(selection.index))
+	state.shop_customer.revision+=1
 	if not save_game():
 		state=before
 		return last_error if not last_error.is_empty() else "交易保存失败，请重试。"
 	return "交易完成。"
-
 func skip_customer(expected_key: String) -> String:
-	if not shop_open or expected_key!=customer_offer().key:return "该顾客已离开。"
+	var offer=customer_offer()
+	if not shop_open or offer.is_empty() or expected_key!=offer.key:return "该顾客已离开。"
 	var before=state.duplicate(true)
 	state.customer+=1
+	state.erase("shop_customer")
 	if not save_game():
 		state=before
-		return last_error if not last_error.is_empty() else "交易保存失败，请重试。"
+		return last_error if not last_error.is_empty() else "保存失败，请重试。"
 	return "顾客离开了。"
 
 func begin_run(class_index: int,module: String,weapon: String,drug: String,seed_value: int=-1,source_indices: Dictionary={}) -> bool:

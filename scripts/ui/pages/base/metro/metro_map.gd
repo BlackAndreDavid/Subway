@@ -60,6 +60,9 @@ func station_detail() -> void:
 	app.side.add_child(app.wrapped("经济参考：%s（%d）\n区域数据仅作游戏校准，非单站统计。%s" % [s.economy_area,s.economy_year," 黄浦采用公报转录。" if s.economy_verification=="official_report_secondary_transcription" else ""],12))
 	app.side.add_child(app.wrapped("地下客流（游戏） %d 人/日\n辐射度（游戏） %d / 5\n产出物资   %s\n价格指数   × %.2f" % [s.traffic,s.radiation,s.yield,s.factor],15))
 	app.side.add_child(app.wrapped("路线："+Metro.route_names(int(Game.state.station),app.map_selection),13))
-	app.side.add_child(app.label("移动消耗 %d 电量" % Game.travel_cost(app.map_selection),15))
-	app.button("前往",func():app.say(Game.travel(app.map_selection));app.show_map(),app.map_actions,app.map_selection==int(Game.state.station))
+	var plan=Game.travel_plan(app.map_selection)
+	app.map_actions.add_child(app.wrapped("路程 %d 天\n%d 水 / %d 食物 / %d 电量" % [plan.days,plan.water,plan.food,plan.power],17))
+	app.side.add_child(app.label("每日顾客上限 %d 人" % Game.customer_limit(app.map_selection),15))
+	var travel_button=app.button("前往",func():app.say(Game.travel(app.map_selection));app.show_map(),app.map_actions,not plan.available)
+	travel_button.name="TravelButton"
 	app.back_button(app.show_base,app.map_actions)

@@ -106,7 +106,7 @@ func clear_page(id: String) -> void:
 	hud=label("",15,Color("e7c595"))
 	top.add_child(hud)
 	if not Game.state.is_empty() and id not in ["menu","slots"]:
-		hud.text="%s   |   DAY %02d   |   水 %d   食物 %d   电 %d" % [Game.state.name,Game.state.day,Game.state.water,Game.state.food,Game.state.power]
+		refresh_resource_hud()
 	var line=HSeparator.new()
 	root.add_child(line)
 	body=HBoxContainer.new()
@@ -116,6 +116,10 @@ func clear_page(id: String) -> void:
 	toast=label(notice_text,16,Color("92b6ba"))
 	toast.custom_minimum_size.y=27
 	root.add_child(toast)
+
+func refresh_resource_hud() -> void:
+	if is_instance_valid(hud) and not Game.state.is_empty():
+		hud.text="%s   |   DAY %02d   |   水 %d   食物 %d   电 %d" % [Game.state.name,Game.state.day,Game.state.water,Game.state.food,Game.state.power]
 
 func label(text: String,fs: int=18,color: Color=Color("c3d6d9")) -> Label:
 	var l=Label.new()

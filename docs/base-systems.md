@@ -51,3 +51,5 @@ WASD在车厢内移动，角色朝向与行走帧随移动更新，家具会阻�
 ![独立装修页面](base_decoration.png)
 ![设施对话](base_dialogue.png)
 ![材料合成](crafting.png)
+
+主线路图移动按[行程天数](metro-travel.md)消耗同一套每日补给。经营改为[每日有限顾客、类别拖拽交易及预算](shop-system.md)，同一顾客可连续成交，送客后才计入当日接待数。

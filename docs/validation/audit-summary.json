@@ -1,7 +1,7 @@
 {
   "review_date": "2026-11-11",
-  "scope": "activity day costs, expanded cargo, separate equipment, category colors, multi-cell rooms and ten obstacle layouts; customer-only shop and animated visitor window",
-  "acceptance_items": 76,
+  "scope": "station customer caps, category drag-confirm transactions, persistent customer budgets, cropped customer window and embedded warehouse; day-based metro travel",
+  "acceptance_items": 80,
   "open_acceptance_items": 1,
   "map_seeds": 1000,
   "economic_areas": 15,
@@ -68,27 +68,31 @@
     "docs/base_dialogue.png",
     "docs/base_undress.png",
     "docs/boss_exit.png",
-    "docs/boss_return.png"
+    "docs/boss_return.png",
+    "docs/shop.png",
+    "docs/shop_budget.png",
+    "docs/map_travel.png"
   ],
   "status": "development_checkpoint",
   "verification": {
     "earlier_full_regression_checks": 418243,
     "earlier_full_regression_failures": 0,
-    "latest_focused_checks": 1758,
+    "latest_focused_checks": 273,
     "latest_focused_failures": 0,
     "full_playthrough_status": "pending; no final acceptance claimed",
     "checkpoint_full_regression_checks": 418244,
     "checkpoint_full_regression_failures": 0,
     "checkpoint_native_screenshots_reviewed": true,
-    "latest_full_regression_checks": 418380,
+    "latest_full_regression_checks": 418626,
     "latest_full_regression_failures": 0,
     "bullet_direction_physics_checks": 39,
     "native_bullet_render_checks": 8,
     "native_bullet_render_failures": 0,
-    "native_shop_checks": 39,
+    "native_shop_checks": 285,
     "native_shop_failures": 0,
     "latest_native_alignment_checks": 160,
-    "latest_native_alignment_failures": 0
+    "latest_native_alignment_failures": 0,
+    "native_travel_preview_reviewed": true
   },
   "historical_playthrough_report": "playthrough-report.json describes commit b5f7ecb rules, not this checkpoint",
   "floor_example": {
@@ -131,6 +135,25 @@
     "save_rollback": true,
     "legacy_save_compatible": true,
     "checks": "tests/shop_checks.gd",
-    "native_checks": "tests/native_shop_checks.gd"
+    "native_checks": "tests/native_shop_checks.gd",
+    "daily_limit": "ceil(station traffic / 20), clamped 2..10",
+    "category_requests": true,
+    "confirmed_drag_selection": true,
+    "customer_stays_after_trade": true,
+    "budget_persisted": true,
+    "window_height": 285,
+    "portrait_reference_height": 500,
+    "warehouse_embedded_below": true
+  },
+  "metro_travel": {
+    "hops_per_day": 4,
+    "rounding": "ceil",
+    "minimum_days_between_distinct_stations": 1,
+    "daily_water": 2,
+    "daily_food": 2,
+    "daily_power": 5,
+    "extra_distance_fee": false,
+    "save_rollback": true,
+    "checks": "tests/travel_checks.gd"
   }
 }

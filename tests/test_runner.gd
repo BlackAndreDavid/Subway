@@ -97,7 +97,7 @@ func run_tests() -> void:
 	check(not game.validate_save(bad),"reject unknown items")
 	var before=int(game.state.power)
 	game.travel(1)
-	check(game.state.station==1 and game.state.power==before-6,"adjacent selected-station route energy")
+	check(game.state.station==1 and game.state.power==before-5 and game.state.day==2,"adjacent travel advances one day and charges daily supplies")
 	game.state.water=0
 	before=int(game.state.day)
 	game.next_day()
@@ -175,7 +175,7 @@ func run_tests() -> void:
 	map_click.position=ui.map_view.map_point(1)
 	ui.map_view._gui_input(map_click)
 	check(ui.map_selection==1,"main map point selection")
-	check(ui.map_actions.get_child_count()==2 and not ui.map_actions.get_child(0).disabled,"map travel and back actions remain available outside details scroll")
+	check(ui.map_actions.get_child_count()==3 and not ui.map_actions.get_node("TravelButton").disabled,"map travel and back actions remain available outside details scroll")
 	map_click=map_click.duplicate()
 	map_click.button_index=MOUSE_BUTTON_WHEEL_UP
 	var zoom_before=float(ui.map_view.map_zoom)
@@ -264,6 +264,7 @@ func run_tests() -> void:
 	await preload("res://tests/armored_beast_checks.gd").new().run(self,game,ui,check)
 	await preload("res://tests/expansion_checks.gd").new().run(self,game,ui,check)
 	await preload("res://tests/shop_checks.gd").new().run(self,game,ui,check)
+	await preload("res://tests/travel_checks.gd").new().run(self,game,ui,check)
 	await preload("res://tests/bullet_checks.gd").new().run(self,game,ui,check)
 	ui.queue_free()
 	await process_frame

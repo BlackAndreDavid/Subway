@@ -39,6 +39,12 @@ func advance(delta: float) -> void:
 			departed.emit()
 func presentation() -> Dictionary:
 	return {"scale":lerpf(0.38,1.0,depth),"alpha":lerpf(0.12,1.0,depth),"brightness":lerpf(0.3,1.0,depth)}
+func portrait_destination() -> Rect2:
+	var bounds=Art.bounds("shop/customers/%d" % appearance)
+	var height=500.0*float(presentation().scale)
+	var sprite_size=Vector2(bounds.size)*height/float(bounds.size.y)
+	var feet=Vector2(size.x*0.5,lerpf(size.y*0.66,536.0,depth))
+	return Rect2(feet-Vector2(sprite_size.x/2,sprite_size.y),sprite_size)
 func _draw() -> void:
 	var w=size.x
 	var h=size.y
@@ -54,10 +60,13 @@ func _draw() -> void:
 	if phase!="hidden":
 		var look=presentation()
 		var bounds=Art.bounds("shop/customers/%d" % appearance)
-		var height=minf(h*0.86,500)*float(look.scale)
-		var sprite_size=Vector2(bounds.size)*height/float(bounds.size.y)
-		var feet=Vector2(w*0.5,lerpf(h*0.66,h*0.94,depth))
 		var shade=float(look.brightness)
-		draw_texture_rect_region(Art.texture("shop/customers/%d" % appearance),Rect2(feet-Vector2(sprite_size.x/2,sprite_size.y),sprite_size),Rect2(bounds),Color(shade,shade,shade,float(look.alpha)))
+		# Crop the unchanged 500px portrait into the smaller opening; never shrink it.
+		var destination=portrait_destination()
+		var sprite_size=destination.size
+		var visible=destination.intersection(Rect2(28,28,w-56,h-62))
+		if visible.has_area():
+			var source=Rect2(Vector2(bounds.position)+(visible.position-destination.position)/sprite_size*Vector2(bounds.size),visible.size/sprite_size*Vector2(bounds.size))
+			draw_texture_rect_region(Art.texture("shop/customers/%d" % appearance),visible,source,Color(shade,shade,shade,float(look.alpha)))
 	draw_rect(Rect2(14,h-34,w-28,20),Color("8d7255"))
 	draw_rect(Rect2(14,h-14,w-28,14),Color("182637"))

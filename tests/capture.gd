@@ -26,12 +26,17 @@ func capture() -> void:
 		if type!=2:game.place_furniture(type,[Vector2i(1,1),Vector2i(3,1),Vector2i(7,1),Vector2i(1,4)][type])
 	# Obtain the missing bandage through a real visitor, not the retired catalogue.
 	game.open_shop()
-	for customer in range(10000):
-		game.state.customer=customer
+	for day in range(2,100):
+		game.state.day=day
+		game.state.customer=0
+		game.state.erase("shop_customer")
 		var offer=game.customer_offer()
-		if not offer.buying and offer.id=="3_0":
-			game.accept_customer(offer.key)
-			break
+		if not offer.buying and int(offer.category)==3:
+			for index in range(offer.stock.size()):
+				if offer.stock[index].id=="3_0":
+					game.accept_customer(offer.key,game.customer_drag("customer",index))
+					break
+			if game.state.stash.has("3_0"):break
 	game.close_shop()
 	ui.show_base(true)
 	await shot("base_decoration")
