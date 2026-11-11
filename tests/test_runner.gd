@@ -21,13 +21,24 @@ func run_tests() -> void:
 	preload("res://tests/art_and_map_checks.gd").run(check)
 	preload("res://tests/palette_checks.gd").run(check)
 	preload("res://tests/regional_loot_checks.gd").run(check)
+	var floor_summary={"seeds":1000,"minimum_coverage":1.0,"min_occupied_cells":1000,"max_occupied_cells":0,"minimum_spine_turns":1000}
 	for seed_value in range(1000):
 		var data=Generator.generate(seed_value)
 		var rooms: Array=data.rooms
+		floor_summary.minimum_coverage=minf(floor_summary.minimum_coverage,data.coverage)
+		floor_summary.min_occupied_cells=mini(floor_summary.min_occupied_cells,data.occupied_cells)
+		floor_summary.max_occupied_cells=maxi(floor_summary.max_occupied_cells,data.occupied_cells)
+		floor_summary.minimum_spine_turns=mini(floor_summary.minimum_spine_turns,data.spine_turns)
+		var occupied={}
+		for room in rooms:
+			check(room.cells.size() in [1,2,3] and room.layout_ids.size()==room.cells.size(),"each room owns its complete footprint and interior layouts")
+			for cell in room.cells:
+				check(not occupied.has(cell),"different rooms never overlap occupied map cells")
+				occupied[cell]=room.id
 		check(rooms.size()>=36 and rooms.size()<=45,"room count seed %d" % seed_value)
 		check(rooms.size()==ceili(data.base_room_count*1.5) and data.budget==2*data.base_room_count+13,"one-and-a-half rooms with unchanged electrical budget")
 		check(rooms[data.reward].links.size()==4 and rooms[data.boss].links.size()==3,"reward and boss have more connected doors")
-		check(rooms.all(func(room):return room.pos.x>=-5 and room.pos.x<=6 and absi(room.pos.y)<=2),"expanded floor preserves horizontal and vertical bounds")
+		check(rooms.all(func(room):return room.cells.all(func(cell):return cell.x>=-5 and cell.x<=6 and absi(cell.y)<=2)),"expanded floor preserves horizontal and vertical bounds")
 		var distances={0:0}
 		var path_queue: Array=[0]
 		while not path_queue.is_empty():
@@ -46,13 +57,13 @@ func run_tests() -> void:
 			if previous>=0:check(rooms[previous].links.has(id),"legal route edge")
 			previous=id
 		check(visited.size()>=ceili(rooms.size()*0.8),"80 percent coverage seed %d" % seed_value)
-		check(visited.size()==rooms.size(),"full coverage guarantee")
+		check(data.spine_turns>=3 and rooms.any(func(room):return room.cells.size()==2) and rooms.any(func(room):return room.cells.size()==3),"curved spine and two/three-cell rooms")
 		check(data.route.size()-1<=data.budget,"sufficient energy")
 		for r in rooms:
 			if r.kind=="shop":shops+=1
 			for id in r.links:
 				check(rooms[id].links.has(r.id),"symmetric link")
-				check(absi(r.pos.x-rooms[id].pos.x)+absi(r.pos.y-rooms[id].pos.y)==1,"adjacent geometry")
+				check(r.doors.has(id) and r.cells.has(r.doors[id].cell) and rooms[id].cells.has(r.doors[id].cell+r.doors[id].normal),"linked room footprints share a physical portal")
 		check(shops==1,"one shop")
 		var pending: Array=[0]
 		var seen={0:true}
@@ -63,6 +74,13 @@ func run_tests() -> void:
 					seen[neighbor]=true
 					pending.append(neighbor)
 		check(not seen.has(data.boss),"reward articulation required")
+	var example=Generator.generate(2026)
+	floor_summary.example={"seed":2026,"rooms":example.rooms.size(),"occupied_cells":example.occupied_cells,"budget":example.budget,"route_steps":example.route.size()-1,"spine_depth":example.spine_depth,"spine_turns":example.spine_turns,"coverage":example.coverage}
+	DirAccess.make_dir_recursive_absolute("res://work")
+	var floor_report=FileAccess.open("res://work/floor-report.json",FileAccess.WRITE)
+	floor_report.store_string(JSON.stringify(floor_summary,"\t"))
+	floor_report.close()
+	print("FLOOR AUDIT: ",JSON.stringify(floor_summary))
 	check(C.all_ids().size()==24,"six categories with four items")
 	for id in C.all_ids():check(ResourceLoader.exists(C.item(id).icon),"item asset exists")
 	for i in range(3):
@@ -107,7 +125,7 @@ func run_tests() -> void:
 		game.load_game(0)
 		game.state.power=300
 		check(game.begin_run(c,"5_1","4_1","3_0",42),"begin each class")
-		check(game.run.stats.capacity==C.CLASSES[c].capacity+6,"module capacity")
+		check(game.run.stats.capacity==C.CLASSES[c].capacity+C.CLASSES[c].grid_cols,"module capacity")
 		var neighbor=int(game.run.floor_data.rooms[0].links[0])
 		game.run.fighting=true
 		check(not game.move_room(neighbor),"combat door lock")
@@ -177,6 +195,7 @@ func run_tests() -> void:
 	await process_frame
 	ui.show_bag()
 	check(ui.battle.paused,"inventory pauses")
+	check(game.pick_up("1_0"),"cargo can be placed independently of equipped items")
 	ui.bag_selected=0
 	check(game.move_bag(0,Vector2i(0,2),0),"inventory position move")
 	ui.close_modal()
@@ -184,8 +203,9 @@ func run_tests() -> void:
 	var battle=ui.battle
 	game.run.hp=50.0
 	battle.use_drug()
-	check(game.run.hp==85.0 and game.run.bag[2].uses==2,"medicine effect and finite uses")
-	ui.drop_bag(2)
+	check(game.run.hp==85.0 and game.equipped_entry("drug").uses==2,"medicine effect and finite uses")
+	check(game.unequip_slot("drug"),"unequip medicine into real bag space")
+	ui.drop_bag(game.run.bag.size()-1)
 	battle.player=battle.room().ground.back().pos
 	battle.collect(battle.room().loot.size()-1)
 	check(game.run.bag.back().uses==2,"drop and pickup preserve drug uses")
@@ -243,6 +263,7 @@ func run_tests() -> void:
 	await preload("res://tests/base_combat_revision_checks.gd").new().run(self,game,ui,check)
 	await preload("res://tests/base_ui_checks.gd").new().run(self,game,ui,check)
 	await preload("res://tests/armored_beast_checks.gd").new().run(self,game,ui,check)
+	await preload("res://tests/expansion_checks.gd").new().run(self,game,ui,check)
 	ui.queue_free()
 	await process_frame
 	await process_frame

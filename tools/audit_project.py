@@ -2,8 +2,10 @@
 """Read-only acceptance checks for source data, assets and evidence paths."""
 from pathlib import Path
 import json,re,math
+from generate_room_layouts import compile_layouts
 ROOT=Path(__file__).resolve().parents[1]
 def audit():
+ assert (ROOT/"scripts/room_layout_data.gd").read_text()==compile_layouts(),"Obstacle layout resource is stale"
  economy=json.loads((ROOT/'assets/balance/economy.json').read_text())
  regions=json.loads((ROOT/'assets/balance/regions.json').read_text())
  metro=json.loads((ROOT/'assets/maps/shanghai_metro.json').read_text())

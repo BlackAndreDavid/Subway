@@ -11,6 +11,7 @@ subway_godot_bin="${GODOT_BIN:-godot}"
 python3 -c 'import PIL'  # Install requirements-dev.txt first if missing.
 python3 tools/apply_balance.py --data-only
 python3 tools/prepare_art_manifest.py
+python3 tools/generate_room_layouts.py
 python3 tools/audit_project.py
 "$subway_godot_bin" --headless --path . --script tools/import_art.gd
 python3 tools/simplify_art.py --self-test

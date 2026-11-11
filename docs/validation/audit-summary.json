@@ -1,13 +1,9 @@
 {
   "review_date": "2026-11-11",
-  "scope": "full prototype plus bottom base navigation, independent decoration, standing and expedition-only suit animation, left portrait with bottom subtitles, short button labels and separate physical boss exits",
-  "acceptance_items": 63,
-  "open_acceptance_items": 0,
-  "checks": 331192,
-  "failures": 0,
+  "scope": "activity day costs, expanded cargo, separate equipment, category colors, multi-cell rooms and ten obstacle layouts",
+  "acceptance_items": 72,
+  "open_acceptance_items": 1,
   "map_seeds": 1000,
-  "playthrough_cases": 9,
-  "playthrough_boss_wins": 3,
   "economic_areas": 15,
   "stations": 110,
   "refined_exploration_areas": 38,
@@ -20,29 +16,17 @@
     "xvfb-run -a godot --audio-driver Dummy --path . --script tests/native_sprite_alignment.gd"
   ],
   "limitations": [
-    "Fixed-input controller is not human-player feedback or final balance; after the shell-beast change, 3 tank cases cleared all 41 rooms and 6 shooter/assassin cases ended on health depletion. No stat/drop overrides.",
+    "Current compound-room automated playthrough acceptance remains pending; observed deaths and controller guards are not counted as successful returns.",
     "Huangpu numeric reference is an explicitly labeled report transcription, not a claimed downloaded official original.",
     "Missing statistical axes remain null; available axes are reweighted.",
     "Original draft multiplayer/licences/black-market etc. remain outside this prototype milestone.",
     "Water, food and battery trade goods use their concrete geometric footprints; only direct power/currency floor pickups are automatic and slot-free."
   ],
-  "introductory_boss_wins": 1,
-  "physical_door_interactions": 390,
   "interaction_checks": "tests/interaction_checks.gd",
-  "scene_count": 28,
+  "scene_count": 29,
   "item_footprints": 37,
   "inventory_checks": "tests/inventory_checks.gd",
-  "native_alignment_checks": 160,
-  "native_alignment_failures": 0,
   "protection_timer_removed": true,
-  "floor_example": {
-    "seed": 2026,
-    "old_rooms": 27,
-    "rooms": 41,
-    "unchanged_budget": 67,
-    "route_steps": 53,
-    "coverage": 1.0
-  },
   "armored_beast_checks": "tests/armored_beast_checks.gd",
   "armored_beast": {
     "base_hp": 110,
@@ -84,5 +68,28 @@
     "docs/base_undress.png",
     "docs/boss_exit.png",
     "docs/boss_return.png"
-  ]
+  ],
+  "status": "development_checkpoint",
+  "verification": {
+    "earlier_full_regression_checks": 418243,
+    "earlier_full_regression_failures": 0,
+    "latest_focused_checks": 1758,
+    "latest_focused_failures": 0,
+    "full_playthrough_status": "pending; no final acceptance claimed",
+    "checkpoint_full_regression_checks": 418244,
+    "checkpoint_full_regression_failures": 0,
+    "checkpoint_native_screenshots_reviewed": true
+  },
+  "historical_playthrough_report": "playthrough-report.json describes commit b5f7ecb rules, not this checkpoint",
+  "floor_example": {
+    "seed": 2026,
+    "rooms": 41,
+    "occupied_cells": 47,
+    "unchanged_budget": 67,
+    "route_steps": 58,
+    "spine_depth": 11,
+    "spine_turns": 6
+  },
+  "historical_native_alignment_checks": 160,
+  "historical_native_alignment_failures": 0
 }

@@ -10,6 +10,8 @@ var state: Dictionary = {}
 var run: Dictionary = {}
 var settings = {"volume":0.5,"fullscreen":false}
 var last_error = ""
+var shop_open=false
+var run_serial=0
 var base_arrival=false
 var base_position=Vector2(5,3)
 
@@ -23,6 +25,7 @@ func new_game(index: int, base_name: String) -> bool:
 	state={"version":SAVE_VERSION,"name":base_name.strip_edges() if not base_name.strip_edges().is_empty() else "上海堡垒", "day":1,"station":0,"water":24,"food":24,"power":240,"stash":["3_0","3_1","3_2","3_3","4_0","4_1","4_2","4_3","5_0","5_1","5_2","5_3"],"furniture":[],"news":0,"market_stock":{},"customer":0}
 	run={}
 	state.stash.append_array(["scrap","scrap","scrap","scrap","scrap","scrap","scrap","scrap","scrap","scrap","scrap","scrap","1_0","1_0","0_0","0_0"])
+	shop_open=false
 	base_arrival=false
 	base_position=Vector2(5,3)
 	return save_game()
@@ -50,6 +53,7 @@ func load_game(index: int) -> bool:
 		for field in ["x","y","rot"]:placement[field]=int(placement[field])
 	state.version=SAVE_VERSION
 	run={}
+	shop_open=false
 	base_arrival=false
 	base_position=Vector2(5,3)
 	return true
@@ -110,8 +114,10 @@ func save_settings() -> void:
 	write_json("user://settings.json",settings)
 	apply_settings()
 
-func next_day() -> String:
-	if state.water<2 or state.food<2 or state.power<5: return "资源不足：每天需要 2 水、2 食物、5 电量。"
+func advance_activity_day(reserve: int=0) -> bool:
+	if not run.is_empty() or state.water<2 or state.food<2 or state.power<5+reserve:
+		last_error="每天需要2水、2食物、5电量；探索还需保留 %d 电量。" % reserve
+		return false
 	state.water-=2
 	state.food-=2
 	state.power-=5
@@ -119,8 +125,24 @@ func next_day() -> String:
 	state.news=(int(state.day)*7)%4
 	state.market_stock={}
 	state.customer=0
-	if not save_game(): return last_error
+	return true
+func next_day() -> String:
+	var before=state.duplicate(true)
+	if not advance_activity_day():return last_error
+	if not save_game():
+		state=before
+		return last_error
 	return "进入第 %d 天。基地已保存。" % state.day
+func open_shop() -> bool:
+	if shop_open:return true
+	var before=state.duplicate(true)
+	if not advance_activity_day():return false
+	if not save_game():
+		state=before
+		return false
+	shop_open=true
+	return true
+func close_shop() -> void:shop_open=false
 
 func travel(index: int) -> String:
 	if index<0 or index>=Catalog.STATIONS.size():return "无效站点。"
@@ -201,34 +223,31 @@ func begin_run(class_index: int,module: String,weapon: String,drug: String,seed_
 			return false
 		selected_indices.append(source_index)
 	var floor_data=FloorGenerator.generate(seed_value if seed_value>=0 else randi(),1)
-	if state.power<floor_data.budget:
-		last_error="本层无掉落保底路线需 %d 电量，账户不足。" % floor_data.budget
-		return false
 	var stats=Catalog.CLASSES[class_index].duplicate(true)
-	if module=="5_0": stats.armor=minf(0.7,stats.armor+0.15)
-	if module=="5_1": stats.grid_rows+=1
+	if module=="5_0":stats.armor=minf(0.7,stats.armor+0.15)
+	if module=="5_1":stats.grid_rows+=1
 	stats.capacity=int(stats.grid_cols)*int(stats.grid_rows)
-	var bag: Array=[]
-	for id in selections:
+	var equipment={"module":{},"weapon":{},"drug":{}}
+	var equipped_uid={"module":-1,"weapon":-1,"drug":-1}
+	var next_uid=0
+	for index in range(selections.size()):
+		var id: String=selections[index]
 		if id=="":continue
-		var placement=Inventory.first_fit(bag,Vector2i(stats.grid_cols,stats.grid_rows),id)
-		if placement.is_empty():
-			last_error="所选装备无法放入该职业背包。"
-			return false
-		placement.merge({"id":id,"uses":Catalog.item(id).uses})
-		bag.append(placement)
+		equipment[slot_keys[index]]={"id":id,"uses":Catalog.item(id).uses,"uid":next_uid,"rot":0}
+		equipped_uid[slot_keys[index]]=next_uid
+		next_uid+=1
+	var before=state.duplicate(true)
+	if not advance_activity_day(int(floor_data.budget)):return false
 	ensure_stash()
 	selected_indices.sort()
 	selected_indices.reverse()
 	for index in selected_indices:remove_stash(int(index))
-	run={"class":class_index,"stats":stats,"hp":stats.hp,"module":module,"weapon":weapon,"drug":drug,"bag":bag,"floor_data":floor_data,"room":0,"floor":1,"energy":floor_data.budget,"buff":0.0,"shield":0.0,"weapon_cd":0.0,"rewards":[],"damage":1.0,"fighting":false,"seed":floor_data.seed}
-	run.equipped_uid={"module":-1,"weapon":-1,"drug":-1}
-	run.next_uid=0
-	for entry in bag:
-		entry.uid=run.next_uid
-		run.next_uid+=1
-		for key in ["module","weapon","drug"]:
-			if entry.id==run[key]:run.equipped_uid[key]=entry.uid
+	if not save_game():
+		state=before
+		return false
+	run_serial+=1
+	run={"class":class_index,"stats":stats,"hp":stats.hp,"module":module,"weapon":weapon,"drug":drug,"bag":[],"equipment":equipment,"equipped_uid":equipped_uid,"next_uid":next_uid,"inventory_revision":0,"inventory_token":run_serial,"floor_data":floor_data,"room":0,"floor":1,"energy":floor_data.budget,"buff":0.0,"shield":0.0,"weapon_cd":0.0,"rewards":[],"damage":1.0,"fighting":false,"seed":floor_data.seed}
+	shop_open=false
 	return true
 
 func move_room(id: int) -> bool:
@@ -243,6 +262,7 @@ func bag_dimensions() -> Vector2i:
 	return Vector2i(int(run.stats.grid_cols),int(run.stats.grid_rows))
 func can_pick_up(id: String) -> bool:
 	return not run.is_empty() and not Inventory.first_fit(run.bag,bag_dimensions(),id).is_empty()
+func inventory_changed() -> void:run.inventory_revision+=1
 func pick_up(id: String,remaining_uses: int=-1) -> bool:
 	if run.is_empty() or run.fighting or not Catalog.valid_ids().has(id):return false
 	var placement=Inventory.first_fit(run.bag,bag_dimensions(),id)
@@ -250,40 +270,109 @@ func pick_up(id: String,remaining_uses: int=-1) -> bool:
 	placement.merge({"id":id,"uses":Catalog.item(id).uses if remaining_uses<0 else remaining_uses,"uid":run.next_uid})
 	run.next_uid+=1
 	run.bag.append(placement)
+	inventory_changed()
 	return true
 func move_bag(index: int,position: Vector2i,rotation: int) -> bool:
 	if run.is_empty() or run.fighting or index<0 or index>=run.bag.size():return false
 	if not Inventory.fits(run.bag,bag_dimensions(),run.bag[index].id,position,rotation,index):return false
 	run.bag[index].merge({"x":position.x,"y":position.y,"rot":posmod(rotation,4)},true)
+	inventory_changed()
 	return true
-func set_module(id: String) -> bool:
-	if run.is_empty() or run.fighting or (id!="" and not run.bag.any(func(entry):return entry.id==id and Catalog.item(id).category==5)):return false
-	var stats: Dictionary=run.stats
+func equipment_dimensions(module: String) -> Vector2i:
 	var base: Dictionary=Catalog.CLASSES[int(run["class"])]
-	var dimensions=Vector2i(int(base.grid_cols),int(base.grid_rows)+(1 if id=="5_1" else 0))
-	if not Inventory.valid(run.bag,dimensions):
-		last_error="物品超出基础背包边界；先整理下方扩展格，再卸下背架。"
-		return false
-	stats.armor=minf(0.7,float(base.armor)+(0.15 if id=="5_0" else 0.0))
-	stats.grid_rows=dimensions.y
-	stats.capacity=dimensions.x*dimensions.y
-	run.module=id
-	return true
+	return Vector2i(base.grid_cols,int(base.grid_rows)+(1 if module=="5_1" else 0))
+func apply_equipment_stats() -> void:
+	var base: Dictionary=Catalog.CLASSES[int(run["class"])]
+	var dimensions=equipment_dimensions(run.module)
+	run.stats.armor=minf(0.7,float(base.armor)+(0.15 if run.module=="5_0" else 0.0))
+	run.stats.grid_rows=dimensions.y
+	run.stats.capacity=dimensions.x*dimensions.y
 func equipped_entry(slot_key: String) -> Dictionary:
-	if run.is_empty() or run[slot_key]=="":return {}
-	for entry in run.bag:
-		if entry.id==run[slot_key] and int(entry.uid)==int(run.equipped_uid[slot_key]):return entry
-	return {}
+	return {} if run.is_empty() else run.equipment.get(slot_key,{})
+func equipment_plan(index: int,slot_key: String) -> Dictionary:
+	if run.is_empty() or run.fighting or index<0 or index>=run.bag.size() or not run.equipment.has(slot_key):return {}
+	var incoming: Dictionary=run.bag[index]
+	if int(Catalog.item(incoming.id).category)!={"module":5,"weapon":4,"drug":3}[slot_key]:return {}
+	var bag: Array=run.bag.duplicate(true)
+	bag.remove_at(index)
+	var dimensions=equipment_dimensions(incoming.id if slot_key=="module" else run.module)
+	if not Inventory.valid(bag,dimensions):return {}
+	var old=equipped_entry(slot_key)
+	if not old.is_empty():
+		var position=Inventory.first_fit(bag,dimensions,old.id)
+		if position.is_empty():return {}
+		var returning=old.duplicate(true)
+		returning.merge(position,true)
+		bag.append(returning)
+	return {"bag":bag,"entry":incoming.duplicate(true)}
 func equip_entry(index: int) -> bool:
 	if run.is_empty() or run.fighting or index<0 or index>=run.bag.size():return false
-	var entry: Dictionary=run.bag[index]
-	var key: String={3:"drug",4:"weapon",5:"module"}.get(int(Catalog.item(entry.id).category),"")
-	if key=="":return false
-	var unequip=int(run.equipped_uid[key])==int(entry.uid)
-	if key=="module" and not set_module("" if unequip else entry.id):return false
-	run[key]="" if unequip else entry.id
-	run.equipped_uid[key]=-1 if unequip else int(entry.uid)
+	var slot_key: String={3:"drug",4:"weapon",5:"module"}.get(int(Catalog.item(run.bag[index].id).category),"")
+	var plan=equipment_plan(index,slot_key)
+	if plan.is_empty():
+		last_error="无法装配：物品类型不符，或背包没有空间收回旧装备。"
+		return false
+	run.bag=plan.bag
+	run.equipment[slot_key]=plan.entry
+	run[slot_key]=plan.entry.id
+	run.equipped_uid[slot_key]=plan.entry.uid
+	apply_equipment_stats()
+	inventory_changed()
 	return true
+func unequip_plan(slot_key: String,position: Vector2i=Vector2i(-1,-1),rotation: int=0) -> Dictionary:
+	if run.is_empty() or run.fighting:return {}
+	var entry=equipped_entry(slot_key)
+	if entry.is_empty():return {}
+	var dimensions=equipment_dimensions("" if slot_key=="module" else run.module)
+	if not Inventory.valid(run.bag,dimensions):return {}
+	var placement=Inventory.first_fit(run.bag,dimensions,entry.id) if position.x<0 else {"x":position.x,"y":position.y,"rot":rotation}
+	if placement.is_empty() or not Inventory.fits(run.bag,dimensions,entry.id,Vector2i(placement.x,placement.y),int(placement.rot)):return {}
+	var returning=entry.duplicate(true)
+	returning.merge(placement,true)
+	return returning
+func unequip_slot(slot_key: String,position: Vector2i=Vector2i(-1,-1),rotation: int=0) -> bool:
+	var entry=unequip_plan(slot_key,position,rotation)
+	if entry.is_empty():
+		last_error="背包没有足够的连续空间，或物品仍占用背架扩展行。"
+		return false
+	run.bag.append(entry)
+	run.equipment[slot_key]={}
+	run[slot_key]=""
+	run.equipped_uid[slot_key]=-1
+	apply_equipment_stats()
+	inventory_changed()
+	return true
+func set_module(id: String) -> bool:
+	if id=="":return unequip_slot("module")
+	if run.is_empty():return false
+	for index in range(run.bag.size()):
+		if run.bag[index].id==id:return equip_entry(index)
+	return false
+func run_drag_data(index: int=-1,origin: String="bag") -> Dictionary:
+	if run.is_empty() or run.fighting:return {}
+	var entry: Dictionary={}
+	if origin=="bag":
+		if index<0 or index>=run.bag.size():return {}
+		entry=run.bag[index]
+	else:entry=equipped_entry(origin)
+	if entry.is_empty():return {}
+	return {"kind":"run_item","token":run.inventory_token,"revision":run.inventory_revision,"origin":origin,"index":index,"uid":entry.uid,"item_id":entry.id,"rotation":int(entry.get("rot",0)),"anchor":Vector2i.ZERO}
+func valid_run_payload(data: Variant) -> bool:
+	if run.is_empty() or run.fighting or not data is Dictionary or not data.has_all(["kind","token","revision","origin","index","uid","item_id"]):return false
+	if data.kind!="run_item" or data.token!=run.inventory_token or data.revision!=run.inventory_revision:return false
+	var actual=run_drag_data(int(data.index),str(data.origin))
+	return not actual.is_empty() and actual.uid==data.uid and actual.item_id==data.item_id
+func can_equip_payload(slot_key: String,data: Variant) -> bool:
+	return valid_run_payload(data) and (data.origin==slot_key or data.origin=="bag" and not equipment_plan(int(data.index),slot_key).is_empty())
+func equip_payload(slot_key: String,data: Variant) -> bool:
+	if not can_equip_payload(slot_key,data):return false
+	return true if data.origin==slot_key else equip_entry(int(data.index))
+func can_place_payload(data: Variant,position: Vector2i,rotation: int) -> bool:
+	if not valid_run_payload(data):return false
+	return Inventory.fits(run.bag,bag_dimensions(),data.item_id,position,rotation,int(data.index)) if data.origin=="bag" else not unequip_plan(str(data.origin),position,rotation).is_empty()
+func place_payload(data: Variant,position: Vector2i,rotation: int) -> bool:
+	if not can_place_payload(data,position,rotation):return false
+	return move_bag(int(data.index),position,rotation) if data.origin=="bag" else unequip_slot(str(data.origin),position,rotation)
 
 func claim_reward(index: int) -> String:
 	if run.is_empty() or run.fighting or not index in [0,1]:return "当前无法领取奖励。"
@@ -314,9 +403,12 @@ func can_extract() -> bool:
 func end_run(success: bool) -> String:
 	if run.is_empty(): return ""
 	if success and not can_extract():return "请先击败本层 Boss，在返程终端返回基地。"
-	var count=run.bag.size()
+	var cargo: Array=run.bag.duplicate(true)
+	for entry in run.equipment.values():
+		if not entry.is_empty():cargo.append(entry)
+	var count=cargo.size()
 	if success:
-		for entry in run.bag:
+		for entry in cargo:
 			add_stash(entry.id)
 	else:
 		# Equipped items and cargo are lost. Combat already spent electricity.

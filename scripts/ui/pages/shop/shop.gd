@@ -9,7 +9,7 @@ func build(context: Control) -> void:
 	var catalog_host=$Stage/Catalog
 	catalog_host.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	var catalog=app.panel(catalog_host,890)
-	app.section(catalog,"地下市场 / 以电易物","价格受站点与日报影响 · 当日每种商品限购 4 件")
+	app.section(catalog,"地下市场 / 以电易物","本轮开店已消耗一天；交易/刷新不重复扣天 · 当日每种商品限购4件")
 	var cats=HBoxContainer.new()
 	catalog.add_child(cats)
 	for i in range(6):

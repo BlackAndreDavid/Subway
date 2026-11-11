@@ -6,6 +6,16 @@ static func create(mode: String) -> Control:
 	grid.dimensions=Vector2i(Game.STASH_COLUMNS,int(Game.state.stash_rows)) if mode=="stash" else Game.bag_dimensions()
 	grid.items=Game.stash_entries() if mode=="stash" else Game.run.bag
 	grid.allowed=func():return Game.run.is_empty() if mode=="stash" else not Game.run.is_empty() and not Game.run.fighting
+	if mode=="bag":
+		grid.drag_source=Game.run_drag_data
+		grid.can_place=Game.can_place_payload
+		grid.place_item=func(data,pos,rotation):
+			if not Game.place_payload(data,pos,rotation):return false
+			grid.items=Game.run.bag
+			grid.dimensions=Game.bag_dimensions()
+			grid.refresh()
+			return true
+		return grid
 	grid.drag_source=func(index):return {"kind":mode,"source":grid.get_instance_id(),"index":index}
 	grid.can_place=func(data,pos,rotation):
 		return data.get("kind","")==mode and data.get("source",0)==grid.get_instance_id() and int(data.index)>=0 and int(data.index)<grid.items.size() and Inventory.fits(grid.items,grid.dimensions,grid.items[data.index].id,pos,rotation,int(data.index))

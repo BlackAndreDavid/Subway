@@ -48,6 +48,9 @@ func capture() -> void:
 			ui.station_detail()
 			break
 	await shot("map_zhangjiang")
+	# Reclaim and later restore the real bed so gold finished-goods cells are visible.
+	for index in range(game.state.furniture.size()):
+		if int(game.state.furniture[index].type)==2:game.reclaim_furniture(index);break
 	ui.show_stash()
 	await shot("warehouse_grid")
 	ui.close_modal()
@@ -58,6 +61,7 @@ func capture() -> void:
 	await gestures.drag(ui.warehouse_grid.get_child(5),ui.loadout_slots.get_child(1))
 	await gestures.drag(ui.warehouse_grid.get_child(0),ui.loadout_slots.get_child(2))
 	await shot("prepare_equipped")
+	game.place_furniture(2,Vector2i(7,1))
 	ui.show_shop()
 	await shot("shop")
 	ui.toggle_drawer()
@@ -95,6 +99,9 @@ func capture() -> void:
 	game.pick_up("0_1")
 	game.pick_up("2_2")
 	game.pick_up("mat_valve")
+	game.pick_up("4_2")
+	game.pick_up("5_1")
+	game.pick_up("3_0")
 	ui.bag_selected=1
 	ui.show_bag()
 	await shot("backpack_grid")
@@ -127,6 +134,21 @@ func capture() -> void:
 	gestures.key(KEY_S,false)
 	ui.say("变异鼠持续追击；甲壳兽蓄力后长距离冲刺，并轻微追踪。")
 	await shot("shell_charge")
+	for amount in [2,3]:
+		for room in game.run.floor_data.rooms:
+			if room.cells.size()==amount:
+				game.run.room=room.id
+				ui.battle.enter_room()
+				await shot("combat_large_%d" % amount)
+				ui.battle.player=ui.battle.geometry.closest_free(ui.battle.geometry.bounds.end-Vector2(70,70),14)
+				ui.battle.queue_redraw()
+				await shot("combat_large_%d_far" % amount)
+				break
+	for room in game.run.floor_data.rooms:room.visited=true
+	gestures.key(KEY_TAB,true)
+	ui.minimap.advance_hold(2)
+	await shot("combat_floor_overview")
+	gestures.key(KEY_TAB,false)
 	game.run.room=game.run.floor_data.reward
 	ui.battle.enter_room(Vector2(450,280))
 	gestures.tap(KEY_F)

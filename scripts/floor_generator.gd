@@ -1,36 +1,153 @@
 extends RefCounted
+const DIRECTIONS=[Vector2i.LEFT,Vector2i.RIGHT,Vector2i.UP,Vector2i.DOWN]
 static func region(position: Vector2i) -> int:
-	return -1 if position.x<0 or (position.x==0 and position.y<0) else 1
+	return -1 if position.x<-1 or (position.x==-1 and position.y<-1) else 1
 static func generate(seed_value: int,floor_number: int=1) -> Dictionary:
-	# Preserve the same seed's former electrical budget and 11-step central spine.
 	var original=legacy_generate(seed_value,floor_number)
-	var rooms: Array=original.rooms.duplicate(true)
-	var target=ceili(rooms.size()*1.5)
-	var at={}
-	for room in rooms:at[room.pos]=int(room.id)
-	for position in [Vector2i(0,-1),Vector2i(0,1),Vector2i(5,-1),Vector2i(5,1),Vector2i(6,-1),Vector2i(6,1)]:
-		if not at.has(position):add_room(rooms,at,position,"normal")
-	var rng=RandomNumberGenerator.new()
-	rng.seed=seed_value^0xB453
-	while rooms.size()<target:
-		var candidates={}
+	var target=ceili(original.rooms.size()*1.5)
+	for attempt in range(128):
+		var rng=RandomNumberGenerator.new()
+		rng.seed=(seed_value^0xB453)+attempt*104729
+		var result=grow_floor(rng,target)
+		if result.is_empty():continue
+		var rooms: Array=result.rooms
+		var route=compact_route(rooms,int(original.budget))
+		var seen={}
+		for id in route:seen[id]=true
+		var coverage=float(seen.size())/rooms.size()
+		if coverage<0.8:continue
+		var mirror_x=rng.randf()<0.5
+		var mirror_y=rng.randf()<0.5
 		for room in rooms:
-			for direction in [Vector2i.LEFT,Vector2i.RIGHT,Vector2i.UP,Vector2i.DOWN]:
-				var position: Vector2i=room.pos+direction
-				if position.x>=-5 and position.x<=6 and absi(position.y)<=2 and not at.has(position) and (room.kind=="reward" or region(room.pos)==region(position)):candidates[position]=true
-		var positions=candidates.keys()
-		add_room(rooms,at,positions[rng.randi_range(0,positions.size()-1)],"normal")
-	for room in rooms:room.links=[]
+			for index in range(room.cells.size()):
+				var point: Vector2i=room.cells[index]
+				room.cells[index]=Vector2i(1-point.x if mirror_x else point.x,-point.y if mirror_y else point.y)
+			room.pos=room.cells[0]
+			room.layout_ids=[]
+			for cell in room.cells:room.layout_ids.append(-1 if room.kind in ["start","reward","shop"] else 0 if room.kind=="boss" else rng.randi_range(0,9))
+		make_portals(rooms,rng)
+		var occupied=0
+		for room in rooms:occupied+=room.cells.size()
+		return {"rooms":rooms,"seed":seed_value,"floor":floor_number,"route":route,"budget":original.budget,"boss":11,"reward":5,"base_room_count":original.rooms.size(),"base_budget":original.budget,"spine_depth":11,"coverage":coverage,"occupied_cells":occupied,"spine_turns":result.turns}
+	push_error("Unable to construct a connected floor for seed %d" % seed_value)
+	return {}
+static func inside(point: Vector2i) -> bool:
+	return point.x>=-5 and point.x<=6 and absi(point.y)<=2
+static func footprint(origin: Vector2i,amount: int,variant: int) -> Array:
+	var cells: Array=[Vector2i.ZERO]
+	if amount>=2:cells.append(Vector2i.RIGHT)
+	if amount==3:cells.append(Vector2i.DOWN if variant>=4 else Vector2i.RIGHT*2)
+	for turn in range(variant%4):
+		for index in range(cells.size()):cells[index]=Vector2i(-cells[index].y,cells[index].x)
+	for index in range(cells.size()):cells[index]+=origin
+	return cells
+static func ensure_cell(rooms: Array,at: Dictionary,point: Vector2i,parent: Vector2i) -> void:
+	if at.has(point):return
+	add_room(rooms,at,point,"normal")
+	link(rooms,int(at[parent]),rooms.size()-1)
+static func distance(rooms: Array,start: int,finish: int) -> int:
+	var queue: Array=[start]
+	var distances={start:0}
+	for current in queue:
+		if current==finish:return distances[current]
+		for neighbor in rooms[current].links:
+			if not distances.has(neighbor):
+				distances[neighbor]=int(distances[current])+1
+				queue.append(neighbor)
+	return -1
+static func grow_floor(rng: RandomNumberGenerator,target: int) -> Dictionary:
+	var rooms: Array=[]
+	var at={}
+	var spine: Array=[]
+	var first_corner=rng.randi_range(-4,-3)
+	var first_drop=rng.randi_range(-1,0)
+	var second_drop=rng.randi_range(1,2)
+	for x in range(-5,first_corner+1):spine.append(Vector2i(x,0))
+	spine.append(Vector2i(first_corner,-1))
+	for x in range(first_corner+1,0):spine.append(Vector2i(x,-1))
+	for x in range(0,first_drop+1):spine.append(Vector2i(x,-1))
+	spine.append(Vector2i(first_drop,0))
+	for x in range(first_drop+1,second_drop+1):spine.append(Vector2i(x,0))
+	spine.append(Vector2i(second_drop,1))
+	for x in range(second_drop+1,4):spine.append(Vector2i(x,1))
+	var turns=0
+	var last=Vector2i.ZERO
+	for index in range(spine.size()):
+		var kind="start" if index==0 else "reward" if index==5 else "boss" if index==11 else "normal"
+		add_room(rooms,at,spine[index],kind)
+		if index>0:
+			link(rooms,index-1,index)
+			var direction: Vector2i=spine[index]-spine[index-1]
+			if last!=Vector2i.ZERO and direction!=last:turns+=1
+			last=direction
+	# Connect the middle reward on four sides and the boss on three sides.
+	ensure_cell(rooms,at,Vector2i(-2,-2),Vector2i(-2,-1))
+	ensure_cell(rooms,at,Vector2i(-1,-2),Vector2i(-2,-2))
+	ensure_cell(rooms,at,Vector2i(-1,0),Vector2i(0,0))
+	ensure_cell(rooms,at,Vector2i(0,-1),Vector2i(0,0))
+	for direction in DIRECTIONS:link(rooms,5,int(at[Vector2i(-1,-1)+direction]))
+	ensure_cell(rooms,at,Vector2i(2,0),Vector2i(2,1))
+	ensure_cell(rooms,at,Vector2i(3,0),Vector2i(2,0))
+	ensure_cell(rooms,at,Vector2i(2,2),Vector2i(2,1))
+	ensure_cell(rooms,at,Vector2i(3,2),Vector2i(2,2))
+	link(rooms,11,int(at[Vector2i(3,0)]))
+	link(rooms,11,int(at[Vector2i(3,2)]))
+	var large=0
+	while rooms.size()<target:
+		var amount=2+large%2 if large<4 else 1
+		var candidates: Array=[]
+		for room in rooms:
+			if room.kind in ["start","boss"]:continue
+			for cell in room.cells:
+				for direction in DIRECTIONS:
+					var point: Vector2i=cell+direction
+					if not inside(point) or at.has(point) or (room.kind!="reward" and region(point)!=region(cell)):continue
+					for variant in range(8 if amount==3 else 4 if amount==2 else 1):
+						var cells=footprint(point,amount,variant)
+						if cells.all(func(p):return inside(p) and not at.has(p) and region(p)==region(point)):
+							candidates.append({"parent":room.id,"cells":cells})
+		if candidates.is_empty():return {}
+		var choice: Dictionary=candidates[rng.randi_range(0,candidates.size()-1)]
+		add_room(rooms,at,choice.cells[0],"normal")
+		rooms.back().cells=choice.cells
+		for cell in choice.cells:at[cell]=rooms.size()-1
+		link(rooms,int(choice.parent),rooms.size()-1)
+		if amount>1:large+=1
+	var pairs: Array=[]
 	for room in rooms:
-		for direction in [Vector2i.RIGHT,Vector2i.DOWN]:
-			var position: Vector2i=room.pos+direction
-			if not at.has(position):continue
-			var neighbor: Dictionary=rooms[at[position]]
-			if room.kind=="reward" or neighbor.kind=="reward" or region(room.pos)==region(position):link(rooms,int(room.id),int(neighbor.id))
-	var route=compact_route(rooms,int(original.budget))
-	var visited={}
-	for id in route:visited[id]=true
-	return {"rooms":rooms,"seed":seed_value,"floor":floor_number,"route":route,"budget":original.budget,"boss":11,"reward":5,"base_room_count":original.rooms.size(),"base_budget":original.budget,"spine_depth":11,"coverage":float(visited.size())/rooms.size()}
+		for cell in room.cells:
+			for direction in [Vector2i.RIGHT,Vector2i.DOWN]:
+				var neighbor=at.get(cell+direction,-1)
+				if neighbor<0 or neighbor==room.id or rooms[neighbor].kind in ["start","boss"] or room.kind in ["start","boss"]:continue
+				if region(cell)==region(cell+direction) or room.kind=="reward" or rooms[neighbor].kind=="reward":pairs.append(Vector2i(room.id,neighbor))
+	for index in range(pairs.size()-1,0,-1):
+		var other=rng.randi_range(0,index)
+		var swap=pairs[index]
+		pairs[index]=pairs[other]
+		pairs[other]=swap
+	for pair in pairs:
+		if rooms[pair.x].links.has(pair.y) or rng.randf()>0.65:continue
+		link(rooms,pair.x,pair.y)
+		if distance(rooms,0,11)<11:
+			rooms[pair.x].links.erase(pair.y)
+			rooms[pair.y].links.erase(pair.x)
+	var shops: Array=[]
+	for room in rooms:
+		if room.kind=="normal" and room.cells.size()==1 and region(room.pos)==1:shops.append(room.id)
+	rooms[shops[rng.randi_range(0,shops.size()-1)]].kind="shop"
+	return {"rooms":rooms,"turns":turns}
+static func make_portals(rooms: Array,rng: RandomNumberGenerator) -> void:
+	for room in rooms:room.doors={}
+	for room in rooms:
+		for neighbor in room.links:
+			if neighbor<room.id:continue
+			var choices: Array=[]
+			for cell in room.cells:
+				for direction in DIRECTIONS:
+					if rooms[neighbor].cells.has(cell+direction):choices.append({"cell":cell,"normal":direction})
+			var portal: Dictionary=choices[rng.randi_range(0,choices.size()-1)]
+			room.doors[neighbor]=portal
+			rooms[neighbor].doors[room.id]={"cell":portal.cell+portal.normal,"normal":-portal.normal}
 static func path_table(rooms: Array) -> Dictionary:
 	var paths={}
 	for start in range(rooms.size()):
@@ -51,12 +168,12 @@ static func path_table(rooms: Array) -> Dictionary:
 				path.push_front(cursor)
 			paths[Vector2i(start,finish)]=path
 	return paths
-static func compact_route(rooms: Array,budget: int) -> Array:
+static func compact_route(rooms: Array,budget: int,target_coverage: float=1.0) -> Array:
 	var paths=path_table(rooms)
 	var route: Array=paths[Vector2i(0,11)].duplicate()
 	var seen={}
 	for id in route:seen[id]=true
-	while seen.size()<rooms.size():
+	while seen.size()<ceili(rooms.size()*target_coverage):
 		var best={}
 		var best_score=-1.0
 		for id in range(rooms.size()):
@@ -143,7 +260,7 @@ static func legacy_generate(seed_value: int, floor_number: int = 1) -> Dictionar
 
 static func add_room(rooms: Array, at: Dictionary, pos: Vector2i, kind: String) -> void:
 	var id = rooms.size()
-	rooms.append({"id":id,"pos":pos,"kind":kind,"links":[],"cleared":kind!="normal" and kind!="boss", "visited":false,"claimed":false,"loot":[]})
+	rooms.append({"id":id,"pos":pos,"cells":[pos],"kind":kind,"links":[],"cleared":kind!="normal" and kind!="boss", "visited":false,"claimed":false,"loot":[]})
 	at[pos]=id
 
 static func link(rooms: Array,a: int,b: int) -> void:

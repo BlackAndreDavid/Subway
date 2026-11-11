@@ -41,10 +41,10 @@ flowchart TD
 | 战斗弹窗 | `exploration/pause_dialog.tscn`、`reward_dialog.tscn` | 暂停与奖励选择；旧合并出口弹窗已移除 |
 | 经营 | `shop/shop.tscn` | 商品目录、顾客交易、格子库存入口 |
 | 储物弹窗 | `inventory/backpack_dialog.tscn`、`warehouse_dialog.tscn` | 各自容量说明和操作上下文 |
-| 储物组件 | `inventory/storage_panel.tscn`、`grid.tscn`、`equipment_slot.tscn` | 格子显示、拖拽与旋转、物品详情和类型槽 |
+| 储物组件 | `inventory/storage_panel.tscn`、`grid.tscn`、`equipment_slot.tscn` | 格子显示、拖拽与旋转、物品详情、整备槽与右侧独立探索装备槽 |
 | 弹窗外壳 | `common/modal.tscn` | 遮罩、居中框、滚动内容区，层级高于HUD |
 
-共28个场景。页面控制器按相同功能路径放在`scripts/ui/pages/`，弹窗在`scripts/ui/dialogs/`，公共储物组件在`scripts/ui/components/`。基地、主地图、战斗、菜单和储物面板的结构节点写入`.tscn`；动态库存和随机房间内容由脚本填充。
+共29个场景。页面控制器按相同功能路径放在`scripts/ui/pages/`，弹窗在`scripts/ui/dialogs/`，公共储物组件在`scripts/ui/components/`。基地、主地图、战斗、菜单和储物面板的结构节点写入`.tscn`；动态库存和随机房间内容由脚本填充。
 
 ## 数据与生命周期
 
@@ -60,3 +60,5 @@ flowchart TD
 基地新增`base/heroine.tscn`、`base/dialogue.tscn`、`base/crafting.tscn`：角色动画由`base_character.gd`负责，家具显示由`base_furniture.gd`负责，立绘对话和合成各自拥有控制器。世界视图管理镜头/走动/设施距离，在地图模式中不创建基地角色节点。敌人绘制共用`enemy_visual.gd`，原生SubViewport回归直接调用同一绘制入口，验证镜像不会引入中心偏移。
 
 基地与装修各自构建底部操作栏。字幕场景直接挂载在应用上，不套通用Modal的Frame；关闭后恢复移动。`room.tscn`实例化两份`exit.tscn`，各有行动类型与世界坐标，随房间摄像机缩放；仅清场Boss房显示，F命中对应实体才发出下层/返程信号。入口转发时再次检查距离，数据层继续检查清场和电量。
+
+`room_geometry.gd`将复合占地、十种布局、通道位置、角色/子弹碰撞和AStar网格集中到一个几何服务。`assets/rooms/layouts.json`为布局源，`room_layout_data.gd`由工具编译，避免导出时依赖未打包的外部JSON。小地图与实际房间共享占地/通道数据。

@@ -60,15 +60,15 @@ func run(tree: SceneTree,game: Node,ui: Control,check: Callable) -> void:
 	# Backpack expansion is geometric. Removing a module cannot delete occupied rows.
 	game.new_game(0,"网格背包")
 	check.call(game.begin_run(2,"5_1","4_1","3_0",2026),"small class can pack its starting equipment")
-	check.call(game.bag_dimensions()==Vector2i(6,4) and I.valid(game.run.bag,game.bag_dimensions()),"back frame adds an actual six-cell row")
+	check.call(game.bag_dimensions()==Vector2i(7,5) and I.valid(game.run.bag,game.bag_dimensions()),"back frame adds an actual seven-cell row")
 	check.call(game.pick_up("3_2"),"pickup places a small item")
 	var last=game.run.bag.size()-1
-	check.call(game.move_bag(last,Vector2i(5,3),0),"item can be moved into expanded row")
+	check.call(game.move_bag(last,Vector2i(6,4),0),"item can be moved into expanded row")
 	var original=game.run.bag.duplicate(true)
-	check.call(not game.set_module("") and game.run.stats.grid_rows==4 and game.run.bag==original,"cannot remove occupied extension row")
-	check.call(game.move_bag(last,Vector2i(5,0),0) and game.set_module("") and game.run.stats.grid_rows==3,"clearing extension permits safe shrink")
+	check.call(not game.set_module("") and game.run.stats.grid_rows==5 and game.run.bag==original,"cannot remove occupied extension row")
+	check.call(game.move_bag(last,Vector2i(5,0),0) and game.set_module("") and game.run.stats.grid_rows==4,"clearing extension permits safe shrink")
 	original=game.run.bag.duplicate(true)
-	check.call(not game.move_bag(1,Vector2i(0,0),0) and game.run.bag==original,"invalid overlap leaves inventory unchanged")
+	check.call(not game.move_bag(1,Vector2i(5,0),0) and game.run.bag==original,"invalid overlap leaves inventory unchanged")
 	game.run.fighting=true
 	check.call(not game.move_bag(1,Vector2i(4,1),0) and not game.pick_up("1_0"),"combat blocks all storage mutation and manual pickup")
 	game.run.fighting=false
@@ -147,7 +147,7 @@ func run(tree: SceneTree,game: Node,ui: Control,check: Callable) -> void:
 	last=game.run.bag.size()-1
 	game.equip_entry(last)
 	gestures.tap(KEY_Q)
-	check.call(game.run.drug=="" and game.run.bag[2].uses==2,"using selected duplicate consumes that exact copy")
+	check.call(game.run.drug=="" and game.run.bag.any(func(entry):return entry.id=="3_0" and entry.uses==2),"using selected duplicate consumes that exact copy")
 	# Facing follows actual motion, including retreat, locked charges, walls and idle.
 	for type in [0,3]:
 		var enemy=battle.make_enemy(type,Vector2(400,300))

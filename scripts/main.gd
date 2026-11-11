@@ -315,15 +315,10 @@ func equip_bag(index: int) -> void:
 func drop_bag(index: int) -> void:
 	if Game.run.is_empty() or Game.run.fighting or index<0 or index>=Game.run.bag.size():return
 	var id: String=Game.run.bag[index].id
-	var uid=int(Game.run.bag[index].uid)
-	if int(Game.run.equipped_uid.module)==uid and not set_module(""):return
-	for key in ["module","weapon","drug"]:
-		if int(Game.run.equipped_uid[key])==uid:
-			Game.run[key]=""
-			Game.run.equipped_uid[key]=-1
 	Game.run.floor_data.rooms[int(Game.run.room)].loot.append(Game.run.bag[index].duplicate(true))
 	if is_instance_valid(battle):battle.ensure_ground_loot(battle.player)
 	Game.run.bag.remove_at(index)
+	Game.inventory_changed()
 	bag_selected=-1
 func show_shop() -> void:
 	mount_page("shop")
@@ -331,6 +326,10 @@ func item_card(parent: Node,id: String) -> void:
 	if is_instance_valid(current_screen) and page=="shop":current_screen.item_card(parent,id)
 
 func mount_page(id: String) -> void:
+	if id=="shop" and not Game.open_shop():
+		say(Game.last_error)
+		return
+	if page=="shop" and id!="shop":Game.close_shop()
 	clear_page(id)
 	current_screen=load(PAGE_SCENES[id]).instantiate()
 	body.add_child(current_screen)

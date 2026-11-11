@@ -3,6 +3,7 @@ const C=preload("res://scripts/catalog.gd")
 var app: Control
 var grid: Control
 var details: VBoxContainer
+var selected_slot=""
 func build(context: Control,mode: String) -> void:
 	app=context
 	var row=self
@@ -12,17 +13,41 @@ func build(context: Control,mode: String) -> void:
 	scroll.size_flags_horizontal=Control.SIZE_EXPAND_FILL
 	grid=app.create_storage_grid(mode)
 	scroll.add_child(grid)
-	details=$ItemDetails
+	details=$RightColumn/ItemDetails
 	details.custom_minimum_size.x=290
+	if mode=="bag":
+		for slot_key in ["module","weapon","drug"]:
+			var cell=preload("res://scenes/inventory/run_equipment_slot.tscn").instantiate()
+			cell.slot_type=slot_key
+			$RightColumn/Equipment.add_child(cell)
+			cell.changed.connect(refresh_inventory)
+			cell.selected.connect(func(key):selected_slot=key;app.bag_selected=-1;refresh_details("bag"))
+		grid.moved.connect(refresh_inventory)
+	else:$RightColumn/Equipment.hide()
 	grid.selected.connect(func(index):
+		selected_slot=""
 		if mode=="stash":app.stash_selected=index
 		else:app.bag_selected=index
 		refresh_details(mode))
 	refresh_details(mode)
 	app.storage_grid=grid
 	app.storage_details=details
+func refresh_inventory() -> void:
+	grid.items=Game.run.bag
+	grid.dimensions=Game.bag_dimensions()
+	grid.refresh()
+	app.bag_selected=-1
+	refresh_details("bag")
 func refresh_details(mode: String) -> void:
 	app.empty(details)
+	if mode=="bag" and selected_slot!="":
+		var equipped=Game.equipped_entry(selected_slot)
+		if not equipped.is_empty():
+			app.section(details,C.item(equipped.id).name,C.item(equipped.id).desc)
+			app.button("卸下",func():
+				if not Game.unequip_slot(selected_slot):app.say(Game.last_error)
+				refresh_inventory(),details)
+		return
 	var index=app.stash_selected if mode=="stash" else app.bag_selected
 	var items: Array=grid.items
 	if index<0 or index>=items.size():
@@ -47,6 +72,5 @@ func refresh_details(mode: String) -> void:
 		app.button("售出",func():app.say(Game.trade(entry.id,false));app.show_stash(),details)
 	else:
 		if int(item.category) in [3,4,5]:
-			var equipped=int(entry.uid) in Game.run.equipped_uid.values()
-			app.button("卸下" if equipped else "装配",func():app.equip_bag(index);app.show_bag(),details)
+			app.button("装配",func():app.equip_bag(index);app.show_bag(),details)
 		app.button("丢弃",func():app.drop_bag(index);app.show_bag(),details)

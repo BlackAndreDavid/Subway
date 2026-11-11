@@ -1,0 +1,17 @@
+{
+	"example": {
+		"budget": 67,
+		"coverage": 1.0,
+		"occupied_cells": 47,
+		"rooms": 41,
+		"route_steps": 58,
+		"seed": 2026,
+		"spine_depth": 11,
+		"spine_turns": 6
+	},
+	"max_occupied_cells": 51,
+	"min_occupied_cells": 42,
+	"minimum_coverage": 1.0,
+	"minimum_spine_turns": 6,
+	"seeds": 1000
+}

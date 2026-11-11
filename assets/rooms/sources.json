@@ -1,0 +1,8 @@
+{
+  "review_date": "2026-11-11",
+  "user_reference": "https://www.bilibili.com/video/BV1ArG9zME6P/",
+  "video_access": "The supplied video page was not retrievable with the available web reader; no claim of viewing or transcribing it.",
+  "technical_reference": "https://www.boristhebrave.com/2020/09/12/dungeon-generation-in-binding-of-isaac/",
+  "used_concepts": ["Separate floor topology from interior room pools", "Represent multi-cell rooms with complete footprints and per-exit adjacency", "Check placement occupancy before inserting a large room"],
+  "adaptation": "Original constrained two-lobe floor generator with a randomized folded spine, reciprocal physical doors, four multi-cell branch rooms and ten authored connected obstacle templates. Not a claim to reproduce Isaac's exact generation probabilities."
+}

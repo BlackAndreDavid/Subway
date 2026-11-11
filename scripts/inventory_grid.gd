@@ -41,8 +41,8 @@ class ItemTile extends Control:
 		grid._drop_data(position+point,data)
 	func _draw() -> void:
 		var entry: Dictionary=grid.items[index]
-		var tint=Color("315766")
-		if grid.reserved.is_valid() and grid.reserved.call(index):tint=Color("20333b")
+		var tint=C.inventory_color(entry.id)
+		if grid.reserved.is_valid() and grid.reserved.call(index):tint=tint.darkened(0.5)
 		for cell in C.cells(entry.id,int(entry.get("rot",0))):
 			var rect=Rect2(Vector2(cell)*grid.cell_size+Vector2.ONE,Vector2.ONE*(grid.cell_size-2))
 			draw_rect(rect,tint)
@@ -71,7 +71,7 @@ class DragGhost extends Control:
 	func _draw() -> void:
 		var offset=-Vector2(data.get("anchor",Vector2i.ZERO))*cell_size
 		for cell in C.cells(data.item_id,int(data.rotation)):
-			draw_rect(Rect2(offset+Vector2(cell)*cell_size+Vector2.ONE,Vector2.ONE*(cell_size-2)),Color(0.5,0.8,0.8,0.7))
+			draw_rect(Rect2(offset+Vector2(cell)*cell_size+Vector2.ONE,Vector2.ONE*(cell_size-2)),Color(C.inventory_color(data.item_id),0.8))
 		draw_texture_rect(icon,Rect2(offset+Vector2(C.cells(data.item_id,int(data.rotation))[0])*cell_size+Vector2(6,6),Vector2.ONE*(cell_size-12)),false)
 func interactive() -> bool:
 	return not allowed.is_valid() or allowed.call()

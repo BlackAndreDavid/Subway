@@ -3,9 +3,9 @@ const RegionalData=preload("res://scripts/regional_data.gd")
 const Art=preload("res://scripts/art_library.gd")
 
 const CLASSES = [
-	{"name":"坦克", "hp":160.0, "capacity":30, "grid_cols":6,"grid_rows":5,"armor":0.40, "range":260.0, "speed":190.0},
-	{"name":"射手", "hp":110.0, "capacity":24, "grid_cols":6,"grid_rows":4,"armor":0.10, "range":620.0, "speed":235.0},
-	{"name":"刺客", "hp":80.0, "capacity":18, "grid_cols":6,"grid_rows":3,"armor":0.25, "range":410.0, "speed":290.0}]
+	{"name":"坦克", "hp":160.0, "capacity":48, "grid_cols":8,"grid_rows":6,"armor":0.40, "range":260.0, "speed":190.0},
+	{"name":"射手", "hp":110.0, "capacity":40, "grid_cols":8,"grid_rows":5,"armor":0.10, "range":620.0, "speed":235.0},
+	{"name":"刺客", "hp":80.0, "capacity":28, "grid_cols":7,"grid_rows":4,"armor":0.25, "range":410.0, "speed":290.0}]
 const SHAPES={
 	"furn_0":["##","##"],"furn_1":["###","###"],"furn_2":["##","##","##"],"furn_3":["##","##"],
 	"0_0":["#","#"],"0_1":["#","#"],"0_2":["#","#"],"0_3":["##","##"],
@@ -16,6 +16,10 @@ const SHAPES={
 	"5_0":["##","##"],"5_1":["##","##","##"],"5_2":["##","##"],"5_3":["#..","###"],
 	"scrap":["##"],"mat_wafer":["##","##"],"mat_alloy":["##"],"mat_culture":["#","#"],
 	"mat_watch":["#"],"mat_bearing":["##","##"],"mat_valve":["#.","##"],"mat_seeds":["##"],"mat_archive":["##","##"]}
+const INVENTORY_COLORS={"resource":Color("326e4d"),"medicine":Color("674c88"),"active":Color("d6ddd9"),"module":Color("38699b"),"goods":Color("987537")}
+static func inventory_color(id: String) -> Color:
+	var category=int(item(id).category)
+	return INVENTORY_COLORS["resource" if category in [0,1,2,6] else "medicine" if category==3 else "active" if category==4 else "module" if category==5 else "goods"]
 static var cell_cache: Dictionary={}
 static var bounds_cache: Dictionary={}
 static func cells(id: String,rotation: int=0) -> Array:
@@ -57,7 +61,7 @@ const DESCRIPTIONS = [
 	["补充基地食物 +3", "补充基地食物 +5", "补充基地食物 +7", "补充基地食物 +10"],
 	["恢复 35 生命；3 次", "12 秒移速与射速提升；2 次", "恢复20生命并获得8秒护盾；2次", "恢复 70 生命；2 次"],
 	["范围冲击并推开敌人；冷却 10 秒", "朝瞄准方向发射扇形弹幕；冷却 7 秒", "获得 4 秒无敌护盾；冷却 15 秒", "强力穿透弹；冷却 6 秒"],
-	["护甲增加 15%，上限 70%", "背包容量增加 6 格", "射速提升 25%", "清理普通房间额外回收 2 电量"]]
+	["护甲增加 15%，上限 70%", "背包增加一整行", "射速提升 25%", "清理普通房间额外回收 2 电量"]]
 const STATIONS = preload("res://scripts/metro_data.gd").STATIONS
 
 static func item(id: String) -> Dictionary:
