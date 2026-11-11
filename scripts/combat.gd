@@ -39,6 +39,18 @@ const SHELL_CHARGE_TIME=1.8
 const SHELL_RECOVERY_TIME=1.0
 const SHELL_SPEED=360.0
 const SHELL_TURN_RATE=0.22
+const ENEMY_BULLET_SPEED=184.0
+const PLAYER_BULLET_SPEED=540.0
+func bullet_radius(bullet: Dictionary) -> float:return 6.0 if bullet.enemy else 3.0
+func bullet_size(bullet: Dictionary) -> float:return 28.0 if bullet.enemy else 14.0
+func bullet_rotation(bullet: Dictionary) -> float:return Vector2(bullet.vel).angle()+PI/2
+func draw_bullet(canvas: CanvasItem,bullet: Dictionary,position: Vector2,scale_factor: float=1.0) -> void:
+	var id="enemy_bullet" if bullet.enemy else "bullet"
+	var texture=Art.texture(id)
+	var dimension=bullet_size(bullet)
+	var center=Vector2(Art.bounds(id).get_center())/Vector2(texture.get_size())*dimension
+	canvas.draw_set_transform(position,bullet_rotation(bullet),Vector2.ONE*scale_factor)
+	canvas.draw_texture_rect(texture,Rect2(-center,Vector2.ONE*dimension),false)
 func camera_scale() -> float:
 	return minf(size.x/VIEW_SIZE.x,size.y/VIEW_SIZE.y) if size.x>0 and size.y>0 else 1.0
 func camera_offset() -> Vector2:
@@ -185,7 +197,7 @@ func _input(event: InputEvent) -> void:
 	if event.pressed and not event.echo:use_weapon()
 	get_viewport().set_input_as_handled()
 func shoot(pos: Vector2,dir: Vector2,enemy: bool,damage: float,distance: float=900,penetrating: bool=false) -> void:
-	bullets.append({"pos":pos,"vel":dir*(230 if enemy else 540),"enemy":enemy,"damage":damage,"distance":distance,"hit":[],"penetrating":penetrating})
+	bullets.append({"pos":pos,"vel":dir.normalized()*(ENEMY_BULLET_SPEED if enemy else PLAYER_BULLET_SPEED),"enemy":enemy,"damage":damage,"distance":distance,"hit":[],"penetrating":penetrating})
 func update_enemies(delta: float) -> void:
 	for e in enemies:
 		var before: Vector2=e.pos
@@ -293,16 +305,16 @@ func update_bullets(delta: float) -> void:
 		var previous: Vector2=b.pos
 		b.pos+=b.vel*delta
 		b.distance-=b.vel.length()*delta
-		if b.distance<=0 or not geometry.segment_clear(previous,b.pos,3):
+		if b.distance<=0 or not geometry.segment_clear(previous,b.pos,bullet_radius(b)):
 			bullets.erase(b)
 			continue
 		if b.enemy:
-			if b.pos.distance_to(player)<16:
+			if b.pos.distance_to(player)<13+bullet_radius(b):
 				take_damage(b.damage)
 				bullets.erase(b)
 		else:
 			for e in enemies.duplicate():
-				if not b.hit.has(e) and b.pos.distance_to(e.pos)<enemy_radius(e)+3:
+				if not b.hit.has(e) and b.pos.distance_to(e.pos)<enemy_radius(e)+bullet_radius(b):
 					damage_enemy(e,float(b.damage))
 					b.hit.append(e)
 					if not b.penetrating:
@@ -523,7 +535,7 @@ func _draw() -> void:
 	if Game.run.shield>0: draw_arc(player,35,0,TAU,40,Color("8bd9e3"),3,true)
 	if flash>0: draw_arc(player,250*(1-flash/0.3),0,TAU,60,Color("a8ebe2"),4,true)
 	for b in bullets:
-		draw_texture_rect(Art.texture("enemy_bullet" if b.enemy else "bullet"),Rect2(b.pos-Vector2(7,7),Vector2(14,14)),false)
+		draw_bullet(self,b,world_to_screen(b.pos),camera_scale())
 	draw_set_transform((size-VIEW_SIZE*camera_scale())/2,0,Vector2.ONE*camera_scale())
 	draw_string(font,Vector2(290,34),"%s / 第%d层 · %d格房间" % [{"normal":"回收区","start":"检查站","reward":"遗留物资室","shop":"流动补给商","boss":"站区守卫"}[r.kind],Game.run.floor,r.cells.size()],HORIZONTAL_ALIGNMENT_LEFT,-1,19,Color("b9d9d6"))
 	draw_string(font,Vector2(45,580),"WASD 移动  /  鼠标射击  /  F 互动  /  空格 主动道具  /  Q 药物  /  B 背包  /  长按 Tab 地图  /  Esc 暂停",HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("6f949e"))

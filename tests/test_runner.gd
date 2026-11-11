@@ -264,6 +264,7 @@ func run_tests() -> void:
 	await preload("res://tests/base_ui_checks.gd").new().run(self,game,ui,check)
 	await preload("res://tests/armored_beast_checks.gd").new().run(self,game,ui,check)
 	await preload("res://tests/expansion_checks.gd").new().run(self,game,ui,check)
+	await preload("res://tests/bullet_checks.gd").new().run(self,game,ui,check)
 	ui.queue_free()
 	await process_frame
 	await process_frame

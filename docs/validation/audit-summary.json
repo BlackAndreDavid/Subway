@@ -1,7 +1,7 @@
 {
   "review_date": "2026-11-11",
   "scope": "activity day costs, expanded cargo, separate equipment, category colors, multi-cell rooms and ten obstacle layouts",
-  "acceptance_items": 72,
+  "acceptance_items": 73,
   "open_acceptance_items": 1,
   "map_seeds": 1000,
   "economic_areas": 15,
@@ -78,7 +78,12 @@
     "full_playthrough_status": "pending; no final acceptance claimed",
     "checkpoint_full_regression_checks": 418244,
     "checkpoint_full_regression_failures": 0,
-    "checkpoint_native_screenshots_reviewed": true
+    "checkpoint_native_screenshots_reviewed": true,
+    "latest_full_regression_checks": 418283,
+    "latest_full_regression_failures": 0,
+    "bullet_direction_physics_checks": 39,
+    "native_bullet_render_checks": 8,
+    "native_bullet_render_failures": 0
   },
   "historical_playthrough_report": "playthrough-report.json describes commit b5f7ecb rules, not this checkpoint",
   "floor_example": {
@@ -91,5 +96,16 @@
     "spine_turns": 6
   },
   "historical_native_alignment_checks": 160,
-  "historical_native_alignment_failures": 0
+  "historical_native_alignment_failures": 0,
+  "bullet_parameters": {
+    "enemy_speed": 184,
+    "enemy_previous_speed": 230,
+    "enemy_visual_size": 28,
+    "enemy_collision_radius": 6,
+    "friendly_speed": 540,
+    "friendly_visual_size": 14,
+    "friendly_collision_radius": 3,
+    "art_base_direction": "up",
+    "rotation": "velocity angle + PI/2"
+  }
 }
