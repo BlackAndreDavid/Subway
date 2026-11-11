@@ -28,7 +28,7 @@ static func run(check: Callable) -> void:
 		if int(entry.frames)>1:
 			check.call(hashes.size()==int(entry.frames),"distinct animation poses: "+id)
 			check.call(Art.frames_at_time(id,1.1/float(entry.fps))!=Art.frames_at_time(id,0.0),"animation advances at configured fps: "+id)
-	check.call(files.size()==105,"all 105 sprites wired")
+	check.call(files.size()==109,"all 109 sprites wired")
 	check.call(Data.STATIONS.size()==110,"110 real major stations")
 	var line_ids={}
 	for line in Data.LINES:

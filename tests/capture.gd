@@ -24,7 +24,15 @@ func capture() -> void:
 	for type in range(4):
 		game.craft_furniture(type)
 		if type!=2:game.place_furniture(type,[Vector2i(1,1),Vector2i(3,1),Vector2i(7,1),Vector2i(1,4)][type])
-	game.trade("3_0",true)
+	# Obtain the missing bandage through a real visitor, not the retired catalogue.
+	game.open_shop()
+	for customer in range(10000):
+		game.state.customer=customer
+		var offer=game.customer_offer()
+		if not offer.buying and offer.id=="3_0":
+			game.accept_customer(offer.key)
+			break
+	game.close_shop()
 	ui.show_base(true)
 	await shot("base_decoration")
 	ui.show_crafting()
@@ -64,7 +72,8 @@ func capture() -> void:
 	game.place_furniture(2,Vector2i(7,1))
 	ui.show_shop()
 	await shot("shop")
-	ui.toggle_drawer()
+	ui.current_screen.visitor.set_process(false)
+	ui.current_screen.visitor.advance(1.0)
 	await shot("shop_details")
 	game.begin_run(1,"5_0","4_1","3_0",2026)
 	ui.show_combat()

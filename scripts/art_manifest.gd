@@ -1110,5 +1110,93 @@ const ENTRIES = {
 			1,
 			1
 		]
+	},
+	"shop/customers/0": {
+		"description": "维修员",
+		"row": 0,
+		"column": 0,
+		"frames": 1,
+		"anchor": "feet",
+		"cell_size": 192,
+		"fps": 0,
+		"source": "shop_customers_v1.png",
+		"candidate_sources": [
+			"shop_customers_a.png",
+			"shop_customers_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/shop/customers/0_0.png"
+		],
+		"grid": [
+			2,
+			2
+		],
+		"scale_group": "shop_customers"
+	},
+	"shop/customers/1": {
+		"description": "医疗信使",
+		"row": 0,
+		"column": 1,
+		"frames": 1,
+		"anchor": "feet",
+		"cell_size": 192,
+		"fps": 0,
+		"source": "shop_customers_v1.png",
+		"candidate_sources": [
+			"shop_customers_a.png",
+			"shop_customers_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/shop/customers/1_0.png"
+		],
+		"grid": [
+			2,
+			2
+		],
+		"scale_group": "shop_customers"
+	},
+	"shop/customers/2": {
+		"description": "拾荒者",
+		"row": 1,
+		"column": 0,
+		"frames": 1,
+		"anchor": "feet",
+		"cell_size": 192,
+		"fps": 0,
+		"source": "shop_customers_v1.png",
+		"candidate_sources": [
+			"shop_customers_a.png",
+			"shop_customers_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/shop/customers/2_0.png"
+		],
+		"grid": [
+			2,
+			2
+		],
+		"scale_group": "shop_customers"
+	},
+	"shop/customers/3": {
+		"description": "种植员",
+		"row": 1,
+		"column": 1,
+		"frames": 1,
+		"anchor": "feet",
+		"cell_size": 192,
+		"fps": 0,
+		"source": "shop_customers_v1.png",
+		"candidate_sources": [
+			"shop_customers_a.png",
+			"shop_customers_b.png"
+		],
+		"files": [
+			"res://assets/art/runtime/shop/customers/3_0.png"
+		],
+		"grid": [
+			2,
+			2
+		],
+		"scale_group": "shop_customers"
 	}
 }

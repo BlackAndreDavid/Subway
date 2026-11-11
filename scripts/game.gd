@@ -22,7 +22,7 @@ func _ready() -> void:
 
 func new_game(index: int, base_name: String) -> bool:
 	slot=index
-	state={"version":SAVE_VERSION,"name":base_name.strip_edges() if not base_name.strip_edges().is_empty() else "上海堡垒", "day":1,"station":0,"water":24,"food":24,"power":240,"stash":["3_0","3_1","3_2","3_3","4_0","4_1","4_2","4_3","5_0","5_1","5_2","5_3"],"furniture":[],"news":0,"market_stock":{},"customer":0}
+	state={"version":SAVE_VERSION,"name":base_name.strip_edges() if not base_name.strip_edges().is_empty() else "上海堡垒", "day":1,"station":0,"water":24,"food":24,"power":240,"stash":["3_0","3_1","3_2","3_3","4_0","4_1","4_2","4_3","5_0","5_1","5_2","5_3"],"furniture":[],"news":0,"customer":0}
 	run={}
 	state.stash.append_array(["scrap","scrap","scrap","scrap","scrap","scrap","scrap","scrap","scrap","scrap","scrap","scrap","1_0","1_0","0_0","0_0"])
 	shop_open=false
@@ -47,6 +47,7 @@ func load_game(index: int) -> bool:
 		return false
 	slot=index
 	state=data
+	state.erase("market_stock") # Retire legacy system stock.
 	ensure_stash()
 	state.stash_rows=int(state.stash_rows)
 	for placement in state.stash_layout:
@@ -59,14 +60,14 @@ func load_game(index: int) -> bool:
 	return true
 
 func validate_save(data: Dictionary) -> bool:
-	for key in ["version","name","day","station","water","food","power","stash","furniture","news","market_stock","customer"]:
+	for key in ["version","name","day","station","water","food","power","stash","furniture","news","customer"]:
 		if not data.has(key): return false
 	if not (data.version is int or data.version is float) or not int(data.version) in [1,SAVE_VERSION] or float(int(data.version))!=float(data.version) or not data.name is String: return false
 	for key in ["day","station","water","food","power","news","customer"]:
 		if not (data[key] is int or data[key] is float): return false
 	if data.day<1 or data.station<0 or data.station>=Catalog.STATIONS.size(): return false
 	if data.water<0 or data.food<0 or data.power<0: return false
-	if not data.stash is Array or not data.furniture is Array or not data.market_stock is Dictionary: return false
+	if not data.stash is Array or not data.furniture is Array: return false
 	var valid = Catalog.valid_ids()
 	for id in data.stash:
 		if not id is String or not valid.has(id): return false
@@ -80,10 +81,6 @@ func validate_save(data: Dictionary) -> bool:
 		for key in ["x","y","type"]:
 			if not (furniture[key] is int or furniture[key] is float): return false
 		if furniture.x<0 or furniture.x>=10 or furniture.y<0 or furniture.y>=6 or furniture.type<0 or furniture.type>3: return false
-	for id in data.market_stock:
-		if not valid.has(id):return false
-		if not (data.market_stock[id] is int or data.market_stock[id] is float):return false
-		if data.market_stock[id]<0 or data.market_stock[id]>4:return false
 	return true
 
 func write_json(path: String,data: Dictionary) -> bool:
@@ -123,7 +120,6 @@ func advance_activity_day(reserve: int=0) -> bool:
 	state.power-=5
 	state.day+=1
 	state.news=(int(state.day)*7)%4
-	state.market_stock={}
 	state.customer=0
 	return true
 func next_day() -> String:
@@ -164,32 +160,22 @@ func price(id: String,buy: bool) -> int:
 	if int(state.news)==int(item.category)%4: factor*=1.25
 	return maxi(1,roundi(item.price*factor*(1.0 if buy else 0.62)))
 
-func trade(id: String,buy: bool) -> String:
-	var value=price(id,buy)
-	if buy:
-		if state.market_stock.get(id,4)<=0: return "今日库存已售罄，下一天补货。"
-		if state.power<value: return "电量不足。"
-		state.power-=value
-		state.market_stock[id]=state.market_stock.get(id,4)-1
-		add_stash(id)
-	else:
-		if not state.stash.has(id): return "仓库中没有该物品。"
-		remove_stash(state.stash.find(id))
-		state.power+=value
-	save_game()
-	return ("购入" if buy else "售出")+Catalog.item(id).name
+func trade(_id: String,_buy: bool) -> String:
+	return "请在营业窗口与到店顾客交易。"
 
 func customer_offer() -> Dictionary:
-	var ids=Catalog.all_ids()
 	var rng=RandomNumberGenerator.new()
 	rng.seed=int(state.day)*1009+int(state.station)*37+int(state.customer)*17
-	var id=ids[rng.randi_range(0,ids.size()-1)]
 	var buying=rng.randf()<0.55
-	if buying and not state.stash.is_empty(): id=state.stash[rng.randi_range(0,state.stash.size()-1)]
-	return {"id":id,"buying":buying,"price":maxi(1,roundi(price(id,not buying)*(1.15 if buying else 0.72)))}
+	var ids=Catalog.valid_ids() if buying else Catalog.all_ids()
+	var id=ids[rng.randi_range(0,ids.size()-1)]
+	return {"key":"%d:%d:%d" % [state.day,state.station,state.customer],"appearance":rng.randi_range(0,3),"id":id,"buying":buying,"price":maxi(1,roundi(price(id,not buying)*(1.15 if buying else 0.72)))}
 
-func accept_customer() -> String:
+func accept_customer(expected_key: String="") -> String:
+	if not shop_open:return "请先开店。"
 	var offer=customer_offer()
+	if expected_key!="" and expected_key!=offer.key:return "该顾客已离开。"
+	var before=state.duplicate(true)
 	if offer.buying:
 		if not state.stash.has(offer.id): return "没有该顾客需要的货物。"
 		remove_stash(state.stash.find(offer.id))
@@ -199,8 +185,19 @@ func accept_customer() -> String:
 		state.power-=offer.price
 		add_stash(offer.id)
 	state.customer+=1
-	save_game()
-	return "交易完成，新顾客已到站。"
+	if not save_game():
+		state=before
+		return last_error if not last_error.is_empty() else "交易保存失败，请重试。"
+	return "交易完成。"
+
+func skip_customer(expected_key: String) -> String:
+	if not shop_open or expected_key!=customer_offer().key:return "该顾客已离开。"
+	var before=state.duplicate(true)
+	state.customer+=1
+	if not save_game():
+		state=before
+		return last_error if not last_error.is_empty() else "交易保存失败，请重试。"
+	return "顾客离开了。"
 
 func begin_run(class_index: int,module: String,weapon: String,drug: String,seed_value: int=-1,source_indices: Dictionary={}) -> bool:
 	if not run.is_empty() or class_index<0 or class_index>=Catalog.CLASSES.size():

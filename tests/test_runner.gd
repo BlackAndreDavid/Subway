@@ -113,14 +113,13 @@ func run_tests() -> void:
 	check(game.price("4_0",true)>old_price,"station prices")
 	game.state.station=0
 	game.state.power=10000
-	for i in range(4):game.trade("4_0",true)
 	var balance=game.state.power
+	var old_stash=game.state.stash.duplicate()
 	game.trade("4_0",true)
-	check(game.state.power==balance,"stock limit enforced")
-	game.next_day()
-	check(game.state.market_stock.is_empty(),"daily stock resets")
 	game.trade("4_0",false)
-	check(game.state.power>0,"selling works")
+	check(game.state.power==balance and game.state.stash==old_stash,"system supply and direct warehouse sales are retired")
+	game.next_day()
+	check(not game.state.has("market_stock"),"new days do not create system stock")
 	for c in range(3):
 		game.load_game(0)
 		game.state.power=300
@@ -264,6 +263,7 @@ func run_tests() -> void:
 	await preload("res://tests/base_ui_checks.gd").new().run(self,game,ui,check)
 	await preload("res://tests/armored_beast_checks.gd").new().run(self,game,ui,check)
 	await preload("res://tests/expansion_checks.gd").new().run(self,game,ui,check)
+	await preload("res://tests/shop_checks.gd").new().run(self,game,ui,check)
 	await preload("res://tests/bullet_checks.gd").new().run(self,game,ui,check)
 	ui.queue_free()
 	await process_frame

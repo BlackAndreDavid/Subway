@@ -39,7 +39,7 @@ flowchart TD
 | 战斗 | `exploration/combat.tscn` | 编排Stage内的Room、Minimap与HUD，管理战斗页面菜单与展示 |
 | 战斗组件 | `exploration/room.tscn`、`minimap.tscn`、`combat_hud.tscn`、`exit.tscn` | 战斗与通道、已知房间迷雾、主动道具与药物HUD、两份独立出口实例 |
 | 战斗弹窗 | `exploration/pause_dialog.tscn`、`reward_dialog.tscn` | 暂停与奖励选择；旧合并出口弹窗已移除 |
-| 经营 | `shop/shop.tscn` | 商品目录、顾客交易、格子库存入口 |
+| 经营 | `shop/shop.tscn` | 顾客买卖、格子库存入口；子场景 `shop/customer_window.tscn` 管理走近与离开 |
 | 储物弹窗 | `inventory/backpack_dialog.tscn`、`warehouse_dialog.tscn` | 各自容量说明和操作上下文 |
 | 储物组件 | `inventory/storage_panel.tscn`、`grid.tscn`、`equipment_slot.tscn` | 格子显示、拖拽与旋转、物品详情、整备槽与右侧独立探索装备槽 |
 | 弹窗外壳 | `common/modal.tscn` | 遮罩、居中框、滚动内容区，层级高于HUD |

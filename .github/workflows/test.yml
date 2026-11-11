@@ -72,3 +72,5 @@ jobs:
           if grep -E 'SCRIPT ERROR|ERROR:' work/render.log; then exit 1; fi
           timeout 90 xvfb-run -a -s "-screen 0 1440x900x24" work/bin/godot --display-driver x11 --audio-driver Dummy --path . --script tests/native_bullet_checks.gd 2>&1 | tee work/bullet-render.log
           if grep -E 'SCRIPT ERROR|ERROR:' work/bullet-render.log; then exit 1; fi
+          timeout 90 xvfb-run -a -s "-screen 0 1440x900x24" work/bin/godot --display-driver x11 --audio-driver Dummy --path . --script tests/native_shop_checks.gd 2>&1 | tee work/shop-render.log
+          if grep -E 'SCRIPT ERROR|ERROR:' work/shop-render.log; then exit 1; fi

@@ -1,0 +1,7 @@
+SUBWAY SHOP CUSTOMERS v1. Reuse prompts/style.txt: original 1990s post-apocalyptic Shanghai subway survival, simulated chunky pixel art, navy stepped outlines, flat slate/teal/mint/ochre/bone/rust colors, upper-left lighting, no gradients, no blur, no dithering, no lettering or logos.
+Create one transparent 2-column by 2-row atlas, four separate full-body adult customer portraits, equal cell sizes and equal feet baselines, generous transparent gutters; no shadows outside silhouettes, no objects crossing cells. Frontal three-quarter view, grounded compact proportions, friendly weathered survivors, clearly distinct silhouettes.
+Top-left: older male maintenance worker, grey hair, ochre work jacket, teal trousers, chunky tool satchel held at waist.
+Top-right: adult female medical courier, dark short hair, bone-white coat over muted purple practical outfit, small medical shoulder case without text.
+Bottom-left: adult male scavenger, rust hood and navy patched coat, bulky slate backpack, holding a salvaged mechanical part.
+Bottom-right: older female food grower, grey tied-back hair, mint apron over ochre shirt, loose dark cargo trousers, small basket of leafy greens.
+All fully clothed, calm neutral expressions, same art direction and camera as the base heroine. Strong readable pixel clusters, hard 1–2 pixel outlines, simple flat color regions, whole body with boots in every cell. Each portrait is one static animation source; the game supplies approach/departure through transforms and modulation. Transparent background only, no UI or frame.

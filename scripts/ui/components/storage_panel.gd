@@ -68,8 +68,6 @@ func refresh_details(mode: String) -> void:
 		else:app.say("旋转后会重叠或越界；请拖到合适位置。"),details)
 	if mode=="stash":
 		if int(item.category)<3:app.button("入库使用",func():app.consume_stash(entry.id);app.show_stash(),details)
-		details.add_child(app.label("收购价 %d 电量" % Game.price(entry.id,false),16))
-		app.button("售出",func():app.say(Game.trade(entry.id,false));app.show_stash(),details)
 	else:
 		if int(item.category) in [3,4,5]:
 			app.button("装配",func():app.equip_bag(index);app.show_bag(),details)

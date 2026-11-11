@@ -20,6 +20,15 @@
     {
       "index": 0,
       "rgb": [
+        8,
+        15,
+        42
+      ],
+      "hex": "#080f2a"
+    },
+    {
+      "index": 1,
+      "rgb": [
         9,
         22,
         40
@@ -27,7 +36,7 @@
       "hex": "#091628"
     },
     {
-      "index": 1,
+      "index": 2,
       "rgb": [
         18,
         24,
@@ -36,70 +45,88 @@
       "hex": "#12181f"
     },
     {
-      "index": 2,
-      "rgb": [
-        68,
-        58,
-        55
-      ],
-      "hex": "#443a37"
-    },
-    {
       "index": 3,
       "rgb": [
         56,
-        61,
-        69
+        56,
+        60
       ],
-      "hex": "#383d45"
+      "hex": "#38383c"
     },
     {
       "index": 4,
       "rgb": [
-        78,
-        79,
-        87
+        73,
+        64,
+        88
       ],
-      "hex": "#4e4f57"
+      "hex": "#494058"
     },
     {
       "index": 5,
       "rgb": [
-        106,
-        83,
-        69
+        74,
+        76,
+        83
       ],
-      "hex": "#6a5345"
+      "hex": "#4a4c53"
     },
     {
       "index": 6,
       "rgb": [
-        129,
-        76,
-        64
+        88,
+        83,
+        65
       ],
-      "hex": "#814c40"
+      "hex": "#585341"
     },
     {
       "index": 7,
       "rgb": [
-        104,
-        101,
-        105
+        129,
+        74,
+        60
       ],
-      "hex": "#686569"
+      "hex": "#814a3c"
     },
     {
       "index": 8,
       "rgb": [
-        126,
-        97,
-        110
+        114,
+        85,
+        73
       ],
-      "hex": "#7e616e"
+      "hex": "#725549"
     },
     {
       "index": 9,
+      "rgb": [
+        131,
+        81,
+        104
+      ],
+      "hex": "#835168"
+    },
+    {
+      "index": 10,
+      "rgb": [
+        106,
+        102,
+        105
+      ],
+      "hex": "#6a6669"
+    },
+    {
+      "index": 11,
+      "rgb": [
+        91,
+        114,
+        113
+      ],
+      "hex": "#5b7271"
+    },
+    {
+      "index": 12,
       "rgb": [
         140,
         102,
@@ -108,16 +135,7 @@
       "hex": "#8c664c"
     },
     {
-      "index": 10,
-      "rgb": [
-        91,
-        115,
-        113
-      ],
-      "hex": "#5b7371"
-    },
-    {
-      "index": 11,
+      "index": 13,
       "rgb": [
         180,
         83,
@@ -126,34 +144,34 @@
       "hex": "#b45341"
     },
     {
-      "index": 12,
+      "index": 14,
       "rgb": [
-        172,
+        171,
         91,
         73
       ],
-      "hex": "#ac5b49"
-    },
-    {
-      "index": 13,
-      "rgb": [
-        102,
-        123,
-        76
-      ],
-      "hex": "#667b4c"
-    },
-    {
-      "index": 14,
-      "rgb": [
-        173,
-        111,
-        85
-      ],
-      "hex": "#ad6f55"
+      "hex": "#ab5b49"
     },
     {
       "index": 15,
+      "rgb": [
+        114,
+        133,
+        76
+      ],
+      "hex": "#72854c"
+    },
+    {
+      "index": 16,
+      "rgb": [
+        175,
+        111,
+        86
+      ],
+      "hex": "#af6f56"
+    },
+    {
+      "index": 17,
       "rgb": [
         146,
         123,
@@ -162,67 +180,49 @@
       "hex": "#927b8e"
     },
     {
-      "index": 16,
-      "rgb": [
-        173,
-        120,
-        63
-      ],
-      "hex": "#ad783f"
-    },
-    {
-      "index": 17,
-      "rgb": [
-        119,
-        135,
-        157
-      ],
-      "hex": "#77879d"
-    },
-    {
       "index": 18,
       "rgb": [
-        103,
-        147,
-        131
+        171,
+        122,
+        80
       ],
-      "hex": "#679383"
+      "hex": "#ab7a50"
     },
     {
       "index": 19,
       "rgb": [
-        139,
-        139,
-        140
+        103,
+        146,
+        131
       ],
-      "hex": "#8b8b8c"
+      "hex": "#679283"
     },
     {
       "index": 20,
       "rgb": [
-        182,
-        131,
+        140,
+        139,
         140
       ],
-      "hex": "#b6838c"
+      "hex": "#8c8b8c"
     },
     {
       "index": 21,
       "rgb": [
-        206,
-        140,
-        107
+        182,
+        132,
+        140
       ],
-      "hex": "#ce8c6b"
+      "hex": "#b6848c"
     },
     {
       "index": 22,
       "rgb": [
-        190,
-        149,
-        111
+        203,
+        147,
+        74
       ],
-      "hex": "#be956f"
+      "hex": "#cb934a"
     },
     {
       "index": 23,
@@ -236,6 +236,15 @@
     {
       "index": 24,
       "rgb": [
+        147,
+        173,
+        142
+      ],
+      "hex": "#93ad8e"
+    },
+    {
+      "index": 25,
+      "rgb": [
         225,
         152,
         54
@@ -243,67 +252,58 @@
       "hex": "#e19836"
     },
     {
-      "index": 25,
-      "rgb": [
-        216,
-        158,
-        77
-      ],
-      "hex": "#d89e4d"
-    },
-    {
       "index": 26,
       "rgb": [
-        167,
-        178,
-        86
+        173,
+        180,
+        89
       ],
-      "hex": "#a7b256"
+      "hex": "#adb459"
     },
     {
       "index": 27,
       "rgb": [
-        194,
-        176,
-        159
+        221,
+        164,
+        83
       ],
-      "hex": "#c2b09f"
+      "hex": "#dda453"
     },
     {
       "index": 28,
       "rgb": [
-        157,
-        196,
-        178
+        189,
+        173,
+        156
       ],
-      "hex": "#9dc4b2"
+      "hex": "#bdad9c"
     },
     {
       "index": 29,
       "rgb": [
-        252,
-        187,
-        137
+        158,
+        196,
+        179
       ],
-      "hex": "#fcbb89"
+      "hex": "#9ec4b3"
     },
     {
       "index": 30,
       "rgb": [
-        202,
-        208,
-        202
+        249,
+        186,
+        136
       ],
-      "hex": "#cad0ca"
+      "hex": "#f9ba88"
     },
     {
       "index": 31,
       "rgb": [
-        236,
+        237,
         220,
-        199
+        197
       ],
-      "hex": "#ecdcc7"
+      "hex": "#eddcc5"
     }
   ],
   "assets": [
@@ -314,7 +314,7 @@
       "before_colors": 701,
       "after_colors": 23,
       "before_sha256": "af675a4ee820cd2576bb3fa642a213b90c4a1e63534efba4b2ab81ffb4e864d0",
-      "after_sha256": "dc1d99cb1763323dcaa5b28adfe4a372e0b2f87a80bbe32cebee2bdb9fde3527",
+      "after_sha256": "4abb8ca3d17e8df826dd3d1929e6842b5f8455f863f697a3443a62ec745f9340",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -323,9 +323,9 @@
       "foreground_pixels": 687,
       "regions": 143,
       "before_colors": 654,
-      "after_colors": 23,
+      "after_colors": 22,
       "before_sha256": "765c7fa6c841785ba90750469de8c54166a2857c35a45dcef382496e5d6f4adc",
-      "after_sha256": "f2c00675d5e6e91875f0af27969895a70c10685b2aac93b7b14bedb40382cae6",
+      "after_sha256": "f819894585e09992da379c2eff7ca953f1d0df7ceec76ba645f8918bf0e1a4f8",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -334,9 +334,9 @@
       "foreground_pixels": 571,
       "regions": 138,
       "before_colors": 552,
-      "after_colors": 24,
+      "after_colors": 23,
       "before_sha256": "f1266190078e048446efb207385c46bffbd351f608f1b2e4b48b1fd732eb6d9f",
-      "after_sha256": "0e336ed2a8ff1e84813ac0f9dd51218c641a495b68a3a518992ae6a8f3ab31c6",
+      "after_sha256": "5a9a50f82b983ed0c33df86614ad1a0bb9aa8f6d4bfe4111b89a8424d873b475",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -347,7 +347,7 @@
       "before_colors": 729,
       "after_colors": 22,
       "before_sha256": "f8f53b516e375c7efe36279436a26b9d71ca2028ab286c58d9e5a8a5faab6425",
-      "after_sha256": "5265ae0ebaf86b275b54ad9745cf0968a13f067bf6dcf69f55d5af065aba16e5",
+      "after_sha256": "ca85e3cda05f5ab35cbb5271465e039e903a83e4b8b2187d3a7cba195fda99c2",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -356,9 +356,9 @@
       "foreground_pixels": 810,
       "regions": 188,
       "before_colors": 746,
-      "after_colors": 24,
+      "after_colors": 22,
       "before_sha256": "31f74b903c53b6b27fc7dc87310780ceb8e8f67ede8e2bbb7e9779002555f0da",
-      "after_sha256": "1cb4fe7ca5810e935f31242c351bb59a3a0f33557006abd14b8e8efcde3deec4",
+      "after_sha256": "a1b147b54658c0950329342bf96f4b92dca702f511dbaed8300b9aa8d0b88d54",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -369,7 +369,7 @@
       "before_colors": 690,
       "after_colors": 23,
       "before_sha256": "b9877421bf3f7d443465ac425ff007cad9d1e7c14a74ba3205c8aa41eb459112",
-      "after_sha256": "8cb2ffe63843c29e2245e8295751a79ac5b103d96bb32609bd77aeb6ae42ec49",
+      "after_sha256": "b2c0e5cf29725b18a1436be7ee66340895457889cc2e1debf775dc41a4f4e290",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -378,9 +378,9 @@
       "foreground_pixels": 602,
       "regions": 146,
       "before_colors": 582,
-      "after_colors": 22,
+      "after_colors": 23,
       "before_sha256": "61ddbf9ec420da7b4bb5254678009af10ed2d4c503521e58a8b22331a6b5bf47",
-      "after_sha256": "114730d0d2b93f48c62a4874efb3769da721d3dfb0a8545f54350dcf530b7e7a",
+      "after_sha256": "4fb8e7f79ddf5c1e0fbe40693910d3c4029d1783b3666e9c956d8ae2045f8b17",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -389,9 +389,9 @@
       "foreground_pixels": 815,
       "regions": 191,
       "before_colors": 753,
-      "after_colors": 23,
+      "after_colors": 22,
       "before_sha256": "0c096e1c9cf1f11751bfd29f39b3d8e5e4ae5d9b74ff07d295b4a46ad49330c9",
-      "after_sha256": "4476e16ecc8e4ad1cd54b32f5b16d8a8d12f0bbd5c8cb7f672cbb9554073f466",
+      "after_sha256": "ce68f7112aa593eafb56f87746be0dd6b134b06bb1605c423f2fc508784fc25d",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -400,9 +400,9 @@
       "foreground_pixels": 725,
       "regions": 157,
       "before_colors": 695,
-      "after_colors": 22,
+      "after_colors": 21,
       "before_sha256": "77df89e22982d6ead6456c807c51c3a5e6bcf60ce1377023622afbed318f110f",
-      "after_sha256": "fed9f510ba6ba631e8b31c613e22ec3b7ac29fb9fce704790333c31d6280809d",
+      "after_sha256": "07640689fe5b5fef429655ccf292e639fb1a9068a7671718ee1772b07a6b1adf",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -413,7 +413,7 @@
       "before_colors": 667,
       "after_colors": 22,
       "before_sha256": "373ba8ada9faf675cbae6c6bc68816740517ca2de16d4870e0566758cda003c3",
-      "after_sha256": "a56a5756894155fb85b8647421efa3be3fe5099022f93a3ecd3642629ac984d6",
+      "after_sha256": "302c1e30d208da2adf25067e56dbc9ef98084f45729ce0cf09d9391c65a98dfd",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -422,9 +422,9 @@
       "foreground_pixels": 726,
       "regions": 173,
       "before_colors": 688,
-      "after_colors": 22,
+      "after_colors": 21,
       "before_sha256": "60c3043d5e4d48eb05f14deadf39ae092a0bc8428312232d4e13c6a672e34366",
-      "after_sha256": "b2b3d86679ad6ab7a2926851c075982a096710583a80f23997be141d5395fde0",
+      "after_sha256": "180850ab3fa56d8f27fe393ebd1be80541e3fb1a0db613554c8b67add306f22e",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -433,9 +433,9 @@
       "foreground_pixels": 728,
       "regions": 167,
       "before_colors": 691,
-      "after_colors": 22,
+      "after_colors": 21,
       "before_sha256": "1505a88348af9e197127384d3087748f2831034b019ab0425a39cc6021793315",
-      "after_sha256": "60912177cb5e29bdda12a78e88ed61f15b3377e40a1bd7cb200d3f208a3f875f",
+      "after_sha256": "838cf83f0639eab8375a72c5bcaa6d3b02c831790d53e31588588227a6f4daa9",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -446,7 +446,7 @@
       "before_colors": 667,
       "after_colors": 20,
       "before_sha256": "046735ab8775ae05b23c51fe9bd48b3920832878e9a820a7016552708b0b2891",
-      "after_sha256": "7d886c371cf80a1ec262d17da307aad0d4cc0eadea17e6177440ab23e7841c10",
+      "after_sha256": "51a29e37caa1f120c673bee0b6d1eee7b0a293b44d1f38dde0c92783a496abcb",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -457,7 +457,7 @@
       "before_colors": 643,
       "after_colors": 16,
       "before_sha256": "45622eadc89056916b2fd65f44300cca85d0d2f764904f3af0071a3ef66e1636",
-      "after_sha256": "089534dc06c5701a3a2b575a9d492c118d590d9374e1751f029365405641b220",
+      "after_sha256": "b28276049ba8e560bd7f89b916c927045d96f90c7e636fa95d23ab67fc3dd5c3",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -466,9 +466,9 @@
       "foreground_pixels": 731,
       "regions": 103,
       "before_colors": 661,
-      "after_colors": 16,
+      "after_colors": 15,
       "before_sha256": "c5b34630ff76da614537f5592d994ec3e005a2c50209b07a02daf9d10efbaafe",
-      "after_sha256": "e1ff654e1c2f592b755c22e2b8742b98072657d4a4f3207dff585fc923d5d379",
+      "after_sha256": "8cc6879b68a8ce7216c7415efced55d6da490b1bc86a32606cac01449d57e1a6",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -477,9 +477,9 @@
       "foreground_pixels": 718,
       "regions": 110,
       "before_colors": 663,
-      "after_colors": 19,
+      "after_colors": 17,
       "before_sha256": "e03f5a75a9c8cceb4fd376d7c4757b508e04179b5b6b1de12712e733069480da",
-      "after_sha256": "d3048e2d614098883fc014326ccc26aa5943f93bb87926baf933b526ca2cd397",
+      "after_sha256": "012971cfa9b6084f0d756d4325fa6c35235864ec57048fa0bbd293165e2616e9",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -490,7 +490,7 @@
       "before_colors": 8352,
       "after_colors": 26,
       "before_sha256": "8e04d007eca50899f4eaf41b8b3199af59e2a72b49f4a8d8806636bd2bb50f85",
-      "after_sha256": "ba8b19e772b076587bec1aa59eab7688ac9a586888482f022a58fbfdb2769855",
+      "after_sha256": "0a8255da585337e97d47bd3245d218638f069f4a7fc2f6e7b80df2ba78a93978",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -501,7 +501,7 @@
       "before_colors": 910,
       "after_colors": 19,
       "before_sha256": "5d8e3b539a07ab368e600fd4e41c99af53fd4bfd2ba8d15594182bc2484135f0",
-      "after_sha256": "8e44a2a7f985a1234922d9818615241df784628fb73999e52f0f801521951c63",
+      "after_sha256": "f2eb6d97efec6bf91f2b21a7fe8f28c4c2a32b30477023ce7a1dcdb6fdc2430c",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -510,9 +510,9 @@
       "foreground_pixels": 967,
       "regions": 228,
       "before_colors": 934,
-      "after_colors": 20,
+      "after_colors": 22,
       "before_sha256": "eca6777265ef72f37a5ac34e2ed34d46535182bb29822f2bf7eb48ab116fea36",
-      "after_sha256": "ddc43a77cc327b22044f4c9c5d35d674dc529b7768a916dea43ddc30cce8d22c",
+      "after_sha256": "668e7b6f20bc0a0847ff9656d530e37c9002741a6d8fca8fc14c1923a50ca265",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -521,9 +521,9 @@
       "foreground_pixels": 1012,
       "regions": 239,
       "before_colors": 966,
-      "after_colors": 22,
+      "after_colors": 20,
       "before_sha256": "1da688563b80651bd3a9a964700e4be94b639c32bdf3d9e810ebc92934936491",
-      "after_sha256": "a0e5e3f2a67d4a4160d87aa98584bcbfaf2d0e4972d588dd713c5d068e44d2f1",
+      "after_sha256": "61e934cab02f742d3d34a9ed211c726f043d0ae659055f1659d20d8fb078ebb4",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -532,9 +532,9 @@
       "foreground_pixels": 870,
       "regions": 252,
       "before_colors": 843,
-      "after_colors": 25,
+      "after_colors": 23,
       "before_sha256": "9977c37143e341d8cc4a330fb5aa49d299fb5b08c222e2455376a88a20c7abaf",
-      "after_sha256": "e259e87a17879cddc8c5c5c485cfc69d77080934c7d6ac8eafca877ff37b2693",
+      "after_sha256": "203ac1cda3206023298cca442a9e955e1b26444b6b057de741490a003deab740",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -543,9 +543,9 @@
       "foreground_pixels": 960,
       "regions": 290,
       "before_colors": 935,
-      "after_colors": 25,
+      "after_colors": 24,
       "before_sha256": "11c00f0a10acf35cd7f65673bd0b532b64dfd361f713ca129d250a5aa4d5793a",
-      "after_sha256": "9ea34242787b13e95a9004aad62f2228265c9270ed30c10eceb4fec18d247f96",
+      "after_sha256": "e9a824b58b9634b7c882922516d4fba80a8c6f90e9ef6609e45ed178df764f23",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -554,9 +554,9 @@
       "foreground_pixels": 992,
       "regions": 310,
       "before_colors": 967,
-      "after_colors": 24,
+      "after_colors": 23,
       "before_sha256": "f6cabe5066f10f64b1cc61faa590d3a6cae07b58520443df87a5c2d020acdb09",
-      "after_sha256": "06de8a1785964ad5b7f73808aace0d585f6f10b424d2a55c0236b5255f9483e5",
+      "after_sha256": "25b2574c8caf7702a6e290672ac0a380e154fe2f74e80d093cf9851cfe4c6a91",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -565,9 +565,9 @@
       "foreground_pixels": 1099,
       "regions": 289,
       "before_colors": 1044,
-      "after_colors": 23,
+      "after_colors": 22,
       "before_sha256": "0f4b395429d3a080640f362cbc5c3bd92b09f15a5a82edeb923ae59c0c753648",
-      "after_sha256": "a7ee2409c4a829b75686cae9514652a1cda5c26454a16c9e39ed9257813e50fa",
+      "after_sha256": "1d7aa6942c9f878bca95d55e8c69bda534ee53fc4facd97557ba0327b76913ad",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -578,7 +578,7 @@
       "before_colors": 936,
       "after_colors": 23,
       "before_sha256": "af005e6d7cd10ec874f4f6919985d6c0942879d953da790bdfbc33f8252dbc54",
-      "after_sha256": "ba4a6df364dcc2f05b5cb60eddde0342083e2ae3aca37b5d8d1c10ba0a2d07c1",
+      "after_sha256": "3b445207538bc3f322478087b34a9f15a1a7e3d983986b7bbd98b317f57d0625",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -587,9 +587,9 @@
       "foreground_pixels": 1183,
       "regions": 76,
       "before_colors": 1080,
-      "after_colors": 19,
+      "after_colors": 18,
       "before_sha256": "886e5999681be963e6aeafa2df1bddea40b1e26a79c6f641398b3456199465e0",
-      "after_sha256": "9f0fb9c9e2c1d58ffc18cf495828a446b3cd60916ae0c22020bb2af31c3b7dae",
+      "after_sha256": "284daf1c426ed8811fd25fcefb4eb27c325e2ef7e509fdfc2ec6cab2be379fdc",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -598,9 +598,9 @@
       "foreground_pixels": 1972,
       "regions": 180,
       "before_colors": 1811,
-      "after_colors": 17,
+      "after_colors": 16,
       "before_sha256": "750e77bb19f7d09e8349cad6021351f83d5da9b4b8a2133bdf81d0dc127610a5",
-      "after_sha256": "0b8f25017d39a40fc2602bda0171cdc102a5273b9417f4c5ee1dbe61378206be",
+      "after_sha256": "0f9d022ca563db1483d85240cd7c067d31b9415775f67afe42f4ea5d842716d3",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -609,9 +609,9 @@
       "foreground_pixels": 1801,
       "regions": 77,
       "before_colors": 1383,
-      "after_colors": 15,
+      "after_colors": 14,
       "before_sha256": "c03cc712dc2e43fd306107c26604b51555e67515201a956ad2e28fcc7523dd64",
-      "after_sha256": "37243cbeffe6ee0e9a591371cdb81fb8cb1dbe385de3cafbef1f89de162bb0b4",
+      "after_sha256": "3c3119b6a834160f8fe2504b7962bc2d5255e486abf1c9423278d466b81607c2",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -620,9 +620,9 @@
       "foreground_pixels": 954,
       "regions": 89,
       "before_colors": 873,
-      "after_colors": 12,
+      "after_colors": 14,
       "before_sha256": "cfd9a17dc1d0cb496979da459e3d038fd56fffaba9166cc1fc8850f86e989366",
-      "after_sha256": "a094aa67b70f06d5250977f2321214e4b8f1fc44279bbf0ef41505184d561b9e",
+      "after_sha256": "62e0ff41720bf28e938a7c8b70e4d34986baec69c7bd0bc9ad5ab96285362663",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -631,9 +631,9 @@
       "foreground_pixels": 949,
       "regions": 78,
       "before_colors": 875,
-      "after_colors": 9,
+      "after_colors": 13,
       "before_sha256": "f1e6b7942b177507361f0e94b6860606eb8269aa0596de2274a20b0818c9ed6b",
-      "after_sha256": "bfff48330531f974820c7d4c2e5aed2c1ccb49bf3c6be9a8431325d10f391d5e",
+      "after_sha256": "e010c53ccf6192d5c154e3943d93f46fe9eed9c0b0c8a152b33ebf4c211dc8b5",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -642,9 +642,9 @@
       "foreground_pixels": 989,
       "regions": 85,
       "before_colors": 916,
-      "after_colors": 13,
+      "after_colors": 14,
       "before_sha256": "b72081c8cae458909dc9f653e2993ec0638892f8381cb0d5ea53aec918eb937d",
-      "after_sha256": "d791b293308c433bbf99eb5af25558ed95a3bb6ed9002c2cdd23f76bad954c32",
+      "after_sha256": "8eae590795452f5d10e79e20926f1e335cf64aa450d616ce8fe76581e0c96839",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -653,9 +653,9 @@
       "foreground_pixels": 933,
       "regions": 83,
       "before_colors": 874,
-      "after_colors": 13,
+      "after_colors": 16,
       "before_sha256": "3cb9e13984453a1157ece6b1a23225c1a4db44779e9ac945a2d1ad5b39191d5e",
-      "after_sha256": "bf3ea07845e02664101a4ca292d8ea6677b5dfb553bc275597daddf7fdeea2a2",
+      "after_sha256": "7297d8183d00e46c98f75fa4d9f812b7028791237e8dcc2d6f16f623b0f0d77e",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -664,9 +664,9 @@
       "foreground_pixels": 1600,
       "regions": 77,
       "before_colors": 1338,
-      "after_colors": 16,
+      "after_colors": 15,
       "before_sha256": "984b7738c3a417f3f7ec3453b56460e0312801f5fd8c2bff2f513bfa1ea1e5c1",
-      "after_sha256": "6ff8cf7fe37e878572bd531109099d75891bb678bf84c197f17e5973dd62de52",
+      "after_sha256": "4d31bf00fa70d566f7de63a8d5a93af1c7e1aa4ddb188ba70a474250786debf7",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -675,9 +675,9 @@
       "foreground_pixels": 1599,
       "regions": 97,
       "before_colors": 1300,
-      "after_colors": 18,
+      "after_colors": 17,
       "before_sha256": "04ee0df9165548a39597defda39ad6612c957de49c699548f49671b823fc1a87",
-      "after_sha256": "12d687552106fd8c5435cdca665534d2f3a7031b24d71804cbdb7bbff59ef2f6",
+      "after_sha256": "35456081bb547c1db7e4ad2d383e2ef5c0b174f8bfc22d405f8b3e4a7c160ecd",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -686,9 +686,9 @@
       "foreground_pixels": 1572,
       "regions": 75,
       "before_colors": 1238,
-      "after_colors": 13,
+      "after_colors": 14,
       "before_sha256": "ad1d7cfea3dfc2b824c830353337cf7f62e17d13c80108581a09e66fce1fa98d",
-      "after_sha256": "2660cf24b046919ad20ac256ed5203531da3953240e74c2a44b207def5a47b88",
+      "after_sha256": "e84b0a9aa076cf8b5c2175c34d56de2ba283fce568be0b51a224629ff0aeadb7",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -697,9 +697,9 @@
       "foreground_pixels": 1595,
       "regions": 81,
       "before_colors": 1314,
-      "after_colors": 16,
+      "after_colors": 15,
       "before_sha256": "1fc3f400169566d42b7efd828e909e6e8af623466e33da191c01e54921ad2a6a",
-      "after_sha256": "ce5b86ea2e07621ee930859f7a5d8abf33b1792d0cab374eb7cf039aae5e6c3c",
+      "after_sha256": "767491ac4fe6f049d4fbf3fa8d5f1d239a688bc42e846d9979b8b518565123f7",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -710,7 +710,7 @@
       "before_colors": 1516,
       "after_colors": 18,
       "before_sha256": "1618c121945c8efeafc2e902e40a3be4bc9cd34293eeba98b598f70e07c4e72e",
-      "after_sha256": "6c814de58d73cbd7238d253b76a44609abcdabe1bde9e73000b1afd95c22d627",
+      "after_sha256": "7e2fbca775bb3835993a059450a6750691a9c09ee834686793d09abce87bfa7f",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -721,7 +721,7 @@
       "before_colors": 1603,
       "after_colors": 17,
       "before_sha256": "2461f6765272dd5369ae756e34e88fc828e658d7f4ad9d520bc2acd48553bdaa",
-      "after_sha256": "66e2b48686dbfc51f9348d6308b465c930672db912ddda82135c19bf5911e1d9",
+      "after_sha256": "805bdb4561738ee54a474a6a6ceb00b22b46521e8cc3cf192f3e4814cfcce5e1",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -730,9 +730,9 @@
       "foreground_pixels": 1869,
       "regions": 202,
       "before_colors": 1761,
-      "after_colors": 20,
+      "after_colors": 18,
       "before_sha256": "e8665045d7a499b116a8b1e78c3b8a3081bf08ecf89ee5f0e582f497695c6eaf",
-      "after_sha256": "ed50e0f02feb19435ea3a73de118a7ed0cfcb7069b68327deb31fc821dc38eb3",
+      "after_sha256": "a1d6789c73e20e0a8a29460477b0a38e7369087cf9187b5ccaae8b392cbfa18c",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -741,9 +741,9 @@
       "foreground_pixels": 1650,
       "regions": 168,
       "before_colors": 1559,
-      "after_colors": 20,
+      "after_colors": 19,
       "before_sha256": "a56c466adc1edfa531bbb204bc1766ff88964019c5308d997c3ffcd633ecfc6c",
-      "after_sha256": "25be1fe8ec263bda44830a09801b04348da547ef1e0b16d45b011ec67b62a018",
+      "after_sha256": "387ded40a96643e8388056879af65bdbced961acebdf4f01990d2aaaed8b19c9",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -752,9 +752,9 @@
       "foreground_pixels": 1000,
       "regions": 90,
       "before_colors": 924,
-      "after_colors": 15,
+      "after_colors": 14,
       "before_sha256": "b986b900d7bbc45c50fa4b3672f98473b6614aa988469e353bbac27a5995974b",
-      "after_sha256": "88e4c28dd4de392bebb6536a84b0ddfdf18f73561da4b0141d38b19104f06851",
+      "after_sha256": "68de755c675abb9a85f24204735d314d3339cd9f67a80c92e31eaa3249cd7b02",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -765,7 +765,7 @@
       "before_colors": 913,
       "after_colors": 12,
       "before_sha256": "731897b66f9430dc254812e4a1cb92e4ab3e5ed38407074827d6c17d4c4f83e1",
-      "after_sha256": "be8bf4dd6f5b39708b5051c86d9bfa89b6647ca6616306fffd102e895e2af86c",
+      "after_sha256": "d20fc6cecc43575147b62827a694a9835cb07d5c8f09809064fe29fb29a887b3",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -774,9 +774,9 @@
       "foreground_pixels": 1114,
       "regions": 94,
       "before_colors": 1013,
-      "after_colors": 12,
+      "after_colors": 13,
       "before_sha256": "f1994f130d9ff5cd8aa361606fab792db4abe402d7894202e1dd6be6d7be9de9",
-      "after_sha256": "9c1cac6995816687611aa29b5639e89944e4a33d6066210a82c8664d33e4789b",
+      "after_sha256": "93030679d94f9d87db30aff0d2ceba57e55149a3332489e24993315793879c16",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -785,9 +785,9 @@
       "foreground_pixels": 1040,
       "regions": 93,
       "before_colors": 935,
-      "after_colors": 13,
+      "after_colors": 11,
       "before_sha256": "ae85ab09468124fbd5f203cd58b785635c38ba96263476bbca5d98fe22d69224",
-      "after_sha256": "760d7713fd2c297c8b7f25dc5da422cff9f5cb1b26bbd0369e0088711256d195",
+      "after_sha256": "e724c09726fdd080c78cc91732fb71fb0c7bc73d78dd392f6edc9c6458f8cc96",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -796,9 +796,9 @@
       "foreground_pixels": 4724,
       "regions": 270,
       "before_colors": 4150,
-      "after_colors": 24,
+      "after_colors": 21,
       "before_sha256": "a93f5a8e1565a4b7257e5e5ec6c6a134498a1accef090682458ea52f2be35cf8",
-      "after_sha256": "a9ddc45fadcac8f52a7d81d272aa19ed05394b76a08dd594239703e0ce880274",
+      "after_sha256": "8b1c7600b4b694ecab20429fbb3b5de49517c0d3dd142f1418b46a144c157ec7",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -809,7 +809,7 @@
       "before_colors": 3864,
       "after_colors": 20,
       "before_sha256": "3a9f335ba2fd22fe3d7bc172894eed407047d6930ee26f6c5671f42ffa017d9e",
-      "after_sha256": "be453f4a6d9fd21c5cfcce73bb73c070073e45a13f4bb704f191b1a7763f35e8",
+      "after_sha256": "b7fdbbfd81671bf76858e52428593cea846954de43e4ff83ce1179d9c6c3289f",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -818,9 +818,9 @@
       "foreground_pixels": 4580,
       "regions": 245,
       "before_colors": 4036,
-      "after_colors": 21,
+      "after_colors": 18,
       "before_sha256": "e00fc2bb10f04aeabf993deb46b8ed36ae94e90b1b8f0f3eee7259596383370b",
-      "after_sha256": "39e48dd96c802b06e8290e0b0336183cd0cd5bb2f1aa3592bd8b1cec3886a588",
+      "after_sha256": "f2112e6dda55e0d785fae120f6d1cdca4e039171843bde748470241976275f3a",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -829,9 +829,9 @@
       "foreground_pixels": 4500,
       "regions": 265,
       "before_colors": 4018,
-      "after_colors": 23,
+      "after_colors": 21,
       "before_sha256": "9a28297efb9c3e15106e277486e38e1c5ce7baa3f3226f4908e9d3906a4134ec",
-      "after_sha256": "716d997a4212cc9d173cea44c8335d4762544030379a109b366c612b4a6879bb",
+      "after_sha256": "a589d8fe847600200e91b15980f02c01fad0b82d70a216ecf2418c2e9cfa5726",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -840,9 +840,9 @@
       "foreground_pixels": 439,
       "regions": 48,
       "before_colors": 428,
-      "after_colors": 18,
+      "after_colors": 16,
       "before_sha256": "d96e1f3df1babd6581edaceb7b4b3bc9aaaf62f508442c62942a52a9c67dd8ca",
-      "after_sha256": "f225da7719080b069ab564353d3050713f26a8dd9e9d76b372765b85eaf30eca",
+      "after_sha256": "445e052ed12ff77ce554ef7a9624cdc2eacdb107233462b3b1e84c636b64061f",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -853,7 +853,7 @@
       "before_colors": 1517,
       "after_colors": 13,
       "before_sha256": "f1a6a5de3e083612a80d940110f283ceef8aa6180c7782de1f8ec993a24108a7",
-      "after_sha256": "56c0050558ed2836e325d0ac952fab8bd5fcfb542a70c67e8370b9e98d4306e9",
+      "after_sha256": "b3371ce8447d9e720789e7a81d5de513dec7e4d67d79dfddade9ff96fc381496",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -862,9 +862,9 @@
       "foreground_pixels": 2040,
       "regions": 245,
       "before_colors": 1966,
-      "after_colors": 13,
+      "after_colors": 15,
       "before_sha256": "a418356286d35ae7588231c5e3f4d90b798d3f1bd565c270b532926f41dc39bb",
-      "after_sha256": "668f7a8841390cc0027221f69d7950bbe60b21df25c8e3ea2a200ce9ad93f60b",
+      "after_sha256": "c44d91b820bb74af7360856e423cecbe7fbb1435a41f6455d2e5b471469260da",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -873,9 +873,9 @@
       "foreground_pixels": 1981,
       "regions": 363,
       "before_colors": 1904,
-      "after_colors": 22,
+      "after_colors": 18,
       "before_sha256": "d323a63ee3ecd35f18afa4c47c1b109eb6f9b711e777043b365f699c6ba33890",
-      "after_sha256": "7e83e30f09e2335a51fa1fdcbc4b2a5438556f2a526cb378e7cd4a2b71c948df",
+      "after_sha256": "a23e1470b14f15b368f2e162644af3a38ca7f76c730f45408699cc61f5c54538",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -886,7 +886,7 @@
       "before_colors": 1897,
       "after_colors": 19,
       "before_sha256": "58a4e1b59085b74ba534a4b904e763934a3b0ad17028ec52f3ba2079501744e1",
-      "after_sha256": "28229aa48fe0857ddd9d3c3b0fc0c61f6f291d211713150e89ec894a1c1969ee",
+      "after_sha256": "8479f5d8ca0f89232d72a5784345b9f1934cbe63a930e1ad594cf214b4494c67",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -895,9 +895,9 @@
       "foreground_pixels": 2050,
       "regions": 448,
       "before_colors": 1982,
-      "after_colors": 24,
+      "after_colors": 23,
       "before_sha256": "75b9a88d51eb3fe2152f5c98872c0ee5bb030e764db5f2fef39a5b2069ad31bb",
-      "after_sha256": "6f647c1428aa55f3ec6a58dd055c7e75cd582de87f487f61ae5a9b25aab55dd3",
+      "after_sha256": "2f8cbcc8fba54af011e0111c33472aee8dd0a985cf6efb72b30e76baed8ea066",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -908,7 +908,7 @@
       "before_colors": 1863,
       "after_colors": 18,
       "before_sha256": "7c83b7a99c34b812e5c711d1a66931d34665d0e9aa8b557d133ee21361c75a37",
-      "after_sha256": "18a53b5713a762f485d0b33665d7698dfa9e797ceb25187e0804b94be418fbb8",
+      "after_sha256": "ebcf44ba873cf1ac4854347dff536702503b371d914bf8e4c505df7f67f0d76a",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -917,9 +917,9 @@
       "foreground_pixels": 1683,
       "regions": 100,
       "before_colors": 1325,
-      "after_colors": 18,
+      "after_colors": 17,
       "before_sha256": "ccd128d72a5de0dac653b2e2f9446e87607cf5760b83e4696e13d42edd56225f",
-      "after_sha256": "42686d72b191d369f46d7432bc07794b50b1cbf3f1db14b23afdfa9ee66a3187",
+      "after_sha256": "ca4f95fe5d6de33947270e8ecd81ef72141c50798f08f4acbde2a2d54fc066c8",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -930,7 +930,7 @@
       "before_colors": 1204,
       "after_colors": 15,
       "before_sha256": "b0aa0c2d636a0db8157c88cb88f4f9582b80ca7326bb2e2f9f7837fab7beb0f2",
-      "after_sha256": "bdb116535201c3ab3e23a1332e3d241a1040d0c33a94a7c89dd57d10c3965e2c",
+      "after_sha256": "6399fe43ff462dcd1b9c6c3b4efe3f7879e23c00e1c6682e40e5f446a55acaa5",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -941,7 +941,7 @@
       "before_colors": 1328,
       "after_colors": 10,
       "before_sha256": "f835adc066d0e9b3ad0243ed799127de08358d31911ee40a807613dd3b64fb9d",
-      "after_sha256": "dee98f4f25f6d01eaa071dc6a9900884b01f9ea75215815a85ea66507a625868",
+      "after_sha256": "e70847d2d25c4d391192386ee9becc9ba2f22319ff0b0e4f4d0f2b9a678c10c4",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -952,7 +952,7 @@
       "before_colors": 1625,
       "after_colors": 18,
       "before_sha256": "0cdb8045de94038c12aef7846b1dbd6cf8bfecf15356992417ae5f594d4e0bf9",
-      "after_sha256": "5d5dfe92995553439aec30cc65d49babd6b888d8d86057f1166ad75622a71a8d",
+      "after_sha256": "eccdc4b6cc21a1adaaf82abe5a8982793d9c69aac8d2e210ea3ab79f60eb0c8f",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -961,9 +961,9 @@
       "foreground_pixels": 2076,
       "regions": 202,
       "before_colors": 1918,
-      "after_colors": 16,
+      "after_colors": 15,
       "before_sha256": "552728dfb5efc3cf02b24ad8b1c63a9b93343524c5ec8cf8974809388db7bf87",
-      "after_sha256": "b4bad4e4d3d0b7bdac501d49a72a528e9d0801ec8320d8c523d3afb78ae02335",
+      "after_sha256": "2d89b48af8cb2baad81be08d43df9434cfcbe201a1b59b4e810554065ec3a83f",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -974,7 +974,7 @@
       "before_colors": 1396,
       "after_colors": 14,
       "before_sha256": "8c134700632655e1ecb483793740dd5937e2d4186486a9c5b183ebef60901e02",
-      "after_sha256": "3307830940f6e7ece81aed730b151716fd4d329a98979ef4c68bf78f26e80f6f",
+      "after_sha256": "e41e4b33c4c1108cef56da22dc58e9b2304b9535deff6b79b6c50e510bd6defc",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -985,7 +985,7 @@
       "before_colors": 2173,
       "after_colors": 18,
       "before_sha256": "9bffeb9a331bcc3a2f61826195749d18cbb1ec00a5e1e05b892da1ca64193e10",
-      "after_sha256": "d146cab61d61111b966b9fb38f58e160d3267c1a04fa7a2bdc6d177cd21e6d7b",
+      "after_sha256": "0e2b3fb9f0231b87fc66182d9f45518b0622239fc9f549471c0c1e0388cfe593",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -994,9 +994,9 @@
       "foreground_pixels": 2087,
       "regions": 145,
       "before_colors": 1925,
-      "after_colors": 20,
+      "after_colors": 19,
       "before_sha256": "4995c113d51ea3cb2d8b809de09c4c87997434c4f4eb59bafa631a363e91c551",
-      "after_sha256": "ce10b36bc722e17801bf4812e7b799bc5ada20f9776738b7579235280edfe8ec",
+      "after_sha256": "0582c38a9c4b6efb426ce9d45d15aba87de6dfbd101dd5a23196b7262fee1aea",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1007,7 +1007,7 @@
       "before_colors": 1723,
       "after_colors": 14,
       "before_sha256": "535e7d50bf1531c1a8ddad490c2691ddcaba9e5575b5bc50bbeec1fee3a550da",
-      "after_sha256": "36052a280bcfdc42127836dd011d0cc93ae1a2b99346f44a9ab9ff70f16f9919",
+      "after_sha256": "480eed8764a631bd88ba32b20cc9d8f3d0e6d8732524825bb10ac783828cb99f",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1016,9 +1016,9 @@
       "foreground_pixels": 2331,
       "regions": 158,
       "before_colors": 1934,
-      "after_colors": 17,
+      "after_colors": 14,
       "before_sha256": "06011d6fe3f8be9c8a5ba03f31b7d664efcee7b998b492ffe8ec866e0107b9f4",
-      "after_sha256": "6ff305992dcd7617d72ce8cf66e48d790de51749c4bb2149ba26129f615ef22b",
+      "after_sha256": "8df6f09f27130f4e3cb8c627bacd54b55dcbdabb4aa49f01096c509fee7d8fe2",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1029,7 +1029,7 @@
       "before_colors": 1591,
       "after_colors": 12,
       "before_sha256": "18a207359275eab5fca62ae862834662407bafef801610e14b5ee1c3a7ee00f8",
-      "after_sha256": "84dbe73c9de6bd21faf7b6898112dd70ee3a298039c9600da0999c63830ca301",
+      "after_sha256": "f6330ccc71cf7f7985f3a14d1b259c99a2b99330494d88c46b22343f0da66c46",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1038,9 +1038,9 @@
       "foreground_pixels": 2390,
       "regions": 149,
       "before_colors": 2224,
-      "after_colors": 11,
+      "after_colors": 12,
       "before_sha256": "6abcbdc0fe25ca482cfa622703bde5ce4da2513584de2177adf53052156f8813",
-      "after_sha256": "1810fb6080ccfd11cf41ba7b8e498b5e77054eca7f5affaebac85c16a78e8ba9",
+      "after_sha256": "b6aeff63fa66211892de6d4eef538dd8dba422c9ce7f85acecaa77f21ca7d9f8",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1049,9 +1049,9 @@
       "foreground_pixels": 1508,
       "regions": 156,
       "before_colors": 1260,
-      "after_colors": 14,
+      "after_colors": 10,
       "before_sha256": "a3325547602b877958fd3bfc8205af4445e6d4590b32d2e52a8c3d91a8b5fcf2",
-      "after_sha256": "66d8e0501033f1340361c556e1c5824a4c47fb41423a514813d852240417bb57",
+      "after_sha256": "b4d0808868b6bc9416b6d00675512add70cbd993248e43363772b21009f876a1",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1060,9 +1060,9 @@
       "foreground_pixels": 921,
       "regions": 171,
       "before_colors": 886,
-      "after_colors": 14,
+      "after_colors": 13,
       "before_sha256": "6f13694ca32af08e01987ca7b4ac749b699b0f5e5647b29bc917027927187cc6",
-      "after_sha256": "f5984253a5932bf1c4c42f6574be84f406bb87f322c0d580816b302038e26f87",
+      "after_sha256": "358270596397701959b49aa0d4c24f00ad23f6f804e6e9b54b9a2b37c901f7ec",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1071,9 +1071,9 @@
       "foreground_pixels": 1532,
       "regions": 137,
       "before_colors": 1427,
-      "after_colors": 12,
+      "after_colors": 10,
       "before_sha256": "8af055bd8601e10ff57de31665572b6ae95b5b0ceaa8eaa7b2e1d1f242e650d7",
-      "after_sha256": "88021b5858784c2ee7832cccf652681382b2aa64698488dda302fd5e6c3e2a45",
+      "after_sha256": "7d0e7fcbb71d644efbfaec94681e15fcb2e855cc897a4259bb8b608016102809",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1082,9 +1082,9 @@
       "foreground_pixels": 2075,
       "regions": 82,
       "before_colors": 1566,
-      "after_colors": 11,
+      "after_colors": 9,
       "before_sha256": "af17528651dcb050b55924c88b5182d61c9e2870acf1d282d1be5e645d715bc5",
-      "after_sha256": "f385a2166bed9e3092b7d2caa0656e238ad44a4d1bd04ca9a6eff222156eae51",
+      "after_sha256": "380443c48b70027191f9c994c4b5f151c8271d48c4c23703e8eb67c460f7eb62",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1095,7 +1095,7 @@
       "before_colors": 1138,
       "after_colors": 16,
       "before_sha256": "2a0821d36d3cd66aa6a545145619eb9da1c097737fc187fc7b27913763151291",
-      "after_sha256": "37bd3f43697cb27e2794f854d39bf59c8c57c32e83a90064af4f1335e106a430",
+      "after_sha256": "cc082db8a4db9e5cfeec65100766812f6674134ef8a5fb1fd20deab019b4e719",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1104,9 +1104,9 @@
       "foreground_pixels": 1779,
       "regions": 195,
       "before_colors": 1629,
-      "after_colors": 16,
+      "after_colors": 15,
       "before_sha256": "909604fcc0cda7af14d3e698551e7ea2ceacc4932395e1a5366b45d0ccc683c9",
-      "after_sha256": "53b38ad7cbe0557eff07785212f8052769c00d194e242d9438c80199243d46f6",
+      "after_sha256": "063e2179f2f7383225354c4e532fcbf306ab3c7c05ca1ce0770187254ea0b5e2",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1115,9 +1115,9 @@
       "foreground_pixels": 1988,
       "regions": 174,
       "before_colors": 1668,
-      "after_colors": 16,
+      "after_colors": 15,
       "before_sha256": "e70f0898e383b1f313f9533fb4e59cd0153309e5276a54020e0683a468f18363",
-      "after_sha256": "4f71a28373457e78356faf2801df2217c21941c17ead5ff328934867053f3581",
+      "after_sha256": "f57810cdee37d488d4700c153b6b7a49433cef2d06100f9dfb28eca034a7c661",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1128,7 +1128,7 @@
       "before_colors": 1884,
       "after_colors": 19,
       "before_sha256": "61882adbe5aa9a7c36b09fe934f3e159581d2cd572999c301a23edd902c5bbb3",
-      "after_sha256": "3b183fb0a25099ee4daf7658a4a50fcc5d6204231fa06a330c0a63b097e546c5",
+      "after_sha256": "8bcdc6b41418eb8d2c4b59f1c31fc40ce83763d83abd3d4d0dde537d01fcab3b",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1137,9 +1137,9 @@
       "foreground_pixels": 2247,
       "regions": 306,
       "before_colors": 2030,
-      "after_colors": 16,
+      "after_colors": 15,
       "before_sha256": "87021cb895d7c1d9ba2b2b96d2a7cdc2371e4a1ecbca83a046bc536b58bea142",
-      "after_sha256": "bda2ebaeac4a3d54767b37c4b01fcb465e8cd0a90f48e34497dc3adff82749f4",
+      "after_sha256": "88483e3f351065337ef5fc3e03429a2440673fe0ac668855eb6b807259734f2f",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1150,7 +1150,7 @@
       "before_colors": 1860,
       "after_colors": 16,
       "before_sha256": "9df5d2c1a3f4c33e679746f067f39b0ee88233e1a22b2ad5091aa410ecd4b743",
-      "after_sha256": "c48b3acb625a442548ad349e2c00ba73ad3f06bfe088982e1b99b0d8f02b6275",
+      "after_sha256": "8b30be3810e9e64bba07bc759bf13f52c9e541ff46f2949b79726a1e66be3891",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1159,9 +1159,9 @@
       "foreground_pixels": 1650,
       "regions": 141,
       "before_colors": 1512,
-      "after_colors": 19,
+      "after_colors": 16,
       "before_sha256": "2298b7ca2287a27b2c9c77cf249dc29d7aac1acccbf0b08cab699bbfb571b8ef",
-      "after_sha256": "77dca141bbedbb3132bd67fc3eacc87d330180e028f3183947c92b75f21d3ee2",
+      "after_sha256": "9e92606f6b8ce66c45efe8bb332b191bab4d024387eeb5acbada93f0c994eab3",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1170,9 +1170,9 @@
       "foreground_pixels": 1350,
       "regions": 194,
       "before_colors": 1297,
-      "after_colors": 21,
+      "after_colors": 20,
       "before_sha256": "29971d30f5c19e7bdcb2d48715340e24bfbdd9f73c5d830c8dae849455218e0a",
-      "after_sha256": "90c60d7cca713488fe37f35f2fc2a1f32e4345487c1794a53403bc5a1c5aa49c",
+      "after_sha256": "b3f3ea55ec24af0d7eb41f4dbf42cf717e100a1e3e767382a57b9342512b2596",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1181,9 +1181,9 @@
       "foreground_pixels": 1313,
       "regions": 154,
       "before_colors": 1215,
-      "after_colors": 12,
+      "after_colors": 11,
       "before_sha256": "43780abef74fa8985d4e94c613b6f846ee925be8de149ef23dff5cfd194c448a",
-      "after_sha256": "e9c2e6092c395e3fc2f59e3ca4613f6050d47a52ba3163266d35d270e17e3e1e",
+      "after_sha256": "ab854e9813bb441d4e71fb6d0ad4ceecc1f048b75c0cfd5a808370b8f1db4de7",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1194,7 +1194,7 @@
       "before_colors": 1700,
       "after_colors": 17,
       "before_sha256": "60462b49c68fdc2f55163b119aba59bc17c5e091cea3cc42f8bc95aa947fadb0",
-      "after_sha256": "d23e859953fe1566b46a4f64a3436d090a5e2b8ec46569d931c4f41ca444e272",
+      "after_sha256": "1e566a5d888652046872d506f38b0764afbbc0fa4275d502ce87cc86413010e5",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1205,7 +1205,7 @@
       "before_colors": 1770,
       "after_colors": 11,
       "before_sha256": "4475c72b1e82cc13f395bd4d3874aca53cc9e3473fe36b83ba4e1e3dbc00a7e8",
-      "after_sha256": "43058781bc63c5817f60ef116889b0916798a07fdac9d6509214d27fa9e45c80",
+      "after_sha256": "47bd7d920f7bafc7ba1c7187a1c12ca525a54e3978bf591d78d87895e062d81c",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1214,9 +1214,9 @@
       "foreground_pixels": 1873,
       "regions": 306,
       "before_colors": 1657,
-      "after_colors": 18,
+      "after_colors": 17,
       "before_sha256": "fbf9b8c258401884004dd064cb02931802c090b66024e679f1ae4fc324438a0f",
-      "after_sha256": "a80d1e49bc00828f1c299806c0c7af683c70a773bcb9ad48f7ae942848ebe23d",
+      "after_sha256": "3575bd6c01317cd3132d7b17477d522ded1ec3e353c38d899f47d491964d8553",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1225,9 +1225,9 @@
       "foreground_pixels": 2058,
       "regions": 278,
       "before_colors": 1835,
-      "after_colors": 12,
+      "after_colors": 11,
       "before_sha256": "29c5b5691f694cd0994f085ece27a58bbaed06ce61ebe4215f5660f46a08b24c",
-      "after_sha256": "75b368b0cfa249daa427ce753b978afe776c42f8bb195e434e1d3b9387da73bc",
+      "after_sha256": "4b870a6d49053995e6044f939bc979dd9f0c4d763ca13ebee08b1c54df0b203d",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1236,9 +1236,9 @@
       "foreground_pixels": 1658,
       "regions": 348,
       "before_colors": 1546,
-      "after_colors": 19,
+      "after_colors": 16,
       "before_sha256": "cdd30e271657ca77c3d4d645e3850e9a4477e0d2a9cfb198cf7ae3564f7d0f75",
-      "after_sha256": "61c3a15893395f81581ab8c46e6eaa6cf3e0436f14364d56a5371e9f05d13c55",
+      "after_sha256": "800d65db74368374704728e9027dcc3d13b5e73763ff78b0e3ffb5c5772ba354",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1247,9 +1247,9 @@
       "foreground_pixels": 1775,
       "regions": 305,
       "before_colors": 1576,
-      "after_colors": 21,
+      "after_colors": 19,
       "before_sha256": "e85ca4bcb39fab8083e201942ab20538d43ba6dd8ccb18d01f72a9c2eaa1e4ce",
-      "after_sha256": "502451b57da8843928409145e9369a5ff271c7e50cbde7b05bbf8aaf545b8bb6",
+      "after_sha256": "1f730c78f721aa9cca6f68a31d332d3fdbd0b0a0b8974f11c3f3c8a62a84ec18",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1258,9 +1258,9 @@
       "foreground_pixels": 1418,
       "regions": 473,
       "before_colors": 1297,
-      "after_colors": 16,
+      "after_colors": 17,
       "before_sha256": "ea86d93a05b644684c6cb5c76c3d2e37d44f4fd62c5037cb9aabfc1c212414fc",
-      "after_sha256": "b264700eabcb9576427f4124f38501e178801b1526808c0ee074381fb9fc093f",
+      "after_sha256": "05465c8b6ad05929f7a95213447030918e6c9a6d23d6460b1ac7b54ccbf7bb96",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1271,7 +1271,7 @@
       "before_colors": 1239,
       "after_colors": 17,
       "before_sha256": "6121c8e21e1c5d079098724d62a21a0828254ae1a120891881388244a588cbeb",
-      "after_sha256": "1794ddce3b77efa341f49aba495463189ad7cd53268376e59174b1f157b276d8",
+      "after_sha256": "a8892fad09d85e0608eb9dcf54608c1b94ede2e0780e9b609bdad1e0b1973fba",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1282,7 +1282,7 @@
       "before_colors": 1250,
       "after_colors": 18,
       "before_sha256": "a436655cf5d52a705a20c11f0243b92e1c0d14eab2b5f9a8f679cbe73432a211",
-      "after_sha256": "d3b4f570536232ad3212de6f5348926569a99941654bdcd07c141ce31888ea62",
+      "after_sha256": "b0cb6cc4f44605b9046323291b95785981741be6fd10b94978fc9c783638de8e",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1291,9 +1291,9 @@
       "foreground_pixels": 1404,
       "regions": 110,
       "before_colors": 1274,
-      "after_colors": 21,
+      "after_colors": 20,
       "before_sha256": "249cc549bea2c96f9403d378830158fbd026d68b23bb548a284f0f2c305fa517",
-      "after_sha256": "c71a44405ceeadeb551fe9febe9071a38c638d9c84939716063cccdb0f0dce31",
+      "after_sha256": "ead2128fde3d10df643f96744fd2aa30ddf89ca1f8aa937c46a6de93aee0861a",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1302,9 +1302,9 @@
       "foreground_pixels": 1385,
       "regions": 97,
       "before_colors": 1245,
-      "after_colors": 19,
+      "after_colors": 18,
       "before_sha256": "e8b7f545600d8cd6957de4b64d5d6793d0b354ffed8484f0335d3c3b0bd25a64",
-      "after_sha256": "9a4771359562e43c516b180e823d33d40dead58c9963dedd1060c0eae7834d06",
+      "after_sha256": "7561024b4fc2a080d0269cd1f58ef458a48c50eb727bdded6b04d65617f2ecec",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1315,7 +1315,7 @@
       "before_colors": 1186,
       "after_colors": 17,
       "before_sha256": "5bd22beb4e8afcbba1c01ad9bbaba9324ca0a5b3ea5bb24738d5d0516c6357ea",
-      "after_sha256": "ef2db59f4fdbc84f448ed117d43089fda7db13363a0acf715d02bc4c4a9a2695",
+      "after_sha256": "05feeb3dee6346ce834b0b5ca45caa7d37a70a6882315cb9c9c54daee722e098",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1324,9 +1324,9 @@
       "foreground_pixels": 1361,
       "regions": 101,
       "before_colors": 1240,
-      "after_colors": 17,
+      "after_colors": 16,
       "before_sha256": "e7082768cd867bd2159298b1abef76ffc9d7e9fe84f6b358e54dd7d58534e1a2",
-      "after_sha256": "59e1072aa2c106e8f2f6b9fb8a90573af434664729403cac88b02483f6f61733",
+      "after_sha256": "cc8d16d48550c730e2d1abb25b99d0075f85a625874d3ea6564cd0f964ef11e7",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1335,9 +1335,9 @@
       "foreground_pixels": 1389,
       "regions": 110,
       "before_colors": 1258,
-      "after_colors": 19,
+      "after_colors": 17,
       "before_sha256": "64b0cca2b6c11eaf2ed6a2feb63cc9e79f2e09f4abd321db92313727c944ad21",
-      "after_sha256": "001b7904d073a2e408f6fb1edb5b5fc8c0c9780a6e62ddfa68c04ba0ea6989a2",
+      "after_sha256": "9a8ea46515032a65b928d9d5092e9ce38248d49b2bf6c368f5c857dcb51f5d8c",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1346,9 +1346,9 @@
       "foreground_pixels": 1356,
       "regions": 109,
       "before_colors": 1236,
-      "after_colors": 18,
+      "after_colors": 16,
       "before_sha256": "93eb70ac376dc936386daf3f51385073922fa234332cc463526a0a958277a017",
-      "after_sha256": "d3422c1efb7ebe9cd9215ada1db7606ac45108a1e03bf8e5661546aecea5342e",
+      "after_sha256": "b27031d9e1ee8526313d075d3b5cca0e1eaf6eef7888b7b57b586acd28fa5c23",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1359,7 +1359,7 @@
       "before_colors": 1259,
       "after_colors": 16,
       "before_sha256": "307738a20373692c41087fa7b59f091cbeb3c745d3b8793b3fc71437b7f1f195",
-      "after_sha256": "d59243a70f07c53458625d8f467017d1c8d856e4f72275b3ffc90954a269ae10",
+      "after_sha256": "50130d7d9c88fdc30bb2a1e8a1aa033821dcbb4b336a60a8b5c9ac1143b58f68",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1368,9 +1368,9 @@
       "foreground_pixels": 1366,
       "regions": 122,
       "before_colors": 1236,
-      "after_colors": 17,
+      "after_colors": 16,
       "before_sha256": "99acdabf929075cc75585687f8931f0fed550e46a0693798e5d48b159ceb985f",
-      "after_sha256": "bfd50b96aa4794655aefb422107fcbcfcace73eff937016aa1bb78c14e128bfb",
+      "after_sha256": "bc6aee35b7b62323511631be2f3b04cc43c74a1223bc4ce7e6a37cbb91a9ee6b",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1381,7 +1381,7 @@
       "before_colors": 1277,
       "after_colors": 16,
       "before_sha256": "db873adbc5256837452c52e0444988d5ff6434da4a2dbe3027e545f080f34ec2",
-      "after_sha256": "9ea537984d3b30e79eb475697852a20e06c3d8042de6a384c2a76954fad629f6",
+      "after_sha256": "dc39f98c784ecab033e9c267ae384279e5da1b0a69de8dd1b2840f888bb03ce2",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1392,7 +1392,7 @@
       "before_colors": 1228,
       "after_colors": 14,
       "before_sha256": "5fa5370214687438797c566ef87a7af55b4daa9996a8abdfb07b6ff283157770",
-      "after_sha256": "31944baa6ac61bbf2180c4096ce6522f036f835b1aa2be37b5e8084ede69a990",
+      "after_sha256": "71bb0856e5c985a4b7db33334b15d2f4ab4a430d93e141fc26227725dddd4487",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1403,7 +1403,7 @@
       "before_colors": 1223,
       "after_colors": 13,
       "before_sha256": "3ec79b963a47623bfbb9e187fa7b4bbc1821808a379ebab722741a0824772730",
-      "after_sha256": "a758a7e7ce815e985d8f8f9c2c27e4df0aab8b7c516a8f9e89996de895e44525",
+      "after_sha256": "4a4c3088179c19cebfe9eb99b00ccd40159fcb66165a862f559867a8ce5ffdc7",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1414,7 +1414,7 @@
       "before_colors": 1170,
       "after_colors": 15,
       "before_sha256": "bd9394644bbfd03fac72a78b7e0814c1e32d0b4695ab5710ca87fd4f7cdf46bd",
-      "after_sha256": "83e831c27997b047016d00c9b8fa545088e8fd604c569f6017d634c7ee96c94d",
+      "after_sha256": "7eff13c989f24e08506540c3f9604ec3aa8c9cd3c26e745ecd98d9f13a970576",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1425,7 +1425,7 @@
       "before_colors": 1214,
       "after_colors": 15,
       "before_sha256": "3cbf5e95606558855e6a49f9bf6b34aded523ba236b3cab251749f071bcfe25e",
-      "after_sha256": "201c71c7efffe77140c6318d25b5887b7c65d6f3a02bbbc0bcb5fb8d4b0f8510",
+      "after_sha256": "1cd0a0321801aedb45bbfd5fb865c6b46a6bebb5308c6876e58e98f7c035f9ce",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1436,7 +1436,7 @@
       "before_colors": 1208,
       "after_colors": 15,
       "before_sha256": "6b33bd0637e7e7134b9095b7fb92c2ebee4072bb56316c5b092f72d10688f014",
-      "after_sha256": "a9836afd010a95e5bd19f7600e86a4e7e4750e862adcaf3544d6a7586c2fce9e",
+      "after_sha256": "5e0b8e9609609eae09ed202b62bd6be8b3e1bcd621d5a2f97c48512786c7f2da",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1445,9 +1445,53 @@
       "foreground_pixels": 1735,
       "regions": 266,
       "before_colors": 1649,
-      "after_colors": 18,
+      "after_colors": 16,
       "before_sha256": "e1ccff73bc1bf8062da1abf31dcdc7ecfb1b1992fae92b084ba26c8f97925ad5",
-      "after_sha256": "18340831a3dbaa966281edb50e4397754506b9a0cb75100fbd103504d2f22c32",
+      "after_sha256": "744d3643e35ab23b746834dc573270821c77cc230fcc35247b59d1bf3d15bb63",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/shop/customers/0_0.png",
+      "foreground_pixels": 9680,
+      "regions": 683,
+      "before_colors": 5338,
+      "after_colors": 23,
+      "before_sha256": "120cb7f69eba33874ffa3aa032740c377ce79f22986dd6d96584c0675fcc708f",
+      "after_sha256": "6d91720eb5d1541864f70ffd5866c41252df10bc1f71554e4f7ecf4dd9f69219",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/shop/customers/1_0.png",
+      "foreground_pixels": 8805,
+      "regions": 698,
+      "before_colors": 4770,
+      "after_colors": 22,
+      "before_sha256": "3bcf9060b730cd7d01274f42423ab04dbb23fba0feb2e7eeb07c981ba636f90e",
+      "after_sha256": "dde68f9dd83be3c58e59989da17cf7488a73fc32d151f6d168ca0048b26d7164",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/shop/customers/2_0.png",
+      "foreground_pixels": 13470,
+      "regions": 703,
+      "before_colors": 6512,
+      "after_colors": 21,
+      "before_sha256": "2c163cf5f2eb91d29f63236b5da22ac9a0e12dd41b00c1705908ad379f367d6e",
+      "after_sha256": "1bc693989dc01105895ba8aa77352f34e0484b4398908ac9d6b38f36972ea9d3",
+      "mask_preserved": true,
+      "regions_flat": true
+    },
+    {
+      "path": "assets/art/runtime/shop/customers/3_0.png",
+      "foreground_pixels": 9584,
+      "regions": 708,
+      "before_colors": 5421,
+      "after_colors": 25,
+      "before_sha256": "238e92b091eb64c68813d828610c2b5521c31a0f059224eb82db2a2226592e44",
+      "after_sha256": "90b56f21d28015b05bc34fed81c95d42b92108675f7c578609ef0b05056c403a",
       "mask_preserved": true,
       "regions_flat": true
     },
@@ -1456,9 +1500,9 @@
       "foreground_pixels": 2307,
       "regions": 212,
       "before_colors": 2119,
-      "after_colors": 23,
+      "after_colors": 22,
       "before_sha256": "f24576c2934d812cc82cc5c1ae6d08b19f469522448f267a3054fda89aa6a938",
-      "after_sha256": "e47262250e111a3962e4c163f17ee0d2e900ccb269a3a5dde0171b776f0b9820",
+      "after_sha256": "0b60751cd53884ef77ebc3c5e8bca6d6f32c54d57bbe4daee5578f02d9313e6f",
       "mask_preserved": true,
       "regions_flat": true
     }

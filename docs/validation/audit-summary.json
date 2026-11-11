@@ -1,19 +1,20 @@
 {
   "review_date": "2026-11-11",
-  "scope": "activity day costs, expanded cargo, separate equipment, category colors, multi-cell rooms and ten obstacle layouts",
-  "acceptance_items": 73,
+  "scope": "activity day costs, expanded cargo, separate equipment, category colors, multi-cell rooms and ten obstacle layouts; customer-only shop and animated visitor window",
+  "acceptance_items": 76,
   "open_acceptance_items": 1,
   "map_seeds": 1000,
   "economic_areas": 15,
   "stations": 110,
   "refined_exploration_areas": 38,
-  "runtime_pngs": 105,
+  "runtime_pngs": 109,
   "shared_palette_colors": 32,
   "validation_commands": [
-    "python3 tools/audit_project.py",
-    "bash tools/test.sh",
-    "godot --audio-driver Dummy --path . --script tests/capture.gd",
-    "xvfb-run -a godot --audio-driver Dummy --path . --script tests/native_sprite_alignment.gd"
+    "python3 tools/audit_project.py --checkpoint",
+    "bash tools/test.sh --checkpoint",
+    "godot --display-driver x11 --audio-driver Dummy --path . --script tests/native_shop_checks.gd",
+    "godot --display-driver x11 --audio-driver Dummy --path . --script tests/native_sprite_alignment.gd",
+    "godot --display-driver x11 --audio-driver Dummy --path . --script tests/native_bullet_checks.gd"
   ],
   "limitations": [
     "Current compound-room automated playthrough acceptance remains pending; observed deaths and controller guards are not counted as successful returns.",
@@ -23,7 +24,7 @@
     "Water, food and battery trade goods use their concrete geometric footprints; only direct power/currency floor pickups are automatic and slot-free."
   ],
   "interaction_checks": "tests/interaction_checks.gd",
-  "scene_count": 29,
+  "scene_count": 30,
   "item_footprints": 37,
   "inventory_checks": "tests/inventory_checks.gd",
   "protection_timer_removed": true,
@@ -79,11 +80,15 @@
     "checkpoint_full_regression_checks": 418244,
     "checkpoint_full_regression_failures": 0,
     "checkpoint_native_screenshots_reviewed": true,
-    "latest_full_regression_checks": 418283,
+    "latest_full_regression_checks": 418380,
     "latest_full_regression_failures": 0,
     "bullet_direction_physics_checks": 39,
     "native_bullet_render_checks": 8,
-    "native_bullet_render_failures": 0
+    "native_bullet_render_failures": 0,
+    "native_shop_checks": 39,
+    "native_shop_failures": 0,
+    "latest_native_alignment_checks": 160,
+    "latest_native_alignment_failures": 0
   },
   "historical_playthrough_report": "playthrough-report.json describes commit b5f7ecb rules, not this checkpoint",
   "floor_example": {
@@ -110,5 +115,22 @@
   },
   "pending_acceptance": [
     "新复合房间规则下的完整自动试玩、返程闭环与平衡复核；当前控制器仍有阵亡或迭代上限记录，未作为最终通过。"
-  ]
+  ],
+  "shop": {
+    "system_restock_removed": true,
+    "customer_only_transactions": true,
+    "warehouse_direct_sales_removed": true,
+    "customer_scene": "scenes/shop/customer_window.tscn",
+    "customer_portraits": 4,
+    "arrival_seconds": 0.8,
+    "departure_seconds": 0.65,
+    "far_scale": 0.38,
+    "far_opacity": 0.12,
+    "far_brightness": 0.3,
+    "duplicate_trade_guard": true,
+    "save_rollback": true,
+    "legacy_save_compatible": true,
+    "checks": "tests/shop_checks.gd",
+    "native_checks": "tests/native_shop_checks.gd"
+  }
 }

@@ -103,5 +103,25 @@
     ],
     "idle_frame_zero_based": 2,
     "idle_selection": "Visually inspected all sixteen existing walk poses; frame 2 in each direction collects both feet into a stationary pose. Reused without changing source art, palette or stable IDs. Native screenshots verify standing after stopping and expedition-only suit removal."
+  },
+  "shop_customers": {
+    "prompt": "prompts/shop_customers.txt",
+    "selected": "B",
+    "note": "Inspected both candidates. B selected for clear costume silhouettes and chunky flat outlines matching the shared industrial palette. Four adults; slicing, feet normalization and region median recoloring preserve originals.",
+    "sources": [
+      {
+        "path": "candidates/shop_customers_a.png",
+        "sha256": "74612c7e59efddc81508fd13e4f077ec2e3cb2fb3755c1af376097c742441301"
+      },
+      {
+        "path": "candidates/shop_customers_b.png",
+        "sha256": "54b9c7c05cc974aa77be61a69daaa3dd5902bec0d10341dde58a461a2e5a2aee"
+      },
+      {
+        "path": "sources/shop_customers_v1.png",
+        "sha256": "54b9c7c05cc974aa77be61a69daaa3dd5902bec0d10341dde58a461a2e5a2aee"
+      }
+    ],
+    "native_review": "Passed four visitors at far, near and departure depth, 39 native shop checks; shared 32-color flat regions, no source edits. Screenshots docs/shop_customer_0..3.png and _far/_leaving variants."
   }
 }

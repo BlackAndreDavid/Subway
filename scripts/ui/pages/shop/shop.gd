@@ -1,56 +1,67 @@
 extends HBoxContainer
 const C=preload("res://scripts/catalog.gd")
+const WindowScene=preload("res://scenes/shop/customer_window.tscn")
+const CUSTOMER_NAMES=["维修员","医疗信使","拾荒者","种植员"]
 var app: Control
+var visitor: Control
+var offer: Dictionary
+var detail: VBoxContainer
+var accept_button: Button
+var skip_button: Button
 func build(context: Control) -> void:
 	app=context
 	app.stage=$Stage
-	app.stage.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-	app.stage.size_flags_vertical=Control.SIZE_EXPAND_FILL
-	var catalog_host=$Stage/Catalog
-	catalog_host.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	var catalog=app.panel(catalog_host,890)
-	app.section(catalog,"地下市场 / 以电易物","本轮开店已消耗一天；交易/刷新不重复扣天 · 当日每种商品限购4件")
-	var cats=HBoxContainer.new()
-	catalog.add_child(cats)
-	for i in range(6):
-		var cat=i
-		app.button(C.CATEGORY_NAMES[i],func():app.shop_category=cat;app.show_shop(),cats)
-	for j in range(4):
-		var id="%d_%d" % [app.shop_category,j]
-		app.item_card(catalog,id)
-	app.side=app.panel(app.make_drawer(),340)
-	app.section(app.side,"开店接客","到站客流：%d 人 / 日" % C.STATIONS[int(Game.state.station)].traffic)
-	var offer=Game.customer_offer()
-	app.side.add_child(app.wrapped("第 %d 位顾客\n%s %s\n出价 %d 电量" % [int(Game.state.customer)+1,"想买入" if offer.buying else "想出售",C.item(offer.id).name,offer.price],20))
-	app.button("成交",func():app.say(Game.accept_customer());app.show_shop(),app.side)
-	app.button("下一位",func():Game.state.customer+=1;Game.save_game();app.show_shop(),app.side)
-	app.side.add_child(HSeparator.new())
-	app.section(app.side,"柜台库存","点击售出一件，按当前站点收购价结算。")
-	app.button("仓库",app.show_stash,app.side)
-	var stock_grid=app.create_storage_grid("stash")
-	stock_grid.cell_size=26
-	var stock_scroll=ScrollContainer.new()
-	stock_scroll.custom_minimum_size.y=230
-	app.side.add_child(stock_scroll)
-	stock_scroll.add_child(stock_grid)
-	stock_grid.selected.connect(func(index):app.stash_selected=index;app.show_stash())
-	app.back_button(app.show_base,app.side)
-func item_card(parent: Node,id: String) -> void:
-	var item=C.item(id)
-	var row=HBoxContainer.new()
-	row.add_theme_constant_override("separation",18)
-	parent.add_child(row)
+	var layout=VBoxContainer.new()
+	layout.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	layout.add_theme_constant_override("separation",16)
+	app.stage.add_child(layout)
+	app.section(layout,"地下商铺")
+	var body=HBoxContainer.new()
+	body.size_flags_vertical=Control.SIZE_EXPAND_FILL
+	body.add_theme_constant_override("separation",24)
+	layout.add_child(body)
+	visitor=WindowScene.instantiate()
+	body.add_child(visitor)
+	visitor.paused=func():return is_instance_valid(app.modal)
+	visitor.arrived.connect(func():set_actions(true))
+	visitor.departed.connect(next_customer)
+	detail=app.panel(body,330)
+	var footer=HBoxContainer.new()
+	footer.add_theme_constant_override("separation",20)
+	layout.add_child(footer)
+	app.button("仓库",app.show_stash,footer)
+	app.button("结束营业",app.show_base,footer)
+	next_customer()
+func next_customer() -> void:
+	offer=Game.customer_offer().duplicate(true)
+	app.empty(detail)
+	app.section(detail,CUSTOMER_NAMES[int(offer.appearance)])
+	detail.add_child(app.label("想购买" if offer.buying else "想出售",20))
 	var icon=TextureRect.new()
-	icon.texture=load(item.icon)
-	icon.custom_minimum_size=Vector2(72,72)
+	icon.texture=load(C.item(offer.id).icon)
+	icon.custom_minimum_size=Vector2(112,112)
 	icon.expand_mode=TextureRect.EXPAND_IGNORE_SIZE
 	icon.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	row.add_child(icon)
-	var detail=VBoxContainer.new()
-	detail.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-	row.add_child(detail)
-	detail.add_child(app.label(item.name,22,Color("dfd9bf")))
-	detail.add_child(app.wrapped(item.desc,15))
-	detail.add_child(app.label("售价 %d 电量 · 库存 %d" % [Game.price(id,true),Game.state.market_stock.get(id,4)],15))
-	app.button("购入",func():app.say(Game.trade(id,true));app.show_shop(),row,int(Game.state.market_stock.get(id,4))<=0)
-	parent.add_child(HSeparator.new())
+	var icon_back=ColorRect.new()
+	icon_back.color=C.inventory_color(offer.id)
+	icon_back.custom_minimum_size=Vector2(112,112)
+	detail.add_child(icon_back)
+	icon_back.add_child(icon)
+	icon.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	app.section(detail,C.item(offer.id).name,C.item(offer.id).desc)
+	detail.add_child(app.label("数量 1 · %d 电量" % offer.price,22))
+	detail.add_child(app.label("仓库持有 %d" % Game.state.stash.count(offer.id),17))
+	accept_button=app.button("成交",func():resolve_customer(true),detail,true)
+	skip_button=app.button("婉拒",func():resolve_customer(false),detail,true)
+	visitor.present(int(offer.appearance))
+func set_actions(enabled: bool) -> void:
+	accept_button.disabled=not enabled
+	skip_button.disabled=not enabled
+func resolve_customer(accept: bool) -> void:
+	if visitor.phase!="ready" or is_instance_valid(app.modal):return
+	var old_key: String=offer.key
+	var message=Game.accept_customer(old_key) if accept else Game.skip_customer(old_key)
+	app.say(message)
+	if Game.customer_offer().key==old_key:return
+	set_actions(false)
+	visitor.dismiss()

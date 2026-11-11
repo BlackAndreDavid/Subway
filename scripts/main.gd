@@ -32,7 +32,6 @@ var map_selection=0
 var map_view: Control
 var map_actions: VBoxContainer
 var bag_selected=-1
-var shop_category=0
 var notice_text="欢迎来到地下。"
 var fonts: Font
 
@@ -322,8 +321,6 @@ func drop_bag(index: int) -> void:
 	bag_selected=-1
 func show_shop() -> void:
 	mount_page("shop")
-func item_card(parent: Node,id: String) -> void:
-	if is_instance_valid(current_screen) and page=="shop":current_screen.item_card(parent,id)
 
 func mount_page(id: String) -> void:
 	if id=="shop" and not Game.open_shop():
