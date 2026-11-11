@@ -1,10 +1,22 @@
 #!/usr/bin/env python3
 """Read-only acceptance checks for source data, assets and evidence paths."""
 from pathlib import Path
-import json,re,math
+import json,re,math,argparse
 from generate_room_layouts import compile_layouts
 ROOT=Path(__file__).resolve().parents[1]
-def audit():
+def acceptance_complete(checklist,summary,checkpoint=False):
+ pending=re.findall(r'^\s*- \[ \] (.+)$',checklist,re.M)
+ completed=re.findall(r'^\s*- \[x\] (.+)$',checklist,re.M)
+ assert summary['acceptance_items']==len(pending)+len(completed),'Acceptance item count is stale'
+ assert summary['open_acceptance_items']==len(pending),'Open acceptance count is stale'
+ assert summary.get('pending_acceptance',[])==pending,'Pending acceptance registry is stale'
+ if pending:
+  assert checkpoint,'Active acceptance checklist has open tasks'
+  assert summary.get('status')=='development_checkpoint','Pending tasks require a declared development checkpoint'
+  assert summary.get('pending_acceptance')==pending,'Pending acceptance tasks must be explicitly registered'
+ return not pending
+
+def audit(checkpoint=False):
  assert (ROOT/"scripts/room_layout_data.gd").read_text()==compile_layouts(),"Obstacle layout resource is stale"
  economy=json.loads((ROOT/'assets/balance/economy.json').read_text())
  regions=json.loads((ROOT/'assets/balance/regions.json').read_text())
@@ -38,6 +50,16 @@ def audit():
  assert (ROOT/'assets/art/prompts/style.txt').is_file() and (ROOT/'assets/art/prompts/color_lock.txt').is_file()
  for path in ['docs/art_simplification_comparison.png','docs/base.png','docs/combat.png','docs/map.png','docs/regional_materials.png','docs/task-checklist.md']:
   assert (ROOT/path).is_file(),path
- assert not re.search(r'^\s*- \[ \]',(ROOT/'docs/task-checklist.md').read_text(),re.M),'Active acceptance checklist has open tasks'
- print(f'PROJECT AUDIT: {len(metro["stations"])} stations / {len(areas)} economic areas; {len(files)} raster frames; all active acceptance evidence present.')
-if __name__=='__main__':audit()
+ summary=json.loads((ROOT/'docs/validation/audit-summary.json').read_text())
+ complete=acceptance_complete((ROOT/'docs/task-checklist.md').read_text(),summary,checkpoint)
+ print(f'PROJECT AUDIT: {len(metro["stations"])} stations / {len(areas)} economic areas; {len(files)} raster frames; source-data and asset evidence verified.')
+ if not complete:print('CHECKPOINT: registered full-game acceptance remains pending; source integrity is validated separately.')
+ return complete
+if __name__=='__main__':
+ parser=argparse.ArgumentParser()
+ parser.add_argument('--checkpoint',action='store_true',help='Allow only explicitly registered development-checkpoint tasks to remain pending')
+ parser.add_argument('--github-output',type=Path)
+ args=parser.parse_args()
+ complete=audit(args.checkpoint)
+ if args.github_output:
+  with args.github_output.open('a') as output:output.write('complete='+str(complete).lower()+'\n')

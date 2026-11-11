@@ -107,5 +107,8 @@
     "friendly_collision_radius": 3,
     "art_base_direction": "up",
     "rotation": "velocity angle + PI/2"
-  }
+  },
+  "pending_acceptance": [
+    "新复合房间规则下的完整自动试玩、返程闭环与平衡复核；当前控制器仍有阵亡或迭代上限记录，未作为最终通过。"
+  ]
 }

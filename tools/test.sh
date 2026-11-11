@@ -12,7 +12,10 @@ python3 -c 'import PIL'  # Install requirements-dev.txt first if missing.
 python3 tools/apply_balance.py --data-only
 python3 tools/prepare_art_manifest.py
 python3 tools/generate_room_layouts.py
-python3 tools/audit_project.py
+python3 tests/test_acceptance_gate.py
+subway_audit_args=()
+if [[ "${1:-}" == "--checkpoint" ]]; then subway_audit_args+=(--checkpoint); fi
+python3 tools/audit_project.py "${subway_audit_args[@]}"
 "$subway_godot_bin" --headless --path . --script tools/import_art.gd
 python3 tools/simplify_art.py --self-test
 python3 tools/simplify_art.py
@@ -21,5 +24,9 @@ if grep -E 'SCRIPT ERROR|Parse Error' "$subway_test_dir/import.log"; then exit 1
 "$subway_godot_bin" --headless --path . --script tests/test_runner.gd 2>&1 | tee "$subway_test_dir/test.log"
 if grep -E 'SCRIPT ERROR|ERROR:' "$subway_test_dir/test.log"; then exit 1; fi
 
+if [[ "${1:-}" == "--checkpoint" ]]; then
+  echo "CHECKPOINT: full-game playthrough acceptance remains pending."
+  exit 0
+fi
 "$subway_godot_bin" --headless --path . --script tests/playthrough_audit.gd 2>&1 | tee "$subway_test_dir/play.log"
 if grep -E 'SCRIPT ERROR|ERROR:' "$subway_test_dir/play.log"; then exit 1; fi

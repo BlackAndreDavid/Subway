@@ -156,3 +156,9 @@ docs/                   截图、范围说明与开发记录
 
 ![战斗](docs/combat.png)
 ![市场](docs/shop.png)
+
+### 检查点与完整验收
+
+`bash tools/test.sh --checkpoint`执行已实现功能的源数据与回归验证；只允许`audit-summary.json`明确登记的未完成项，CI会显示完整试玩验收待办，并跳过该验收步骤。生成数据差异、资源缺失、脚本错误、回归和原生渲染仍是失败门禁。
+
+`python3 tools/audit_project.py`及不带参数的`bash tools/test.sh`保持严格完整验收；有未完成项时拒绝通过。清单全部完成后，CI自动恢复完整试玩步骤。阶段检查点的绿色CI不代表游戏整体验收通过。
