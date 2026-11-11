@@ -79,5 +79,11 @@ func run() -> void:
 	ui.battle.player=Vector2(520,350)
 	ui.battle.queue_redraw()
 	await shot("res://docs/crystal_drop.png")
+	game.end_run(false)
+	ui.queue_free()
+	await process_frame
+	await process_frame
+	# Give the audio mixer time to release the screenshot room playback.
+	await create_timer(0.2).timeout
 	print("NATIVE SHOP CHECKS: %d; failures: %d" % [checks,failures])
 	quit(1 if failures else 0)
