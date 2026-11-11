@@ -53,6 +53,7 @@ func refresh_combat() -> void:
 			app.side.add_child(app.label("轻量背架 · 40 电量",15))
 			app.button("购买背架",func():app.buy_run_item("5_1",40),app.side)
 		if not r.loot.is_empty():app.side.add_child(app.wrapped("地面有 %d 件物资：靠近按 F；电量/电卡自动吸附。" % r.loot.size(),14))
+		if r.kind=="start":app.side.add_child(app.wrapped("靠近返程终端按 F 返回基地。"))
 		if r.kind=="boss" and r.cleared:app.side.add_child(app.wrapped("楼梯通往下一层，返程终端返回基地。靠近后按 F。"))
 	app.button("背包",app.show_bag,app.side,bool(Game.run.fighting))
 	app.button("暂停",app.show_pause,app.side)

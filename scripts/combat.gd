@@ -93,14 +93,15 @@ func sync_exit_entities() -> void:
 	if not is_instance_valid(exit_layer):return
 	exit_layer.position=camera_offset()
 	exit_layer.scale=Vector2.ONE*camera_scale()
-	exit_layer.visible=Game.can_extract()
+	exit_layer.visible=Game.can_return_to_base()
 	for entity in exit_entities.values():
-		entity.highlighted=not paused and not pending_end and exit_layer.visible and entity.in_range(player)
+		entity.visible=Game.can_extract() if entity.action=="descent" else Game.can_return_to_base()
+		entity.highlighted=not paused and not pending_end and entity.visible and entity.in_range(player)
 		entity.queue_redraw()
 func nearby_exit() -> String:
-	if paused or pending_end or not Game.can_extract():return ""
+	if paused or pending_end or not Game.can_return_to_base():return ""
 	for entity in exit_entities.values():
-		if entity.in_range(player):return entity.action
+		if entity.visible and entity.in_range(player):return entity.action
 	return ""
 func _exit_tree() -> void:
 	# Release active playback when leaving combat, before queued nodes are freed.
@@ -117,6 +118,9 @@ func enter_room(spawn: Vector2=Vector2(450,300),from_room: int=-1) -> void:
 	door_delay=0.8
 	var data=room()
 	geometry.configure(data)
+	for entity in exit_entities.values():
+		entity.position=Vector2(330 if entity.action=="descent" else 570,285)
+		if data.kind=="start":entity.position=geometry.closest_free(entity.position,28)
 	if from_room>=0:spawn=door_position(from_room)-Vector2(data.doors[from_room].normal)*42
 	player=geometry.closest_free(spawn,14)
 	data.visited=true

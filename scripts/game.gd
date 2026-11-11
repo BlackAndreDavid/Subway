@@ -448,9 +448,13 @@ func next_floor() -> bool:
 
 func can_extract() -> bool:
 	return not run.is_empty() and not run.fighting and run.floor_data.rooms[int(run.room)].kind=="boss" and run.floor_data.rooms[int(run.room)].cleared
+func can_return_to_base() -> bool:
+	if run.is_empty() or run.fighting:return false
+	var current: Dictionary=run.floor_data.rooms[int(run.room)]
+	return (current.kind=="start" and current.cleared) or can_extract()
 func end_run(success: bool) -> String:
 	if run.is_empty(): return ""
-	if success and not can_extract():return "请先击败本层 Boss，在返程终端返回基地。"
+	if success and not can_return_to_base():return "请在起始房间或已清场的 Boss 房间使用返程终端。"
 	var cargo: Array=run.bag.duplicate(true)
 	for entry in run.equipment.values():
 		if not entry.is_empty():cargo.append(entry)

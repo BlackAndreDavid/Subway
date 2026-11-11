@@ -1,7 +1,7 @@
 {
   "review_date": "2026-11-11",
-  "scope": "station customer caps, category drag-confirm transactions, persistent customer budgets, cropped customer window and embedded warehouse; day-based metro travel",
-  "acceptance_items": 80,
+  "scope": "starting-room safe return terminal; boss-only descent remains locked until clearance",
+  "acceptance_items": 81,
   "open_acceptance_items": 1,
   "map_seeds": 1000,
   "economic_areas": 15,
@@ -71,19 +71,20 @@
     "docs/boss_return.png",
     "docs/shop.png",
     "docs/shop_budget.png",
-    "docs/map_travel.png"
+    "docs/map_travel.png",
+    "docs/start_return.png"
   ],
   "status": "development_checkpoint",
   "verification": {
     "earlier_full_regression_checks": 418243,
     "earlier_full_regression_failures": 0,
-    "latest_focused_checks": 273,
+    "latest_focused_checks": 194,
     "latest_focused_failures": 0,
     "full_playthrough_status": "pending; no final acceptance claimed",
     "checkpoint_full_regression_checks": 418244,
     "checkpoint_full_regression_failures": 0,
     "checkpoint_native_screenshots_reviewed": true,
-    "latest_full_regression_checks": 418626,
+    "latest_full_regression_checks": 418641,
     "latest_full_regression_failures": 0,
     "bullet_direction_physics_checks": 39,
     "native_bullet_render_checks": 8,
@@ -92,7 +93,9 @@
     "native_shop_failures": 0,
     "latest_native_alignment_checks": 160,
     "latest_native_alignment_failures": 0,
-    "native_travel_preview_reviewed": true
+    "native_travel_preview_reviewed": true,
+    "native_start_return_checks": 15,
+    "native_start_return_failures": 0
   },
   "historical_playthrough_report": "playthrough-report.json describes commit b5f7ecb rules, not this checkpoint",
   "floor_example": {
@@ -155,5 +158,15 @@
     "extra_distance_fee": false,
     "save_rollback": true,
     "checks": "tests/travel_checks.gd"
+  },
+  "starting_room_return": {
+    "enabled": true,
+    "scope": "each floor starting room",
+    "physical_interaction_key": "F",
+    "interaction_distance": 64,
+    "cargo_preserved": true,
+    "departure_day_refunded": false,
+    "descent_requires_boss_clearance": true,
+    "checks": "tests/start_return_checks.gd"
   }
 }

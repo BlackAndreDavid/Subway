@@ -70,6 +70,8 @@ func run(tree: SceneTree,game: Node,ui: Control,check: Callable) -> void:
 				check.call(battle.enemy_visual_center(enemy,frame).distance_to(enemy.pos)<0.001,"enemy visible center stays on its collider in every frame and turn")
 		check.call(battle.enemy_radius(enemy)>=12,"collider size comes from visible sprite bounds")
 	check.call(not game.run.has("timer"),"expedition protection timer no longer exists")
+	game.run.room=int(battle.room().links[0])
+	battle.enter_room()
 	battle.enemies=[]
 	game.run.fighting=false
 	var hp=game.run.hp
@@ -129,7 +131,7 @@ func run(tree: SceneTree,game: Node,ui: Control,check: Callable) -> void:
 	game.state.power=500
 	gestures.tap(KEY_F)
 	check.call(game.run.floor==2 and game.run.room==0 and not game.run.has("timer") and not is_instance_valid(ui.modal),"descent enters the next floor without restoring a removed timer")
-	check.call(not battle.exit_layer.visible,"leaving boss room hides both exits")
+	check.call(battle.exit_layer.visible and battle.exit_entities.return.visible and not battle.exit_entities.descent.visible,"next-floor starting room offers return only")
 	game.run.room=game.run.floor_data.boss
 	game.run.floor_data.rooms[game.run.room].cleared=true
 	battle.enter_room(battle.exit_entities.return.position)
